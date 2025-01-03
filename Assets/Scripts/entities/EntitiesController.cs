@@ -29,7 +29,7 @@ namespace TowerBuilder
         void Update()
         {
             UpdateCurrentTilePosition();
-            HandleClick();
+            HandleMouseInput();
         }
 
         void UpdateCurrentTilePosition()
@@ -43,9 +43,9 @@ namespace TowerBuilder
             }
         }
 
-        void HandleClick()
+        void HandleMouseInput()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonUp(0))
             {
                 AddEntityAtCurrentTile();
             }
@@ -53,7 +53,8 @@ namespace TowerBuilder
 
         void AddEntityAtCurrentTile()
         {
-            Instantiate(entityPlaceholderPrefab);
+            var tilePosition = mousePositionToTile().ToVector();
+            var entity = Instantiate(entityPlaceholderPrefab, tilePosition, Quaternion.identity, entitiesContainer);
         }
 
         Tile mousePositionToTile()
