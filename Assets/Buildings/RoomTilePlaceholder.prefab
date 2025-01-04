@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7311037663011228674}
   - component: {fileID: 7311037663011228677}
   m_Layer: 0
-  m_Name: PlaceholderEntity
+  m_Name: RoomTilePlaceholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
