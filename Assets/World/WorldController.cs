@@ -6,9 +6,11 @@ public class WorldController : MonoBehaviour
 {
     public static float TILE_SIZE { get; } = 1f;
 
+    // Prefabs
     public GameObject roomTilePlaceholderPrefab;
     public GameObject buildingPrefab;
     public GameObject roomPrefab;
+    public GameObject roomTilePrefab;
 
     Transform buildingsContainer;
     GameObject blueprintTile;
@@ -24,7 +26,6 @@ public class WorldController : MonoBehaviour
         blueprintTile = Instantiate(roomTilePlaceholderPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
 
         // State
-
         hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
         buildings = new();
     }

@@ -17,7 +17,11 @@ namespace TowerBuilder
 
             var roomGameObject = Instantiate(roomPrefab, position, Quaternion.identity, transform);
             var room = roomGameObject.GetComponent<Room>();
-            room.SetTiles(new List<Tile>() { tile });
+
+            // Initialize room
+            // TODO - don't hardcode this
+            room.definition = RoomDefinition.ALL_DEFINITIONS[0];
+            room.CalculateAndInstantiateTilesFromOriginTile(tile);
 
             rooms.Add(room);
         }
