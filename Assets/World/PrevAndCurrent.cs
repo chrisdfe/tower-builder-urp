@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 public class PrevAndCurrent<T>
 {
-    T prev;
-    T current;
+    public T prev { get; private set; }
+    public T current { get; private set; }
 
     public delegate bool Comparer(T a, T b);
     Comparer customComparer;

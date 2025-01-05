@@ -17,21 +17,18 @@ public class WorldController : MonoBehaviour
 
     // Cached stuff from game world
     Transform buildingsContainer;
+    Room blueprintRoom;
 
     // State
-    PrevAndCurrent<Tile> hoveredTile;
-    public List<Building> buildings { get; private set; }
-    Room blueprintRoom;
+    public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
+    public List<Building> buildings { get; private set; } = new();
+    public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
 
     // Lifecycle
     void Awake()
     {
         // Cached stuff from game world
         buildingsContainer = GameObject.Find("BuildingsContainer").transform;
-
-        // State
-        hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
-        buildings = new();
 
         blueprintRoom = CreateBlueprintRoom();
         ValidateBlueprintRoom();
@@ -56,6 +53,11 @@ public class WorldController : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void SetTool(Tool tool)
+    {
+        this.tool.Set(tool);
     }
 
     //
