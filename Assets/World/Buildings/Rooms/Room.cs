@@ -9,11 +9,44 @@ namespace TowerBuilder
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
         List<GameObject> roomTiles = new();
 
+        Tile originTile;
+
         // TODO - this isn't going to work for resizable rooms
         // TODO - make the originTile the center tile instead of bottom left
         public void CalculateAndInstantiateTilesFromOriginTile(Tile originTile)
         {
+            this.originTile = originTile;
+
             // Calculate
+            CalcluateTilesFromOrigin();
+
+            // Instantiate tiles
+            var roomTilePrefab = WorldController.Get().roomTilePrefab;
+            foreach (var tile in tiles)
+            {
+                var roomTile = Instantiate(roomTilePrefab, tile.ToWorldPosition(), Quaternion.identity, transform);
+                roomTiles.Add(roomTile);
+            }
+        }
+
+        public void UpdateOriginTile(Tile originTile)
+        {
+            //
+            this.originTile = originTile;
+
+            CalcluateTilesFromOrigin();
+
+            for (var i = 0; i < tiles.Count; i++)
+            {
+                var tile = tiles[i];
+                var roomTile = roomTiles[i];
+                // 
+                roomTile.transform.position = tile.ToWorldPosition();
+            }
+        }
+
+        void CalcluateTilesFromOrigin()
+        {
             List<Tile> result = new();
 
             foreach (var tile in definition.shape)
@@ -23,21 +56,7 @@ namespace TowerBuilder
             }
 
             tiles = result;
-
-            // Instantiate
-            var roomTilePrefab = WorldController.Get().roomTilePrefab;
-            foreach (var tile in tiles)
-            {
-                var roomTile = Instantiate(roomTilePrefab, tile.ToWorldPosition(), Quaternion.identity, transform);
-                roomTiles.Add(roomTile);
-            }
         }
-
-        public void SetTiles(List<Tile> tiles)
-        {
-            this.tiles = tiles;
-        }
-
 
         public bool ContainsTile(Tile tile)
         {

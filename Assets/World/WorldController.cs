@@ -13,21 +13,20 @@ public class WorldController : MonoBehaviour
     public GameObject roomTilePrefab;
 
     Transform buildingsContainer;
-    GameObject blueprintTile;
 
     // State
     PrevAndCurrent<Tile> hoveredTile;
     public List<Building> buildings { get; private set; }
+    Room blueprintRoom;
 
     void Awake()
     {
         buildingsContainer = GameObject.Find("BuildingsContainer").transform;
 
-        blueprintTile = Instantiate(roomTilePlaceholderPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
-
         // State
         hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
         buildings = new();
+        blueprintRoom = AddRoomAtCurrentTile();
     }
 
 
@@ -44,7 +43,7 @@ public class WorldController : MonoBehaviour
 
         if (hoveredTile.HasChanged())
         {
-            blueprintTile.transform.position = tile.ToWorldPosition();
+            blueprintRoom.UpdateOriginTile(tile);
         }
     }
 
@@ -56,7 +55,7 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    void AddRoomAtCurrentTile()
+    Room AddRoomAtCurrentTile()
     {
         var tile = mousePositionToTile();
         var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
@@ -70,7 +69,8 @@ public class WorldController : MonoBehaviour
             building = AddBuilding();
         }
 
-        building.AddRoom(tile);
+        var room = building.AddRoom(tile);
+        return room;
     }
 
     Building AddBuilding()

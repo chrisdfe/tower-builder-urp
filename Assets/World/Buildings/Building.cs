@@ -9,11 +9,10 @@ namespace TowerBuilder
         public List<Room> rooms { get; private set; } = new();
 
         // TODO - room type
-        //        and then change 'tile' param to 'originTile'
-        public void AddRoom(Tile tile)
+        public Room AddRoom(Tile originTile)
         {
             var roomPrefab = WorldController.Get().roomPrefab;
-            var position = tile.ToWorldPosition();
+            var position = originTile.ToWorldPosition();
 
             var roomGameObject = Instantiate(roomPrefab, position, Quaternion.identity, transform);
             var room = roomGameObject.GetComponent<Room>();
@@ -21,10 +20,13 @@ namespace TowerBuilder
             // Initialize room
             // TODO - don't hardcode this
             room.definition = RoomDefinition.ALL_DEFINITIONS[0];
-            room.CalculateAndInstantiateTilesFromOriginTile(tile);
+            room.CalculateAndInstantiateTilesFromOriginTile(originTile);
 
             rooms.Add(room);
+
+            return room;
         }
+
 
         public bool ContainsRoom(Room room)
         {
