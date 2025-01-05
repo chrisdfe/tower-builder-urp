@@ -8,6 +8,8 @@ namespace TowerBuilder
         public RoomDefinition definition;
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
         public bool isBlueprint { get; private set; } = false;
+        // TODO - should be a list of validation errors
+        public bool isValid { get; private set; } = true;
 
         List<GameObject> roomTiles = new();
         Tile originTile;
@@ -30,7 +32,7 @@ namespace TowerBuilder
             }
         }
 
-        public void UpdateOriginTile(Tile originTile)
+        public void SetOriginTile(Tile originTile)
         {
             //
             this.originTile = originTile;
@@ -61,17 +63,15 @@ namespace TowerBuilder
             }
         }
 
-        void CalcluateTilesFromOrigin()
+        public void SetValidState(bool isValid)
         {
-            List<Tile> result = new();
+            this.isValid = isValid;
 
-            foreach (var tile in definition.shape)
+            // TODO - can a room be both !isBlueprint and !isValid?
+            if (isBlueprint)
             {
-                var newTile = new Tile(originTile.x + tile.x, originTile.y + tile.y);
-                result.Add(newTile);
+                UpdateBlueprintMaterial();
             }
-
-            tiles = result;
         }
 
         public bool ContainsTile(Tile tile)
@@ -101,6 +101,42 @@ namespace TowerBuilder
             }
 
             return false;
+        }
+
+
+        void CalcluateTilesFromOrigin()
+        {
+            List<Tile> result = new();
+
+            foreach (var tile in definition.shape)
+            {
+                var newTile = new Tile(originTile.x + tile.x, originTile.y + tile.y);
+                result.Add(newTile);
+            }
+
+            tiles = result;
+        }
+
+        void UpdateBlueprintMaterial()
+        {
+            if (isBlueprint)
+            {
+
+                Material blueprintMaterial;
+                if (isValid)
+                {
+                    blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
+                }
+                else
+                {
+                    blueprintMaterial = WorldController.Get().blueprintInvalidRoomTileMaterial;
+                }
+
+                foreach (var roomTile in roomTiles)
+                {
+                    roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
+                }
+            }
         }
     }
 }

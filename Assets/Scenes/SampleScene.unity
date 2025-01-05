@@ -389,7 +389,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -634,6 +634,10 @@ MonoBehaviour:
     type: 3}
   roomTilePrefab: {fileID: 8254457192939473836, guid: 142b1714d5eefb844a977e85daf6d3aa,
     type: 3}
+  blueprintValidRoomTileMaterial: {fileID: 2100000, guid: 872019b9d5053fc47b0826328bb90965,
+    type: 2}
+  blueprintInvalidRoomTileMaterial: {fileID: 2100000, guid: 032611c0056339243a58c03c23db26a2,
+    type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

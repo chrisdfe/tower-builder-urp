@@ -15,6 +15,7 @@ public class WorldController : MonoBehaviour
     public Material blueprintValidRoomTileMaterial;
     public Material blueprintInvalidRoomTileMaterial;
 
+    // Cached stuff from game world
     Transform buildingsContainer;
 
     // State
@@ -24,6 +25,7 @@ public class WorldController : MonoBehaviour
 
     void Awake()
     {
+        // Cached stuff from game world
         buildingsContainer = GameObject.Find("BuildingsContainer").transform;
 
         // State
@@ -32,8 +34,8 @@ public class WorldController : MonoBehaviour
 
         blueprintRoom = AddRoomAtCurrentTile();
         blueprintRoom.SetBlueprintState(true);
+        ValidateRoom(blueprintRoom);
     }
-
 
     void Update()
     {
@@ -48,7 +50,8 @@ public class WorldController : MonoBehaviour
 
         if (hoveredTile.HasChanged())
         {
-            blueprintRoom.UpdateOriginTile(tile);
+            blueprintRoom.SetOriginTile(tile);
+            ValidateRoom(blueprintRoom);
         }
     }
 
@@ -56,12 +59,17 @@ public class WorldController : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            AddRoomAtCurrentTile();
+            AddRoomAtCurrentTileIfValid();
         }
     }
 
-    Room AddRoomAtCurrentTile()
+    void AddRoomAtCurrentTileIfValid()
     {
+        if (!blueprintRoom.isValid)
+        {
+            return;
+        }
+
         var tile = mousePositionToTile();
         var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
 
@@ -74,8 +82,7 @@ public class WorldController : MonoBehaviour
             building = AddBuilding();
         }
 
-        var room = building.AddRoom(tile);
-        return room;
+        building.AddRoom(tile);
     }
 
     Building AddBuilding()
@@ -84,6 +91,33 @@ public class WorldController : MonoBehaviour
         var building = buildingGameObject.GetComponent<Building>();
         buildings.Add(building);
         return building;
+    }
+
+    void ValidateRoom(Room room)
+    {
+        var isValid = GetValid();
+        room.SetValidState(isValid);
+
+        bool GetValid()
+        {
+            // Validate overlap
+            foreach (var building in buildings)
+            {
+                foreach (var otherRoom in building.rooms)
+                {
+                    if (room != otherRoom)
+                    {
+                        if (otherRoom.ContainsTile(room.tiles.ToArray()))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            // 
+            return true;
+        }
     }
 
     Tile mousePositionToTile()
