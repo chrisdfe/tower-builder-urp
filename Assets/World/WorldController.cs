@@ -12,6 +12,9 @@ public class WorldController : MonoBehaviour
     public GameObject roomPrefab;
     public GameObject roomTilePrefab;
 
+    public Material blueprintValidRoomTileMaterial;
+    public Material blueprintInvalidRoomTileMaterial;
+
     Transform buildingsContainer;
 
     // State
@@ -26,7 +29,9 @@ public class WorldController : MonoBehaviour
         // State
         hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
         buildings = new();
+
         blueprintRoom = AddRoomAtCurrentTile();
+        blueprintRoom.SetBlueprintState(true);
     }
 
 

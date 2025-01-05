@@ -7,8 +7,9 @@ namespace TowerBuilder
     {
         public RoomDefinition definition;
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
-        List<GameObject> roomTiles = new();
+        public bool isBlueprint { get; private set; } = false;
 
+        List<GameObject> roomTiles = new();
         Tile originTile;
 
         // TODO - this isn't going to work for resizable rooms
@@ -42,6 +43,21 @@ namespace TowerBuilder
                 var roomTile = roomTiles[i];
                 // 
                 roomTile.transform.position = tile.ToWorldPosition();
+            }
+        }
+
+        // This assumes this room and its roomTiles have been instantiated
+        public void SetBlueprintState(bool isBlueprint)
+        {
+            this.isBlueprint = isBlueprint;
+
+            var blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
+            if (isBlueprint)
+            {
+                foreach (var roomTile in roomTiles)
+                {
+                    roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
+                }
             }
         }
 
