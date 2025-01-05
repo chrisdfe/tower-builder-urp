@@ -33,9 +33,8 @@ public class WorldController : MonoBehaviour
         hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
         buildings = new();
 
-        blueprintRoom = AddRoomAtCurrentTile();
-        blueprintRoom.SetBlueprintState(true);
-        ValidateRoom(blueprintRoom);
+        blueprintRoom = CreateBlueprintRoom();
+        ValidateBlueprintRoom();
     }
 
     void Update()
@@ -70,7 +69,7 @@ public class WorldController : MonoBehaviour
         if (hoveredTile.HasChanged())
         {
             blueprintRoom.SetOriginTile(tile);
-            ValidateRoom(blueprintRoom);
+            ValidateBlueprintRoom();
         }
     }
 
@@ -84,14 +83,11 @@ public class WorldController : MonoBehaviour
 
     void AddRoomAtCurrentTileIfValid()
     {
-        if (blueprintRoom.isValid)
+        if (!blueprintRoom.isValid)
         {
-            AddRoomAtCurrentTile();
+            return;
         }
-    }
 
-    Room AddRoomAtCurrentTile()
-    {
         var tile = mousePositionToTile();
         var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
 
@@ -104,8 +100,25 @@ public class WorldController : MonoBehaviour
             building = AddBuilding();
         }
 
-        var room = building.AddRoom(tile);
-        return room;
+        building.AddRoom(tile);
+    }
+
+    Room CreateBlueprintRoom()
+    {
+        var tile = mousePositionToTile();
+        var position = tile.ToWorldPosition();
+
+        var roomGameObject = Instantiate(roomPrefab, position, Quaternion.identity, transform);
+        var blueprintRoom = roomGameObject.GetComponent<Room>();
+
+        // Initialize room
+        // TODO - don't hardcode this
+        blueprintRoom.definition = RoomDefinition.ALL_DEFINITIONS[0];
+        blueprintRoom.CalculateAndInstantiateTilesFromOriginTile(tile);
+
+        blueprintRoom.SetBlueprintState(true);
+
+        return blueprintRoom;
     }
 
     Building AddBuilding()
@@ -116,10 +129,10 @@ public class WorldController : MonoBehaviour
         return building;
     }
 
-    void ValidateRoom(Room room)
+    void ValidateBlueprintRoom()
     {
         var isValid = GetValid();
-        room.SetValidState(isValid);
+        blueprintRoom.SetValidState(isValid);
 
         bool GetValid()
         {
@@ -128,12 +141,9 @@ public class WorldController : MonoBehaviour
             {
                 foreach (var otherRoom in building.rooms)
                 {
-                    if (room != otherRoom)
+                    if (otherRoom.ContainsTile(blueprintRoom.tiles.ToArray()))
                     {
-                        if (otherRoom.ContainsTile(room.tiles.ToArray()))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
