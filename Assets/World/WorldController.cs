@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WorldController : MonoBehaviour
 {
-    static float TILE_SIZE = 1f;
+    public static float TILE_SIZE { get; } = 1f;
 
     public GameObject roomTilePlaceholderPrefab;
     public GameObject buildingPrefab;
@@ -21,9 +21,14 @@ public class WorldController : MonoBehaviour
     {
         buildingsContainer = GameObject.Find("BuildingsContainer").transform;
 
-        hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero());
-        blueprintTile = GameObject.Instantiate(roomTilePlaceholderPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
+        blueprintTile = Instantiate(roomTilePlaceholderPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
+
+        // State
+
+        hoveredTile = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
+        buildings = new();
     }
+
 
     void Update()
     {
@@ -38,7 +43,7 @@ public class WorldController : MonoBehaviour
 
         if (hoveredTile.HasChanged())
         {
-            blueprintTile.transform.position = tile.ToVector();
+            blueprintTile.transform.position = tile.ToWorldPosition();
         }
     }
 
@@ -53,11 +58,26 @@ public class WorldController : MonoBehaviour
     void AddRoomAtCurrentTile()
     {
         var tile = mousePositionToTile();
+        var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
 
         // Search for a building adjacent
+        // TODO - combine buildings?
+        var building = buildings.Find(building => building.ContainsRoomAtTile(allAdjacentTiles));
 
-        // if there is no building, then add one
+        if (building == null)
+        {
+            building = AddBuilding();
+        }
 
+        building.AddRoom(tile);
+    }
+
+    Building AddBuilding()
+    {
+        var buildingGameObject = Instantiate(buildingPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
+        var building = buildingGameObject.GetComponent<Building>();
+        buildings.Add(building);
+        return building;
     }
 
     Tile mousePositionToTile()
