@@ -23,6 +23,7 @@ public class WorldController : MonoBehaviour
     public List<Building> buildings { get; private set; }
     Room blueprintRoom;
 
+    // Lifecycle
     void Awake()
     {
         // Cached stuff from game world
@@ -43,6 +44,24 @@ public class WorldController : MonoBehaviour
         HandleMouseInput();
     }
 
+    //
+    // public interface
+    //
+    public uint RoomsCount()
+    {
+        uint result = 0;
+
+        foreach (var building in buildings)
+        {
+            result += (uint)building.rooms.Count;
+        }
+
+        return result;
+    }
+
+    //
+    // private methods
+    //
     void UpdateCurrentTilePosition()
     {
         var tile = mousePositionToTile();
@@ -65,11 +84,14 @@ public class WorldController : MonoBehaviour
 
     void AddRoomAtCurrentTileIfValid()
     {
-        if (!blueprintRoom.isValid)
+        if (blueprintRoom.isValid)
         {
-            return;
+            AddRoomAtCurrentTile();
         }
+    }
 
+    Room AddRoomAtCurrentTile()
+    {
         var tile = mousePositionToTile();
         var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
 
@@ -82,7 +104,8 @@ public class WorldController : MonoBehaviour
             building = AddBuilding();
         }
 
-        building.AddRoom(tile);
+        var room = building.AddRoom(tile);
+        return room;
     }
 
     Building AddBuilding()
@@ -132,8 +155,15 @@ public class WorldController : MonoBehaviour
         return tile;
     }
 
+    // Since there is only ever 1 WorldController this is fine.
+    static WorldController worldController;
     public static WorldController Get()
     {
-        return GameObject.Find("WorldController").GetComponent<WorldController>();
+        if (worldController == null)
+        {
+            worldController = GameObject.Find("WorldController").GetComponent<WorldController>();
+        }
+
+        return worldController;
     }
 }
