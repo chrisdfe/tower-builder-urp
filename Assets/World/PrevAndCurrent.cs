@@ -31,9 +31,9 @@ public class PrevAndCurrent<T>
     {
         if (customComparer != null)
         {
-            return customComparer(prev, current);
+            return !customComparer(prev, current);
         }
 
-        return EqualityComparer<T>.Default.Equals(prev, current);
+        return !EqualityComparer<T>.Default.Equals(prev, current);
     }
 }

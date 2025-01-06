@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using TowerBuilder;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class WorldController : MonoBehaviour
 {
@@ -15,29 +17,107 @@ public class WorldController : MonoBehaviour
     public Material blueprintValidRoomTileMaterial;
     public Material blueprintInvalidRoomTileMaterial;
 
-    // Cached stuff from game world
-    Transform buildingsContainer;
-    Room blueprintRoom;
-
     // State
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
     public List<Building> buildings { get; private set; } = new();
     public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
+    // TODO - figure out why default implementation of this doen't work
+    public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
+    // Other
+    Transform buildingsContainer;
+    Canvas canvas;
+    EventSystem eventSystem;
+    GraphicRaycaster graphicRaycaster;
+    PointerEventData pointerEventData;
+
+    Room blueprintRoom;
+
+    //
     // Lifecycle
+    //
     void Awake()
     {
-        // Cached stuff from game world
-        buildingsContainer = GameObject.Find("BuildingsContainer").transform;
+        // State
+        if (tool.current == Tool.Build)
+        {
+            CreateAndInitializeBlueprintRoom();
+        }
 
-        blueprintRoom = CreateBlueprintRoom();
-        ValidateBlueprintRoom();
+        // Other
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
+        eventSystem = canvas.GetComponent<EventSystem>();
+        buildingsContainer = GameObject.Find("BuildingsContainer").transform;
     }
 
     void Update()
     {
-        UpdateCurrentTilePosition();
+        CheckForCursorOverUI();
         HandleMouseInput();
+        UpdateCurrentTilePosition();
+        UpdateBlueprintRoom();
+    }
+
+    void CheckForCursorOverUI()
+    {
+        pointerEventData = new PointerEventData(eventSystem);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> results = new();
+
+        graphicRaycaster.Raycast(pointerEventData, results);
+
+        cursorIsOverUI.Set(results.Count > 0);
+    }
+
+    void HandleMouseInput()
+    {
+        if (cursorIsOverUI.current)
+        {
+            return;
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (tool.current == Tool.Build)
+            {
+                AddRoomAtCurrentTileIfValid();
+            }
+        }
+    }
+
+    void UpdateCurrentTilePosition()
+    {
+        var tile = mousePositionToTile();
+        hoveredTile.Set(tile);
+    }
+
+    void UpdateBlueprintRoom()
+    {
+        if (tool.current == Tool.Build)
+        {
+            if (cursorIsOverUI.HasChanged())
+            {
+                if (cursorIsOverUI.current)
+                {
+                    RemoveBlueprintRoom();
+                }
+                else
+                {
+                    CreateAndInitializeBlueprintRoom();
+                }
+            }
+            // This seems to happen on the frame after Instantiating the blueprint room
+            else if (blueprintRoom != null)
+            {
+                if (hoveredTile.HasChanged())
+                {
+                    blueprintRoom.SetOriginTile(hoveredTile.current);
+                    ValidateBlueprintRoom();
+                }
+            }
+        }
     }
 
     //
@@ -55,32 +135,46 @@ public class WorldController : MonoBehaviour
         return result;
     }
 
-    public void SetTool(Tool tool)
+    public void SetTool(Tool newTool)
     {
-        this.tool.Set(tool);
+        tool.Set(newTool);
+
+        // Transition states
+        if (tool.HasChanged())
+        {
+            if (
+                tool.prev == Tool.Build &&
+                // blueprintRoom will be null when the player hovers over the UI
+                blueprintRoom != null
+            )
+            {
+                RemoveBlueprintRoom();
+            }
+            else if (
+                tool.current == Tool.Build &&
+                // avoid creating duplicate blueprint rooms
+                // a blueprint room will be created when the cursor leaves the UI so don't do it here
+                !cursorIsOverUI.current
+            )
+            {
+                CreateAndInitializeBlueprintRoom();
+            }
+        }
     }
 
     //
     // private methods
     //
-    void UpdateCurrentTilePosition()
+    void CreateAndInitializeBlueprintRoom()
     {
-        var tile = mousePositionToTile();
-        hoveredTile.Set(tile);
-
-        if (hoveredTile.HasChanged())
-        {
-            blueprintRoom.SetOriginTile(tile);
-            ValidateBlueprintRoom();
-        }
+        blueprintRoom = CreateBlueprintRoom();
+        ValidateBlueprintRoom();
     }
 
-    void HandleMouseInput()
+    void RemoveBlueprintRoom()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
-            AddRoomAtCurrentTileIfValid();
-        }
+        Destroy(blueprintRoom.gameObject);
+        blueprintRoom = null;
     }
 
     void AddRoomAtCurrentTileIfValid()
@@ -111,6 +205,7 @@ public class WorldController : MonoBehaviour
         var position = tile.ToWorldPosition();
 
         var roomGameObject = Instantiate(roomPrefab, position, Quaternion.identity, transform);
+        roomGameObject.name = "Blueprint Room";
         var blueprintRoom = roomGameObject.GetComponent<Room>();
 
         // Initialize room
@@ -121,14 +216,6 @@ public class WorldController : MonoBehaviour
         blueprintRoom.SetBlueprintState(true);
 
         return blueprintRoom;
-    }
-
-    Building AddBuilding()
-    {
-        var buildingGameObject = Instantiate(buildingPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
-        var building = buildingGameObject.GetComponent<Building>();
-        buildings.Add(building);
-        return building;
     }
 
     void ValidateBlueprintRoom()
@@ -155,6 +242,14 @@ public class WorldController : MonoBehaviour
         }
     }
 
+    Building AddBuilding()
+    {
+        var buildingGameObject = Instantiate(buildingPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
+        var building = buildingGameObject.GetComponent<Building>();
+        buildings.Add(building);
+        return building;
+    }
+
     Tile mousePositionToTile()
     {
         var mousePosition = Input.mousePosition;
@@ -166,6 +261,10 @@ public class WorldController : MonoBehaviour
 
         return tile;
     }
+
+    //
+    // Static interface
+    //
 
     // Since there is only ever 1 WorldController this is fine.
     static WorldController worldController;

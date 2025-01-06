@@ -30,7 +30,6 @@ namespace TowerBuilder
                 buildButton,
                 destroyButton
             };
-
         }
 
         void Start()
