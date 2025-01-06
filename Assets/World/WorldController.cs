@@ -153,7 +153,6 @@ public class WorldController : MonoBehaviour
     //
     // Static interface
     //
-
     // Since there is only ever 1 WorldController this is fine.
     static WorldController worldController;
     public static WorldController Get()

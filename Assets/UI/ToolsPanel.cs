@@ -93,19 +93,42 @@ namespace TowerBuilder
                         toolOptionButton.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = roomDefinition.title;
                         toolOptionButton.GetComponent<Button>().onClick.AddListener(() =>
                         {
-                            SetSelectedRoomDefinition(roomDefinition.title);
+                            OnToolOptionButtonClick(roomDefinition.title);
                         });
                         toolOptionButtons.Add(toolOptionButton.GetComponent<ToolButton>());
                     }
+
+                    HighlightActiveToolOptionButton();
                     break;
                 default:
                     break;
             }
         }
 
+        void OnToolOptionButtonClick(string title)
+        {
+            SetSelectedRoomDefinition(title);
+            HighlightActiveToolOptionButton();
+        }
+
         void SetSelectedRoomDefinition(string title)
         {
             WorldController.Get().toolsController.SetSelectedRoomDefinition(title);
+        }
+
+        void HighlightActiveToolOptionButton()
+        {
+            var currentSelectedRoomDefinition = WorldController.Get().toolsController.selectedRoomDefinition.current;
+
+            if (currentSelectedRoomDefinition != null)
+            {
+                foreach (var button in toolOptionButtons)
+                {
+                    // not the best way to do this, but it's fine
+                    var buttonLabel = button.transform.Find("Text").GetComponent<TextMeshProUGUI>().text;
+                    button.SetIsActive(buttonLabel == currentSelectedRoomDefinition.title);
+                }
+            }
         }
 
         void ClearToolOptionsButtons()

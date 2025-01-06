@@ -1,5 +1,6 @@
 # TODO
 
+- split buildings stuff out into Buildings controller
 - active tool option button should be 'is active'
 - notification when player tries to build invalid room
 - different colors for rooms
