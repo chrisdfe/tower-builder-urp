@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DebugPanel : MonoBehaviour
 {
-    public GameObject debugTextPrefab;
+    public GameObject bodyTextPrefab;
 
     TextMeshProUGUI buildingsText;
     TextMeshProUGUI roomsText;
@@ -11,9 +11,9 @@ public class DebugPanel : MonoBehaviour
 
     void Awake()
     {
-        buildingsText = Instantiate(debugTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        roomsText = Instantiate(debugTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        selectedToolText = Instantiate(debugTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        buildingsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame

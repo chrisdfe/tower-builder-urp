@@ -25,6 +25,8 @@ public class WorldController : MonoBehaviour
     // TODO - figure out why default implementation of this doen't work
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
+    public List<Notification> notifications { get; private set; } = new();
+
     // Other
     Canvas canvas;
     EventSystem eventSystem;
@@ -90,8 +92,13 @@ public class WorldController : MonoBehaviour
     }
 
     //
-    // public interface
+    // Public interface
     //
+    public void AddNotification(string message)
+    {
+        notifications.Add(new Notification() { message = message });
+    }
+
     public Tile mousePositionToTile()
     {
         var mousePosition = Input.mousePosition;
@@ -103,11 +110,6 @@ public class WorldController : MonoBehaviour
 
         return tile;
     }
-
-    //
-    // Private interface 
-    //
-
 
     //
     // Static interface

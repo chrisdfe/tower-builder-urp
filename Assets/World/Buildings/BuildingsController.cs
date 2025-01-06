@@ -37,6 +37,7 @@ namespace TowerBuilder
         {
             if (!worldController.toolsController.blueprintRoom.isValid)
             {
+                worldController.AddNotification("You cannot build this room.");
                 return;
             }
 
