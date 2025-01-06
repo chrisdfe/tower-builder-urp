@@ -21,6 +21,8 @@ public class WorldController : MonoBehaviour
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
     public List<Building> buildings { get; private set; } = new();
     public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
+    public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomDefinition.ALL_DEFINITIONS[0]);
+
     // TODO - figure out why default implementation of this doen't work
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
@@ -162,6 +164,34 @@ public class WorldController : MonoBehaviour
         }
     }
 
+    public void SetSelectedRoomDefinition(string title)
+    {
+        var newRoomDefinition = FindDefinition();
+        selectedRoomDefinition.Set(newRoomDefinition);
+
+        // update blueprint to use new room definition - just delete/create a new one for now
+        if (selectedRoomDefinition.HasChanged())
+        {
+            if (!cursorIsOverUI.current)
+            {
+                RemoveBlueprintRoom();
+                CreateAndInitializeBlueprintRoom();
+            }
+        }
+
+        RoomDefinition FindDefinition()
+        {
+            foreach (var definition in RoomDefinition.ALL_DEFINITIONS)
+            {
+                if (definition.title == title)
+                {
+                    return definition;
+                }
+            }
+            return null;
+        }
+    }
+
     //
     // private methods
     //
@@ -196,7 +226,7 @@ public class WorldController : MonoBehaviour
             building = AddBuilding();
         }
 
-        building.AddRoom(tile);
+        building.AddRoom(tile, selectedRoomDefinition.current);
     }
 
     Room CreateBlueprintRoom()
@@ -209,8 +239,7 @@ public class WorldController : MonoBehaviour
         var blueprintRoom = roomGameObject.GetComponent<Room>();
 
         // Initialize room
-        // TODO - don't hardcode this
-        blueprintRoom.definition = RoomDefinition.ALL_DEFINITIONS[0];
+        blueprintRoom.definition = selectedRoomDefinition.current;
         blueprintRoom.CalculateAndInstantiateTilesFromOriginTile(tile);
 
         blueprintRoom.SetBlueprintState(true);
@@ -261,6 +290,7 @@ public class WorldController : MonoBehaviour
 
         return tile;
     }
+
 
     //
     // Static interface

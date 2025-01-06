@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +8,21 @@ namespace TowerBuilder
 {
     public class ToolsPanel : MonoBehaviour
     {
+        public GameObject toolButtonPrefab;
+
         Transform toolButtonsWrapper;
+        Transform toolOptionButtonsWrapper;
+
         ToolButton inspectButton;
         ToolButton buildButton;
         ToolButton destroyButton;
 
-        ToolButton[] toolButtons;
+        List<ToolButton> toolButtons = new();
+        List<ToolButton> toolOptionButtons = new();
 
         void Awake()
         {
+            // Tool buttons
             toolButtonsWrapper = transform.Find("ToolButtonsWrapper");
             inspectButton = toolButtonsWrapper.Find("InspectButton").GetComponent<ToolButton>();
             buildButton = toolButtonsWrapper.Find("BuildButton").GetComponent<ToolButton>();
@@ -25,11 +32,14 @@ namespace TowerBuilder
             buildButton.GetComponent<Button>().onClick.AddListener(OnBuildButtonClick);
             destroyButton.GetComponent<Button>().onClick.AddListener(OnDestroyButtonClick);
 
-            toolButtons = new ToolButton[3] {
+            toolButtons = new List<ToolButton> {
                 inspectButton,
                 buildButton,
                 destroyButton
             };
+
+            // Tool options buttons
+            toolOptionButtonsWrapper = transform.Find("ToolOptionsButtonsWrapper");
         }
 
         void Start()
@@ -58,6 +68,8 @@ namespace TowerBuilder
         void SetActiveTool(Tool newTool)
         {
             WorldController.Get().SetTool(newTool);
+            ClearToolOptionsButtons();
+            CreateToolOptionButtonsForCurrentTool();
         }
 
         void HighlightToolButton(Tool tool)
@@ -66,6 +78,44 @@ namespace TowerBuilder
             {
                 toolButton.SetIsActive(toolButton.correspondingTool == tool);
             }
+        }
+
+        void CreateToolOptionButtonsForCurrentTool()
+        {
+            //
+            switch (WorldController.Get().tool.current)
+            {
+                case Tool.Build:
+                    //
+                    foreach (var roomDefinition in RoomDefinition.ALL_DEFINITIONS)
+                    {
+                        var toolOptionButton = Instantiate(toolButtonPrefab, toolOptionButtonsWrapper);
+                        toolOptionButton.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = roomDefinition.title;
+                        toolOptionButton.GetComponent<Button>().onClick.AddListener(() =>
+                        {
+                            SetSelectedRoomDefinition(roomDefinition.title);
+                        });
+                        toolOptionButtons.Add(toolOptionButton.GetComponent<ToolButton>());
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void SetSelectedRoomDefinition(string title)
+        {
+            WorldController.Get().SetSelectedRoomDefinition(title);
+        }
+
+        void ClearToolOptionsButtons()
+        {
+            foreach (var toolOptionButton in toolOptionButtons)
+            {
+                Destroy(toolOptionButton.gameObject);
+            }
+
+            toolOptionButtons = new();
         }
     }
 }

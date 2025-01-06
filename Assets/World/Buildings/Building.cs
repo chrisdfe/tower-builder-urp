@@ -9,7 +9,7 @@ namespace TowerBuilder
         public List<Room> rooms { get; private set; } = new();
 
         // TODO - room type
-        public Room AddRoom(Tile originTile)
+        public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
         {
             var roomPrefab = WorldController.Get().roomPrefab;
             var position = originTile.ToWorldPosition();
@@ -18,8 +18,7 @@ namespace TowerBuilder
             var room = roomGameObject.GetComponent<Room>();
 
             // Initialize room
-            // TODO - don't hardcode this
-            room.definition = RoomDefinition.ALL_DEFINITIONS[0];
+            room.definition = roomDefinition;
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
 
             rooms.Add(room);

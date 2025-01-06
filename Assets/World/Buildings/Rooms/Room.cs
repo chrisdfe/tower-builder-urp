@@ -5,7 +5,7 @@ namespace TowerBuilder
 {
     public class Room : MonoBehaviour
     {
-        public RoomDefinition definition;
+        public RoomDefinition definition { get; set; }
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
         public bool isBlueprint { get; private set; } = false;
         // TODO - should be a list of validation errors
