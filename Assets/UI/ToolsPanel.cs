@@ -44,7 +44,7 @@ namespace TowerBuilder
 
         void Start()
         {
-            HighlightToolButton(WorldController.Get().tool.current);
+            HighlightToolButton(WorldController.Get().toolsController.tool.current);
         }
 
         void OnInspectButtonClick()
@@ -67,7 +67,7 @@ namespace TowerBuilder
 
         void SetActiveTool(Tool newTool)
         {
-            WorldController.Get().SetTool(newTool);
+            WorldController.Get().toolsController.SetTool(newTool);
             ClearToolOptionsButtons();
             CreateToolOptionButtonsForCurrentTool();
         }
@@ -83,7 +83,7 @@ namespace TowerBuilder
         void CreateToolOptionButtonsForCurrentTool()
         {
             //
-            switch (WorldController.Get().tool.current)
+            switch (WorldController.Get().toolsController.tool.current)
             {
                 case Tool.Build:
                     //
@@ -105,7 +105,7 @@ namespace TowerBuilder
 
         void SetSelectedRoomDefinition(string title)
         {
-            WorldController.Get().SetSelectedRoomDefinition(title);
+            WorldController.Get().toolsController.SetSelectedRoomDefinition(title);
         }
 
         void ClearToolOptionsButtons()
