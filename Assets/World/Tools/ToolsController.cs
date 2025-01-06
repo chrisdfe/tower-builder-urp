@@ -154,7 +154,7 @@ namespace TowerBuilder
             bool GetValid()
             {
                 // Validate overlap
-                foreach (var building in worldController.buildings)
+                foreach (var building in worldController.buildingsController.buildings)
                 {
                     foreach (var otherRoom in building.rooms)
                     {

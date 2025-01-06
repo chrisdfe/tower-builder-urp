@@ -19,14 +19,13 @@ public class WorldController : MonoBehaviour
 
     // State
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
-    public List<Building> buildings { get; private set; } = new();
     public ToolsController toolsController { get; private set; }
+    public BuildingsController buildingsController { get; private set; }
 
     // TODO - figure out why default implementation of this doen't work
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
     // Other
-    Transform buildingsContainer;
     Canvas canvas;
     EventSystem eventSystem;
     GraphicRaycaster graphicRaycaster;
@@ -39,12 +38,12 @@ public class WorldController : MonoBehaviour
     void Awake()
     {
         toolsController = new ToolsController(this);
+        buildingsController = new BuildingsController(this);
 
         // Other
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
         eventSystem = canvas.GetComponent<EventSystem>();
-        buildingsContainer = GameObject.Find("BuildingsContainer").transform;
     }
 
     void Update()
@@ -79,7 +78,7 @@ public class WorldController : MonoBehaviour
         {
             if (toolsController.tool.current == Tool.Build)
             {
-                AddRoomAtCurrentTileIfValid();
+                buildingsController.AddRoomAtCurrentTileIfValid();
             }
         }
     }
@@ -93,18 +92,6 @@ public class WorldController : MonoBehaviour
     //
     // public interface
     //
-    public uint RoomsCount()
-    {
-        uint result = 0;
-
-        foreach (var building in buildings)
-        {
-            result += (uint)building.rooms.Count;
-        }
-
-        return result;
-    }
-
     public Tile mousePositionToTile()
     {
         var mousePosition = Input.mousePosition;
@@ -120,35 +107,7 @@ public class WorldController : MonoBehaviour
     //
     // Private interface 
     //
-    void AddRoomAtCurrentTileIfValid()
-    {
-        if (!toolsController.blueprintRoom.isValid)
-        {
-            return;
-        }
 
-        var tile = mousePositionToTile();
-        var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
-
-        // Search for a building adjacent
-        // TODO - combine buildings?
-        var building = buildings.Find(building => building.ContainsRoomAtTile(allAdjacentTiles));
-
-        if (building == null)
-        {
-            building = AddBuilding();
-        }
-
-        building.AddRoom(tile, toolsController.selectedRoomDefinition.current);
-    }
-
-    Building AddBuilding()
-    {
-        var buildingGameObject = Instantiate(buildingPrefab, Vector3.zero, Quaternion.identity, buildingsContainer);
-        var building = buildingGameObject.GetComponent<Building>();
-        buildings.Add(building);
-        return building;
-    }
 
     //
     // Static interface
