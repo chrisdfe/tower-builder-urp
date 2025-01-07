@@ -56,6 +56,72 @@ namespace TowerBuilder
             building.AddRoom(tile, worldController.toolsController.selectedRoomDefinition.current);
         }
 
+        public void RemoveFrontmostRoomAtCurrentTile()
+        {
+            var room = FindFrontmostRoomAtTile(WorldController.Get().hoveredTile.current);
+
+            if (room != null)
+            {
+                var building = FindBuildingByRoom(room);
+
+                if (building != null)
+                {
+                    building.RemoveRoom(room);
+
+                    if (building.rooms.Count == 0)
+                    {
+                        RemoveBuilding(building);
+                    }
+                }
+            }
+        }
+
+        public void RemoveBuilding(Building building)
+        {
+            buildings.Remove(building);
+            GameObject.Destroy(building.gameObject);
+        }
+
+        public Room FindFrontmostRoomAtTile(Tile tile)
+        {
+            var rooms = FindRoomsAtTile(tile);
+            if (rooms.Count > 0)
+            {
+                // TODO - order by z-offset 
+                return rooms[0];
+            }
+
+            return null;
+        }
+
+        public List<Room> FindRoomsAtTile(Tile tile)
+        {
+            foreach (var building in buildings)
+            {
+                // Buildings can't overlap so we don't need to account for that
+                var rooms = building.FindRoomsAtTile(tile);
+                if (rooms.Count > 0)
+                {
+                    return rooms;
+                }
+            }
+
+            return new();
+        }
+
+        public Building FindBuildingByRoom(Room room)
+        {
+            foreach (var building in buildings)
+            {
+                if (building.ContainsRoom(room))
+                {
+                    return building;
+                }
+            }
+
+            return null;
+        }
+
         //
         // Private interface
         //

@@ -78,10 +78,7 @@ public class WorldController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            if (toolsController.tool.current == Tool.Build)
-            {
-                buildingsController.AddRoomAtCurrentTileIfValid();
-            }
+            toolsController.OnMouseUp();
         }
     }
 

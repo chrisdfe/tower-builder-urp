@@ -2,7 +2,6 @@
 
 - inspect tool
   - rooms/buildings (tool options)
-- destroy tool
 - residents
   - resident gameobject/prefab
   - routing for residents
@@ -12,6 +11,7 @@
 
 # Done
 
+- destroy tool
 - transportation items
 - different colors for rooms
 - notification when player tries to build invalid room

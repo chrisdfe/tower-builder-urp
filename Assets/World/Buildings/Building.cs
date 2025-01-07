@@ -20,12 +20,19 @@ namespace TowerBuilder
             // Initialize room
             room.definition = roomDefinition;
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
-            room.SetColor();
+            room.UpdateColor();
             room.SetZPosition();
 
             rooms.Add(room);
 
             return room;
+        }
+
+        // TODO - 'destroy validation'
+        public void RemoveRoom(Room room)
+        {
+            rooms.Remove(room);
+            Destroy(room.gameObject);
         }
 
         public bool ContainsRoom(Room room)
@@ -40,12 +47,17 @@ namespace TowerBuilder
 
         public bool ContainsRoomAtTile(Tile[] tiles)
         {
-            return FindRoomAtTiles(tiles) != null;
+            return FindRoomsAtTiles(tiles) != null;
         }
 
-        public Room FindRoomAtTiles(Tile[] tiles)
+        public List<Room> FindRoomsAtTile(Tile tile)
         {
-            return rooms.Find(otherRoom => otherRoom.ContainsTile(tiles));
+            return rooms.FindAll(otherRoom => otherRoom.ContainsTile(tile));
+        }
+
+        public List<Room> FindRoomsAtTiles(Tile[] tiles)
+        {
+            return rooms.FindAll(otherRoom => otherRoom.ContainsTile(tiles));
         }
     }
 }

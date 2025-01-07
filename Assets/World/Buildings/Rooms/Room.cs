@@ -7,9 +7,13 @@ namespace TowerBuilder
     {
         public RoomDefinition definition { get; set; }
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
-        public bool isBlueprint { get; private set; } = false;
+
+
         // TODO - should be a list of validation errors
         public bool isValid { get; private set; } = true;
+
+        public bool isBlueprint { get; private set; } = false;
+        public bool isMarkedForDeletion { get; private set; } = false;
 
         List<GameObject> roomTiles = new();
         Tile originTile;
@@ -48,23 +52,37 @@ namespace TowerBuilder
             }
         }
 
-        public void SetColor()
+        public void UpdateColor()
         {
             if (isBlueprint)
             {
-                var blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
-                if (isBlueprint)
+                Material blueprintMaterial;
+                if (isValid)
                 {
-                    foreach (var roomTile in roomTiles)
-                    {
-                        roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
-                    }
+                    blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
+                }
+                else
+                {
+                    blueprintMaterial = WorldController.Get().blueprintInvalidRoomTileMaterial;
+                }
+
+                foreach (var roomTile in roomTiles)
+                {
+                    roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
                 }
             }
             else
             {
-                // Use room definition color
-                var color = RoomData.ROOM_TYPE_COLORS[definition.type];
+                Color color;
+                if (isMarkedForDeletion)
+                {
+                    color = RoomData.ROOM_MARKED_FOR_DELETION_COLOR;
+                }
+                else
+                {
+                    // Default to room definition color
+                    color = RoomData.ROOM_TYPE_COLORS[definition.type];
+                }
                 foreach (var roomTile in roomTiles)
                 {
                     roomTile.GetComponent<MeshRenderer>().material.color = color;
@@ -74,8 +92,6 @@ namespace TowerBuilder
 
         public void SetZPosition()
         {
-            Debug.Log("setting z position");
-
             float z;
             if (isBlueprint)
             {
@@ -100,7 +116,7 @@ namespace TowerBuilder
         public void SetBlueprintState(bool isBlueprint)
         {
             this.isBlueprint = isBlueprint;
-            SetColor();
+            UpdateColor();
             SetZPosition();
         }
 
@@ -108,11 +124,14 @@ namespace TowerBuilder
         {
             this.isValid = isValid;
 
-            // TODO - can a room be both !isBlueprint and !isValid?
-            if (isBlueprint)
-            {
-                UpdateBlueprintMaterial();
-            }
+            UpdateColor();
+        }
+
+        public void SetMarkedForDeletionState(bool isMarkedForDeletion)
+        {
+            this.isMarkedForDeletion = isMarkedForDeletion;
+
+            UpdateColor();
         }
 
         public bool ContainsTile(Tile tile)
@@ -156,28 +175,6 @@ namespace TowerBuilder
             }
 
             tiles = result;
-        }
-
-        void UpdateBlueprintMaterial()
-        {
-            if (isBlueprint)
-            {
-
-                Material blueprintMaterial;
-                if (isValid)
-                {
-                    blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
-                }
-                else
-                {
-                    blueprintMaterial = WorldController.Get().blueprintInvalidRoomTileMaterial;
-                }
-
-                foreach (var roomTile in roomTiles)
-                {
-                    roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
-                }
-            }
         }
     }
 }

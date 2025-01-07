@@ -6,6 +6,7 @@ namespace TowerBuilder
     // Global place for hardcoded room data
     public static class RoomData
     {
+        // Z-offsets
         public static Dictionary<RoomLayer, float> ROOM_LAYER_Z_OFFSETS = new() {
             { RoomLayer.Default, 0 },
             { RoomLayer.TransportationItem, 0.5f },
@@ -13,12 +14,16 @@ namespace TowerBuilder
 
         public static float BLUEPRINT_Z_OFFSET = 2f;
 
+        // Colors
         public static Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
             { RoomType.CommonArea, Color.gray },
             { RoomType.Residential, Color.green },
             { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) }
         };
 
+        public static Color ROOM_MARKED_FOR_DELETION_COLOR = Color.red;
+
+        // Room definitions
         public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[4] {
             new RoomDefinition() {
                 //

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -26,10 +27,78 @@ namespace TowerBuilder
         //
         public void OnUpdate()
         {
-            UpdateBlueprintRoom();
+            switch (tool.current)
+            {
+                case Tool.Build:
+                    if (worldController.cursorIsOverUI.HasChanged())
+                    {
+                        if (worldController.cursorIsOverUI.current)
+                        {
+                            RemoveBlueprintRoom();
+                        }
+                        else
+                        {
+                            CreateAndInitializeBlueprintRoom();
+                        }
+                    }
+                    // This seems to happen on the frame after Instantiating the blueprint room
+                    else if (blueprintRoom != null)
+                    {
+                        if (worldController.hoveredTile.HasChanged())
+                        {
+                            blueprintRoom.SetOriginTile(worldController.hoveredTile.current);
+                            blueprintRoom.SetZPosition();
+                            ValidateBlueprintRoom();
+                        }
+                    }
+                    break;
+                case Tool.Inspect:
+                    break;
+                case Tool.Destroy:
+                    var hoveredTile = worldController.hoveredTile;
+                    if (hoveredTile.HasChanged())
+                    {
+                        if (hoveredTile.prev != null)
+                        {
+                            // un-mark for deletion previous room
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.prev);
+                            if (room != null)
+                            {
+                                room.SetMarkedForDeletionState(false);
+                            }
+                        }
+
+                        if (hoveredTile.current != null)
+                        {
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.current);
+                            if (room != null)
+                            {
+                                room.SetMarkedForDeletionState(true);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
+        //
         // Public interface
+        // 
+        public void OnMouseUp()
+        {
+            switch (tool.current)
+            {
+                case Tool.Build:
+                    worldController.buildingsController.AddRoomAtCurrentTileIfValid();
+                    break;
+                default:
+                    worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();
+                    break;
+            }
+        }
+
         public void SetTool(Tool newTool)
         {
             tool.Set(newTool);
@@ -92,34 +161,6 @@ namespace TowerBuilder
         {
             blueprintRoom = CreateBlueprintRoom();
             ValidateBlueprintRoom();
-        }
-
-        void UpdateBlueprintRoom()
-        {
-            if (tool.current == Tool.Build)
-            {
-                if (worldController.cursorIsOverUI.HasChanged())
-                {
-                    if (worldController.cursorIsOverUI.current)
-                    {
-                        RemoveBlueprintRoom();
-                    }
-                    else
-                    {
-                        CreateAndInitializeBlueprintRoom();
-                    }
-                }
-                // This seems to happen on the frame after Instantiating the blueprint room
-                else if (blueprintRoom != null)
-                {
-                    if (worldController.hoveredTile.HasChanged())
-                    {
-                        blueprintRoom.SetOriginTile(worldController.hoveredTile.current);
-                        blueprintRoom.SetZPosition();
-                        ValidateBlueprintRoom();
-                    }
-                }
-            }
         }
 
         Room CreateBlueprintRoom()
