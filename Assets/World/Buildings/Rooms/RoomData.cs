@@ -11,6 +11,8 @@ namespace TowerBuilder
             { RoomLayer.TransportationItem, 0.5f },
         };
 
+        public static float BLUEPRINT_Z_OFFSET = 2f;
+
         public static Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
             { RoomType.CommonArea, Color.gray },
             { RoomType.Residential, Color.green },

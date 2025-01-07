@@ -79,7 +79,7 @@ namespace TowerBuilder
             float z;
             if (isBlueprint)
             {
-                z = -2f;
+                z = -RoomData.BLUEPRINT_Z_OFFSET;
             }
             else
             {
