@@ -1,7 +1,8 @@
 # TODO
 
-- inspect
+- inspect tool
   - rooms/buildings (tool options)
+- destroy tool
 - residents
   - resident gameobject/prefab
   - routing for residents
