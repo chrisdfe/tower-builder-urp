@@ -8,6 +8,7 @@ namespace TowerBuilder
         public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
         public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomData.ALL_DEFINITIONS[0]);
         public Room blueprintRoom { get; private set; }
+        public Room inspectedRoom { get; private set; }
 
         WorldController worldController;
 
@@ -27,12 +28,16 @@ namespace TowerBuilder
         //
         public void OnUpdate()
         {
+            var hoveredTile = worldController.hoveredTile;
+            var cursorIsOverUI = worldController.cursorIsOverUI;
+
+            // TODO - Split into 'handle cursorIsOverUIChanged' and 'handleTileChanged'
             switch (tool.current)
             {
                 case Tool.Build:
-                    if (worldController.cursorIsOverUI.HasChanged())
+                    if (cursorIsOverUI.HasChanged())
                     {
-                        if (worldController.cursorIsOverUI.current)
+                        if (cursorIsOverUI.current)
                         {
                             RemoveBlueprintRoom();
                         }
@@ -41,10 +46,10 @@ namespace TowerBuilder
                             CreateAndInitializeBlueprintRoom();
                         }
                     }
-                    // This seems to happen on the frame after Instantiating the blueprint room
-                    else if (blueprintRoom != null)
+                    else if (hoveredTile.HasChanged())
                     {
-                        if (worldController.hoveredTile.HasChanged())
+                        // This seems to happen on the frame after Instantiating the blueprint room
+                        if (blueprintRoom != null)
                         {
                             blueprintRoom.SetOriginTile(worldController.hoveredTile.current);
                             blueprintRoom.SetZPosition();
@@ -53,28 +58,43 @@ namespace TowerBuilder
                     }
                     break;
                 case Tool.Inspect:
+                    if (cursorIsOverUI.HasChanged())
+                    {
+                        if (inspectedRoom != null)
+                        {
+                            inspectedRoom.SetInspectedState(false);
+                            inspectedRoom = null;
+                        }
+                    }
+                    else if (hoveredTile.HasChanged())
+                    {
+                        if (hoveredTile.prev != null)
+                        {
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.prev);
+                            room?.SetInspectionHoveredState(false);
+                        }
+
+                        if (hoveredTile.current != null)
+                        {
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.current);
+                            room?.SetInspectionHoveredState(true);
+                        }
+                    }
                     break;
                 case Tool.Destroy:
-                    var hoveredTile = worldController.hoveredTile;
                     if (hoveredTile.HasChanged())
                     {
                         if (hoveredTile.prev != null)
                         {
                             // un-mark for deletion previous room
                             var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.prev);
-                            if (room != null)
-                            {
-                                room.SetMarkedForDeletionState(false);
-                            }
+                            room?.SetMarkedForDeletionState(false);
                         }
 
                         if (hoveredTile.current != null)
                         {
                             var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.current);
-                            if (room != null)
-                            {
-                                room.SetMarkedForDeletionState(true);
-                            }
+                            room?.SetMarkedForDeletionState(true);
                         }
                     }
                     break;
@@ -92,6 +112,25 @@ namespace TowerBuilder
             {
                 case Tool.Build:
                     worldController.buildingsController.AddRoomAtCurrentTileIfValid();
+                    break;
+                case Tool.Inspect:
+                    // un-inspect current inspected room, if it exist
+                    if (inspectedRoom)
+                    {
+                        inspectedRoom.SetInspectedState(false);
+                        inspectedRoom = null;
+                    }
+
+                    // inpect room at tile, if there is one
+                    var tile = worldController.hoveredTile.current;
+                    var room = worldController.buildingsController.FindFrontmostRoomAtTile(tile);
+
+                    if (room != null)
+                    {
+                        room.SetInspectionHoveredState(false);
+                        room.SetInspectedState(true);
+                        inspectedRoom = room;
+                    }
                     break;
                 default:
                     worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();

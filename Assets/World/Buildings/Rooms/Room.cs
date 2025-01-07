@@ -13,7 +13,15 @@ namespace TowerBuilder
         public bool isValid { get; private set; } = true;
 
         public bool isBlueprint { get; private set; } = false;
+
+        // player is hovering over the room with the destoy tool
         public bool isMarkedForDeletion { get; private set; } = false;
+
+        // player is hovering over the room with the inspect tool
+        public bool isInspectionHovered { get; private set; } = false;
+
+        // this is the room that is being inspected with the inspect tool
+        public bool isInspected { get; private set; } = false;
 
         List<GameObject> roomTiles = new();
         Tile originTile;
@@ -78,6 +86,14 @@ namespace TowerBuilder
                 {
                     color = RoomData.ROOM_MARKED_FOR_DELETION_COLOR;
                 }
+                else if (isInspectionHovered)
+                {
+                    color = RoomData.ROOM_INSPECTION_HOVERED_COLOR;
+                }
+                else if (isInspected)
+                {
+                    color = RoomData.ROOM_INSPECTED_COLOR;
+                }
                 else
                 {
                     // Default to room definition color
@@ -123,14 +139,24 @@ namespace TowerBuilder
         public void SetValidState(bool isValid)
         {
             this.isValid = isValid;
-
             UpdateColor();
         }
 
         public void SetMarkedForDeletionState(bool isMarkedForDeletion)
         {
             this.isMarkedForDeletion = isMarkedForDeletion;
+            UpdateColor();
+        }
 
+        public void SetInspectionHoveredState(bool isInspectionHovered)
+        {
+            this.isInspectionHovered = isInspectionHovered;
+            UpdateColor();
+        }
+
+        public void SetInspectedState(bool isInspected)
+        {
+            this.isInspected = isInspected;
             UpdateColor();
         }
 

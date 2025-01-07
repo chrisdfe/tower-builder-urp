@@ -9,6 +9,7 @@ public class DebugPanel : MonoBehaviour
     TextMeshProUGUI roomsText;
     TextMeshProUGUI selectedToolText;
     TextMeshProUGUI blueprintDefinitionText;
+    TextMeshProUGUI inspectedRoomText;
 
     void Awake()
     {
@@ -16,6 +17,7 @@ public class DebugPanel : MonoBehaviour
         roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         blueprintDefinitionText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        inspectedRoomText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -30,6 +32,20 @@ public class DebugPanel : MonoBehaviour
         if (blueprintRoom != null)
         {
             blueprintDefinitionText.text = "Blueprint: " + blueprintRoom.definition.title;
+        }
+        else
+        {
+            blueprintDefinitionText.text = "";
+        }
+
+        var inspectedRoom = WorldController.Get().toolsController.inspectedRoom;
+        if (inspectedRoom != null)
+        {
+            inspectedRoomText.text = "Inspected room: " + inspectedRoom.name;
+        }
+        else
+        {
+            inspectedRoomText.text = "";
         }
     }
 }

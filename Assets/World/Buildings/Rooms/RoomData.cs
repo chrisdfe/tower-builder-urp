@@ -21,7 +21,10 @@ namespace TowerBuilder
             { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) }
         };
 
+        // TODO - these should ultimately be materials or all part of the same shader or something
         public static Color ROOM_MARKED_FOR_DELETION_COLOR = Color.red;
+        public static Color ROOM_INSPECTION_HOVERED_COLOR = Color.yellow;
+        public static Color ROOM_INSPECTED_COLOR = Color.white;
 
         // Room definitions
         public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[4] {
