@@ -5,7 +5,7 @@ namespace TowerBuilder
     public class ToolsController
     {
         public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
-        public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomDefinition.ALL_DEFINITIONS[0]);
+        public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomData.ALL_DEFINITIONS[0]);
         public Room blueprintRoom { get; private set; }
 
         WorldController worldController;
@@ -74,7 +74,7 @@ namespace TowerBuilder
 
             RoomDefinition FindDefinition()
             {
-                foreach (var definition in RoomDefinition.ALL_DEFINITIONS)
+                foreach (var definition in RoomData.ALL_DEFINITIONS)
                 {
                     if (definition.title == title)
                     {
@@ -115,12 +115,12 @@ namespace TowerBuilder
                     if (worldController.hoveredTile.HasChanged())
                     {
                         blueprintRoom.SetOriginTile(worldController.hoveredTile.current);
+                        blueprintRoom.SetZPosition();
                         ValidateBlueprintRoom();
                     }
                 }
             }
         }
-
 
         Room CreateBlueprintRoom()
         {
@@ -134,7 +134,6 @@ namespace TowerBuilder
             // Initialize room
             blueprintRoom.definition = selectedRoomDefinition.current;
             blueprintRoom.CalculateAndInstantiateTilesFromOriginTile(tile);
-
             blueprintRoom.SetBlueprintState(true);
 
             return blueprintRoom;
@@ -158,7 +157,11 @@ namespace TowerBuilder
                 {
                     foreach (var otherRoom in building.rooms)
                     {
-                        if (otherRoom.ContainsTile(blueprintRoom.tiles.ToArray()))
+                        if (
+                            otherRoom.ContainsTile(blueprintRoom.tiles.ToArray()) &&
+                            // rooms of different layers can be built on top of each other obviously
+                            blueprintRoom.definition.layer == otherRoom.definition.layer
+                        )
                         {
                             return false;
                         }

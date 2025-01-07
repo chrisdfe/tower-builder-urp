@@ -48,19 +48,60 @@ namespace TowerBuilder
             }
         }
 
+        public void SetColor()
+        {
+            if (isBlueprint)
+            {
+                var blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
+                if (isBlueprint)
+                {
+                    foreach (var roomTile in roomTiles)
+                    {
+                        roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
+                    }
+                }
+            }
+            else
+            {
+                // Use room definition color
+                var color = RoomData.ROOM_TYPE_COLORS[definition.type];
+                foreach (var roomTile in roomTiles)
+                {
+                    roomTile.GetComponent<MeshRenderer>().material.color = color;
+                }
+            }
+        }
+
+        public void SetZPosition()
+        {
+            Debug.Log("setting z position");
+
+            float z;
+            if (isBlueprint)
+            {
+                z = -2f;
+            }
+            else
+            {
+                z = RoomData.ROOM_LAYER_Z_OFFSETS[definition.layer] * -1;
+            }
+
+            foreach (var tile in roomTiles)
+            {
+                tile.transform.position = new Vector3(
+                    tile.transform.position.x,
+                    tile.transform.position.y,
+                    z
+                );
+            }
+        }
+
         // This assumes this room and its roomTiles have been instantiated
         public void SetBlueprintState(bool isBlueprint)
         {
             this.isBlueprint = isBlueprint;
-
-            var blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
-            if (isBlueprint)
-            {
-                foreach (var roomTile in roomTiles)
-                {
-                    roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
-                }
-            }
+            SetColor();
+            SetZPosition();
         }
 
         public void SetValidState(bool isValid)

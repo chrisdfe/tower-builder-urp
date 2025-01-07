@@ -8,24 +8,25 @@ namespace TowerBuilder
     {
         public List<Room> rooms { get; private set; } = new();
 
-        // TODO - room type
         public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
         {
             var roomPrefab = WorldController.Get().roomPrefab;
             var position = originTile.ToWorldPosition();
 
             var roomGameObject = Instantiate(roomPrefab, position, Quaternion.identity, transform);
+            roomGameObject.name = roomDefinition.title;
             var room = roomGameObject.GetComponent<Room>();
 
             // Initialize room
             room.definition = roomDefinition;
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
+            room.SetColor();
+            room.SetZPosition();
 
             rooms.Add(room);
 
             return room;
         }
-
 
         public bool ContainsRoom(Room room)
         {
