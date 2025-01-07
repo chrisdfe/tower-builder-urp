@@ -468,6 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fcd3d4dce62c8f4e8d63e498c4eb718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bodyTextPrefab: {fileID: 4243602006234520386, guid: 2db527cbebcce3e48b0f7d13fd1e4d52,
+    type: 3}
 --- !u!114 &227374044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,7 +1004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79cc0d77c5325dd46b99246d6318075d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugTextPrefab: {fileID: 4243602006234520386, guid: 2db527cbebcce3e48b0f7d13fd1e4d52,
+  bodyTextPrefab: {fileID: 4243602006234520386, guid: 2db527cbebcce3e48b0f7d13fd1e4d52,
     type: 3}
 --- !u!114 &784577631
 MonoBehaviour:
