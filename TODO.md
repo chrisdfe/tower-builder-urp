@@ -1,8 +1,11 @@
 # TODO
 
+- inspect
+  - rooms/buildings (tool options)
 - residents
   - resident gameobject/prefab
   - routing for residents
+  - room capacity/resident capacity per tile
   - entry point (to be replaced at some point)
 - wallet/money
 
