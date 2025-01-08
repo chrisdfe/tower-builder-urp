@@ -58,15 +58,7 @@ namespace TowerBuilder
                     }
                     break;
                 case Tool.Inspect:
-                    if (cursorIsOverUI.HasChanged())
-                    {
-                        if (inspectedRoom != null)
-                        {
-                            inspectedRoom.SetInspectedState(false);
-                            inspectedRoom = null;
-                        }
-                    }
-                    else if (hoveredTile.HasChanged())
+                    if (hoveredTile.HasChanged())
                     {
                         if (hoveredTile.prev != null)
                         {
@@ -145,23 +137,49 @@ namespace TowerBuilder
             // Transition states
             if (tool.HasChanged())
             {
-                if (
-                    tool.prev == Tool.Build &&
-                    // blueprintRoom will be null when the player hovers over the UI
-                    blueprintRoom != null
-                )
+                switch (tool.prev)
                 {
-                    RemoveBlueprintRoom();
+                    case Tool.Build:
+                        // blueprintRoom will be null when the player hovers over the UI
+                        if (blueprintRoom != null)
+                        {
+                            RemoveBlueprintRoom();
+                        }
+                        break;
+                    case Tool.Inspect:
+                        if (inspectedRoom != null)
+                        {
+                            inspectedRoom.SetInspectedState(false);
+                            inspectedRoom = null;
+                        }
+                        break;
+                    case Tool.Destroy:
+                        var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+                        room?.SetMarkedForDeletionState(false);
+                        break;
+                    default:
+                        break;
                 }
-                else if (
-                    tool.current == Tool.Build &&
-                    // avoid creating duplicate blueprint rooms
-                    // a blueprint room will be created when the cursor leaves the UI so don't do it here
-                    !worldController.cursorIsOverUI.current
-                )
+
+                switch (tool.current)
                 {
-                    CreateAndInitializeBlueprintRoom();
+                    case Tool.Build:
+                        // avoid creating duplicate blueprint rooms
+                        // a blueprint room will be created when the cursor leaves the UI so don't do it here
+                        if (!worldController.cursorIsOverUI.current)
+                        {
+                            CreateAndInitializeBlueprintRoom();
+                        }
+                        break;
+                    case Tool.Inspect:
+                        break;
+                    case Tool.Destroy:
+                        break;
+
+                    default:
+                        break;
                 }
+
             }
         }
 

@@ -1,7 +1,6 @@
 # TODO
 
-- inspect tool
-  - rooms/buildings (tool options)
+- inspect rooms/buildings/residents (tool options)
 - residents
   - resident gameobject/prefab
   - routing for residents
@@ -11,6 +10,7 @@
 
 # Done
 
+- inspect tool
 - destroy tool
 - transportation items
 - different colors for rooms
