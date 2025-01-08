@@ -6,6 +6,7 @@ namespace TowerBuilder
         None,
         Inspect,
         Build,
-        Destroy
+        Destroy,
+        DebugCreateResident
     }
 }

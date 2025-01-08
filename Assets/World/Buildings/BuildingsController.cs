@@ -10,17 +10,85 @@ namespace TowerBuilder
         WorldController worldController;
 
         Transform buildingsContainer;
+        Transform residentsContainer;
 
         public BuildingsController(WorldController worldController)
         {
             this.worldController = worldController;
 
             buildingsContainer = GameObject.Find("BuildingsContainer").transform;
+            residentsContainer = GameObject.Find("ResidentsContainer").transform;
         }
 
         //
         // Public interface
         //
+        public void OnTick()
+        {
+            foreach (var building in buildings)
+            {
+                // TODO - re-use the same residents for residences/offices
+                // create residents for rooms that have residence slots available
+                var availableResidenceRooms = building.GetRoomsWithAvailableResidenceSlots();
+
+                foreach (var room in availableResidenceRooms)
+                {
+                    var subTileOffset = room.residents.Count;
+
+                    var resident = CreateResident();
+
+                    // TODO - this will update the position twice. not a huge deal
+                    resident.SetTile(room.tiles[0]);
+                    resident.SetSubTileOffset(subTileOffset * 0.3f);
+                    room.residents.Add(resident);
+                    resident.residence = room;
+                }
+
+                // create workers for rooms that have worker slots available
+                var availableWorkerRooms = building.GetRoomsWithAvailableWorkerSlots();
+
+                foreach (var room in availableWorkerRooms)
+                {
+                    var subTileOffset = room.workers.Count;
+
+                    var resident = CreateResident();
+
+                    // TODO - this will update the position twice. not a huge deal
+                    resident.SetTile(room.tiles[0]);
+                    resident.SetSubTileOffset(subTileOffset * 0.3f);
+                    room.workers.Add(resident);
+                    resident.office = room;
+                }
+            }
+        }
+
+
+        // TODO - cache this number
+        public int ResidentsCount()
+        {
+            var result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.ResidentsCount();
+            }
+
+            return result;
+        }
+
+        // TODO - cache this number
+        public int WorkerCount()
+        {
+            var result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.WorkerCount();
+            }
+
+            return result;
+        }
+
         public int RoomsCount()
         {
             int result = 0;
@@ -50,7 +118,7 @@ namespace TowerBuilder
 
             if (building == null)
             {
-                building = AddBuilding();
+                building = CreateBuilding();
             }
 
             building.AddRoom(tile, worldController.toolsController.selectedRoomDefinition.current);
@@ -125,7 +193,7 @@ namespace TowerBuilder
         //
         // Private interface
         //
-        Building AddBuilding()
+        Building CreateBuilding()
         {
             var buildingGameObject = GameObject.Instantiate(
                 worldController.buildingPrefab,
@@ -136,6 +204,14 @@ namespace TowerBuilder
             var building = buildingGameObject.GetComponent<Building>();
             buildings.Add(building);
             return building;
+        }
+
+        Resident CreateResident()
+        {
+            var residentPrefab = worldController.residentPrefab;
+            var residentGameObject = GameObject.Instantiate(residentPrefab, residentsContainer);
+            var resident = residentGameObject.GetComponent<Resident>();
+            return resident;
         }
     }
 }

@@ -8,6 +8,11 @@ namespace TowerBuilder
         public RoomDefinition definition { get; set; }
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
 
+        // Residents that live in this room
+        public List<Resident> residents { get; private set; } = new List<Resident>();
+
+        // Residents that work in this room
+        public List<Resident> workers { get; private set; } = new List<Resident>();
 
         // TODO - should be a list of validation errors
         public bool isValid { get; private set; } = true;

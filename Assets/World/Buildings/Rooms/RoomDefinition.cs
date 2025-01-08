@@ -9,5 +9,11 @@ namespace TowerBuilder
         public List<Tile> shape;
         public RoomLayer layer = RoomLayer.Default;
         public RoomType type = RoomType.CommonArea;
+
+        // How many residents can live in this room
+        public uint residentialCapacity = 0;
+
+        // How many residents can work in this room
+        public uint workerCapacity = 0;
     }
 }

@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public class WorldController : MonoBehaviour
 {
     public static float TILE_SIZE { get; } = 1f;
+    public static float TICK_LENGTH_S { get; } = 1f;
 
     // Prefabs
     public GameObject roomTilePlaceholderPrefab;
     public GameObject buildingPrefab;
     public GameObject roomPrefab;
     public GameObject roomTilePrefab;
+    public GameObject residentPrefab;
 
     public Material blueprintValidRoomTileMaterial;
     public Material blueprintInvalidRoomTileMaterial;
@@ -22,17 +24,18 @@ public class WorldController : MonoBehaviour
     public ToolsController toolsController { get; private set; }
     public BuildingsController buildingsController { get; private set; }
 
-    // TODO - figure out why default implementation of this doen't work
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
     public List<Notification> notifications { get; private set; } = new();
+
+    public PrevAndCurrent<uint> tick { get; private set; } = new(0);
+    float tickTimerElapsed = 0f;
 
     // Other
     Canvas canvas;
     EventSystem eventSystem;
     GraphicRaycaster graphicRaycaster;
     PointerEventData pointerEventData;
-
 
     //
     // Lifecycle
@@ -50,11 +53,24 @@ public class WorldController : MonoBehaviour
 
     void Update()
     {
+        UpdateTickTimer();
         CheckForCursorOverUI();
         HandleMouseInput();
+        HandleKeyboardInput();
         UpdateCurrentTilePosition();
 
         toolsController.OnUpdate();
+    }
+
+    void UpdateTickTimer()
+    {
+        tickTimerElapsed += Time.deltaTime;
+        if (tickTimerElapsed >= TICK_LENGTH_S)
+        {
+            tick.Set(tick.current + 1);
+            tickTimerElapsed = 0f;
+            OnTick();
+        }
     }
 
     void CheckForCursorOverUI()
@@ -80,12 +96,40 @@ public class WorldController : MonoBehaviour
         {
             toolsController.OnMouseUp();
         }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            toolsController.SetTool(Tool.None);
+        }
+    }
+
+    void HandleKeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            toolsController.SetTool(Tool.Inspect);
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            toolsController.SetTool(Tool.Build);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            toolsController.SetTool(Tool.Destroy);
+        }
     }
 
     void UpdateCurrentTilePosition()
     {
         var tile = mousePositionToTile();
         hoveredTile.Set(tile);
+    }
+
+    void OnTick()
+    {
+        buildingsController.OnTick();
     }
 
     //

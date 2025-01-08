@@ -1,15 +1,17 @@
 # TODO
 
-- inspect rooms/buildings/residents (tool options)
-- residents
-  - resident gameobject/prefab
-  - routing for residents
-  - room capacity/resident capacity per tile
-  - entry point (to be replaced at some point)
+- time
+- inspect-able residents
+- schedules for residents
+- routing for residents
+- resident entry point (to be replaced at some point)
 - wallet/money
 
 # Done
 
+- residents
+  - resident gameobject/prefab
+  - room capacity/resident capacity per tile
 - inspect tool
 - destroy tool
 - transportation items

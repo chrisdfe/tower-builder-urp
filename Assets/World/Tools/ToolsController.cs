@@ -9,6 +9,7 @@ namespace TowerBuilder
         public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomData.ALL_DEFINITIONS[0]);
         public Room blueprintRoom { get; private set; }
         public Room inspectedRoom { get; private set; }
+        public Resident blueprintResident { get; private set; }
 
         WorldController worldController;
 
@@ -137,6 +138,7 @@ namespace TowerBuilder
             // Transition states
             if (tool.HasChanged())
             {
+                // tear down previous tool
                 switch (tool.prev)
                 {
                     case Tool.Build:
@@ -147,20 +149,31 @@ namespace TowerBuilder
                         }
                         break;
                     case Tool.Inspect:
-                        if (inspectedRoom != null)
                         {
-                            inspectedRoom.SetInspectedState(false);
-                            inspectedRoom = null;
+                            var inspectedHoveredRoom = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+                            if (inspectedHoveredRoom != null)
+                            {
+                                inspectedHoveredRoom.SetInspectionHoveredState(false);
+                            }
+
+                            if (inspectedRoom != null)
+                            {
+                                inspectedRoom.SetInspectedState(false);
+                                inspectedRoom = null;
+                            }
+                            break;
                         }
-                        break;
                     case Tool.Destroy:
-                        var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
-                        room?.SetMarkedForDeletionState(false);
-                        break;
+                        {
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+                            room?.SetMarkedForDeletionState(false);
+                            break;
+                        }
                     default:
                         break;
                 }
 
+                // set up new tool
                 switch (tool.current)
                 {
                     case Tool.Build:
@@ -172,10 +185,17 @@ namespace TowerBuilder
                         }
                         break;
                     case Tool.Inspect:
-                        break;
+                        {
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+                            room?.SetInspectionHoveredState(true);
+                            break;
+                        }
                     case Tool.Destroy:
-                        break;
-
+                        {
+                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+                            room?.SetMarkedForDeletionState(true);
+                            break;
+                        }
                     default:
                         break;
                 }

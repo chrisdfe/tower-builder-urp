@@ -18,7 +18,8 @@ namespace TowerBuilder
         public static Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
             { RoomType.CommonArea, Color.gray },
             { RoomType.Residential, Color.green },
-            { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) }
+            { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) },
+            { RoomType.Office, Color.magenta }
         };
 
         // TODO - these should ultimately be materials or all part of the same shader or something
@@ -27,7 +28,7 @@ namespace TowerBuilder
         public static Color ROOM_INSPECTED_COLOR = Color.white;
 
         // Room definitions
-        public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[4] {
+        public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[5] {
             new RoomDefinition() {
                 //
                 title = "Lobby",
@@ -49,6 +50,7 @@ namespace TowerBuilder
                     new(4, 0),
                 },
                 type = RoomType.Residential,
+                residentialCapacity = 12,
             },
             new RoomDefinition() {
                 //
@@ -60,6 +62,19 @@ namespace TowerBuilder
                     new(1, 1),
                 },
                 type = RoomType.Residential,
+                residentialCapacity = 3,
+            },
+            new RoomDefinition() {
+                //
+                title = "Office",
+                shape = new List<Tile>() {
+                    new(0, 0),
+                    new(1, 0),
+                    new(2, 0),
+                    new(3, 0),
+                },
+                type = RoomType.Office,
+                workerCapacity = 12,
             },
             new RoomDefinition() {
                 //

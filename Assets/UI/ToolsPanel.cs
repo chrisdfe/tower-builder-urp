@@ -20,6 +20,8 @@ namespace TowerBuilder
         List<ToolButton> toolButtons = new();
         List<ToolButton> toolOptionButtons = new();
 
+        WorldController worldController;
+
         void Awake()
         {
             // Tool buttons
@@ -40,29 +42,36 @@ namespace TowerBuilder
 
             // Tool options buttons
             toolOptionButtonsWrapper = transform.Find("ToolOptionsButtonsWrapper");
+
+            worldController = WorldController.Get();
         }
 
         void Start()
         {
-            HighlightToolButton(WorldController.Get().toolsController.tool.current);
+            HighlightToolButton(worldController.toolsController.tool.current);
+        }
+
+        void Update()
+        {
+            if (worldController.toolsController.tool.HasChanged())
+            {
+                HighlightToolButton(worldController.toolsController.tool.current);
+            }
         }
 
         void OnInspectButtonClick()
         {
             SetActiveTool(Tool.Inspect);
-            HighlightToolButton(Tool.Inspect);
         }
 
         void OnBuildButtonClick()
         {
             SetActiveTool(Tool.Build);
-            HighlightToolButton(Tool.Build);
         }
 
         void OnDestroyButtonClick()
         {
             SetActiveTool(Tool.Destroy);
-            HighlightToolButton(Tool.Destroy);
         }
 
         void SetActiveTool(Tool newTool)

@@ -779,6 +779,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c8f1fb73d001644a284b005b43c929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &358429627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358429628}
+  m_Layer: 0
+  m_Name: ResidentsContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &358429628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358429627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 695771125}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +956,7 @@ Transform:
   m_Children:
   - {fileID: 274308239}
   - {fileID: 279492054}
+  - {fileID: 358429628}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -947,6 +979,8 @@ MonoBehaviour:
   roomPrefab: {fileID: 4681847931022313429, guid: 91ffe9a927425c64799f7988fd5ed7b0,
     type: 3}
   roomTilePrefab: {fileID: 8254457192939473836, guid: 142b1714d5eefb844a977e85daf6d3aa,
+    type: 3}
+  residentPrefab: {fileID: 3962829658512368055, guid: de025426500b69c4c9e57d310daa8b70,
     type: 3}
   blueprintValidRoomTileMaterial: {fileID: 2100000, guid: 872019b9d5053fc47b0826328bb90965,
     type: 2}

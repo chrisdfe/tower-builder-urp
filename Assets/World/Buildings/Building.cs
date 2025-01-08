@@ -32,6 +32,18 @@ namespace TowerBuilder
         public void RemoveRoom(Room room)
         {
             rooms.Remove(room);
+
+            // Just delete residents/workers for now
+            foreach (var resident in room.residents)
+            {
+                Destroy(resident.gameObject);
+            }
+
+            foreach (var worker in room.workers)
+            {
+                Destroy(worker.gameObject);
+            }
+
             Destroy(room.gameObject);
         }
 
@@ -58,6 +70,64 @@ namespace TowerBuilder
         public List<Room> FindRoomsAtTiles(Tile[] tiles)
         {
             return rooms.FindAll(otherRoom => otherRoom.ContainsTile(tiles));
+        }
+
+        // TODO - cache this number
+        public int ResidentsCount()
+        {
+            var result = 0;
+
+            foreach (var room in rooms)
+            {
+                result += room.residents.Count;
+            }
+
+            return result;
+        }
+
+        // TODO - cache this number
+        public int WorkerCount()
+        {
+            var result = 0;
+
+            foreach (var room in rooms)
+            {
+                result += room.workers.Count;
+            }
+
+            return result;
+        }
+
+        public List<Room> GetRoomsWithAvailableResidenceSlots()
+        {
+            var result = new List<Room>();
+
+            //
+            foreach (var room in rooms)
+            {
+                if (room.residents.Count < room.definition.residentialCapacity)
+                {
+                    result.Add(room);
+                }
+            }
+
+            return result;
+        }
+
+        public List<Room> GetRoomsWithAvailableWorkerSlots()
+        {
+            var result = new List<Room>();
+
+            //
+            foreach (var room in rooms)
+            {
+                if (room.workers.Count < room.definition.workerCapacity)
+                {
+                    result.Add(room);
+                }
+            }
+
+            return result;
         }
     }
 }
