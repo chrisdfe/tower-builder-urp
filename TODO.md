@@ -1,6 +1,11 @@
 # TODO
 
+- 'building entrance/exit'
+- stairs should be able to overlap on the bottom/top
+- stairs should have an 'entrance' and 'exit'
+- BUG: seperate buildings don't appear to be getting created when they should
 - time
+- inspect panel should list residents/workers
 - inspect-able residents
 - schedules for residents
 - routing for residents

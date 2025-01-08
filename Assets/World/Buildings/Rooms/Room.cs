@@ -5,7 +5,8 @@ namespace TowerBuilder
 {
     public class Room : MonoBehaviour
     {
-        public RoomDefinition definition { get; set; }
+        public RoomDefinition definition;
+        public string title;
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
 
         // Residents that live in this room

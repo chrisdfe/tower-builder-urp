@@ -27,41 +27,9 @@ namespace TowerBuilder
         {
             foreach (var building in buildings)
             {
-                // TODO - re-use the same residents for residences/offices
-                // create residents for rooms that have residence slots available
-                var availableResidenceRooms = building.GetRoomsWithAvailableResidenceSlots();
-
-                foreach (var room in availableResidenceRooms)
-                {
-                    var subTileOffset = room.residents.Count;
-
-                    var resident = CreateResident();
-
-                    // TODO - this will update the position twice. not a huge deal
-                    resident.SetTile(room.tiles[0]);
-                    resident.SetSubTileOffset(subTileOffset * 0.3f);
-                    room.residents.Add(resident);
-                    resident.residence = room;
-                }
-
-                // create workers for rooms that have worker slots available
-                var availableWorkerRooms = building.GetRoomsWithAvailableWorkerSlots();
-
-                foreach (var room in availableWorkerRooms)
-                {
-                    var subTileOffset = room.workers.Count;
-
-                    var resident = CreateResident();
-
-                    // TODO - this will update the position twice. not a huge deal
-                    resident.SetTile(room.tiles[0]);
-                    resident.SetSubTileOffset(subTileOffset * 0.3f);
-                    room.workers.Add(resident);
-                    resident.office = room;
-                }
+                HandleBuildingRoomVacancies(building);
             }
         }
-
 
         // TODO - cache this number
         public int ResidentsCount()
@@ -203,6 +171,8 @@ namespace TowerBuilder
             );
             var building = buildingGameObject.GetComponent<Building>();
             buildings.Add(building);
+            building.title = $"Building {buildings.Count}";
+            buildingGameObject.name = building.title;
             return building;
         }
 
@@ -212,6 +182,48 @@ namespace TowerBuilder
             var residentGameObject = GameObject.Instantiate(residentPrefab, residentsContainer);
             var resident = residentGameObject.GetComponent<Resident>();
             return resident;
+        }
+
+        void HandleBuildingRoomVacancies(Building building)
+        {
+            // TODO - re-use the same residents for residences/offices
+            // create residents for rooms that have residence slots available
+            var availableResidenceRooms = building.GetRoomsWithAvailableResidenceSlots();
+
+            foreach (var room in availableResidenceRooms)
+            {
+                var subTileOffset = room.residents.Count;
+
+                var resident = CreateResident();
+
+                // TODO - this will update the position twice. not a huge deal
+                resident.SetTile(room.tiles[0]);
+                resident.SetSubTileOffset(subTileOffset * 0.3f);
+                room.residents.Add(resident);
+                resident.residence = room;
+                resident.title = $"{building.title} Resident {building.ResidentsCount()}";
+                resident.gameObject.name = resident.title;
+
+                worldController.notifications.Add(new Notification(resident.title + " has moved into " + room.title));
+            }
+
+            // give residents jobs if they are unemployed and there is work available
+            var unemployedResidents = building.GetUnemployedResidents();
+
+            if (unemployedResidents.Count > 0)
+            {
+                var availableWorkerRooms = building.GetRoomsWithAvailableWorkerSlots();
+
+                foreach (var room in availableWorkerRooms)
+                {
+                    foreach (var resident in unemployedResidents)
+                    {
+                        resident.office = room;
+                        room.workers.Add(resident);
+                        worldController.notifications.Add(new Notification(resident.title + " has been assigned work at " + room.title));
+                    }
+                }
+            }
         }
     }
 }

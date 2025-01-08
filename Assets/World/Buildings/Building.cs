@@ -6,6 +6,7 @@ namespace TowerBuilder
 {
     public class Building : MonoBehaviour
     {
+        public string title = "Building";
         public List<Room> rooms { get; private set; } = new();
 
         public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
@@ -14,7 +15,6 @@ namespace TowerBuilder
             var position = originTile.ToWorldPosition();
 
             var roomGameObject = Instantiate(roomPrefab, position, Quaternion.identity, transform);
-            roomGameObject.name = roomDefinition.title;
             var room = roomGameObject.GetComponent<Room>();
 
             // Initialize room
@@ -24,6 +24,8 @@ namespace TowerBuilder
             room.SetZPosition();
 
             rooms.Add(room);
+            room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
+            roomGameObject.name = room.title;
 
             return room;
         }
@@ -33,15 +35,16 @@ namespace TowerBuilder
         {
             rooms.Remove(room);
 
-            // Just delete residents/workers for now
+            // Delete all residents for now
             foreach (var resident in room.residents)
             {
                 Destroy(resident.gameObject);
             }
 
+            // Don't delete workers, just unassign their place of work
             foreach (var worker in room.workers)
             {
-                Destroy(worker.gameObject);
+                worker.office = null;
             }
 
             Destroy(room.gameObject);
@@ -114,6 +117,24 @@ namespace TowerBuilder
             return result;
         }
 
+        public List<Resident> GetUnemployedResidents()
+        {
+            var result = new List<Resident>();
+
+            foreach (var room in rooms)
+            {
+                foreach (var resident in room.residents)
+                {
+                    if (resident.office == null)
+                    {
+                        result.Add(resident);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public List<Room> GetRoomsWithAvailableWorkerSlots()
         {
             var result = new List<Room>();
@@ -122,6 +143,21 @@ namespace TowerBuilder
             foreach (var room in rooms)
             {
                 if (room.workers.Count < room.definition.workerCapacity)
+                {
+                    result.Add(room);
+                }
+            }
+
+            return result;
+        }
+
+        public List<Room> GetRoomsByType(RoomType type)
+        {
+            var result = new List<Room>();
+
+            foreach (var room in rooms)
+            {
+                if (room.definition.type == type)
                 {
                     result.Add(room);
                 }

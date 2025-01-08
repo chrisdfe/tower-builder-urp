@@ -8,6 +8,7 @@ namespace TowerBuilder
     {
         public static float RESIDENT_Z_OFFSET = 2f;
 
+        public string title { get; set; } = "Resident";
         public Tile tile { get; private set; }
         public Room office { get; set; }
         public Room residence { get; set; }

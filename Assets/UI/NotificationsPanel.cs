@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NotificationsPanel : MonoBehaviour
+namespace TowerBuilder
 {
-    public GameObject bodyTextPrefab;
-
-    TextMeshProUGUI bodyText;
-
-    void Awake()
+    public class NotificationsPanel : MonoBehaviour
     {
-        bodyText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-    }
+        public GameObject bodyTextPrefab;
 
-    void Update()
-    {
-        var text = "";
+        TextMeshProUGUI bodyText;
 
-        foreach (var notification in WorldController.Get().notifications)
+        void Awake()
         {
-            text += notification.message;
-            text += "\n";
+            bodyText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         }
 
-        bodyText.text = text;
+        void Update()
+        {
+            var text = "";
+
+            // create a new list to not affect the source list
+            var notifications = new List<Notification>(WorldController.Get().notifications);
+            notifications.Reverse();
+            foreach (var notification in notifications)
+            {
+                text += notification.message;
+                text += "\n\n";
+            }
+
+            bodyText.text = text;
+        }
     }
 }

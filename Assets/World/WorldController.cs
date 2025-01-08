@@ -137,7 +137,7 @@ public class WorldController : MonoBehaviour
     //
     public void AddNotification(string message)
     {
-        notifications.Add(new Notification() { message = message });
+        notifications.Add(new Notification(message));
     }
 
     public Tile mousePositionToTile()
