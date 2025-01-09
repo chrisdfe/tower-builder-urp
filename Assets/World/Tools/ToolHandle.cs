@@ -1,7 +1,7 @@
 
 namespace TowerBuilder
 {
-    public enum Tool
+    public enum ToolHandle
     {
         None,
         Inspect,

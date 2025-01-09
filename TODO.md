@@ -2,12 +2,12 @@
 
 ## currently:
 
-- re-implement inspecting rooms
+- BUG: build tool option buttons don't show up when you use keyboard shortcuts
 
 ## next:
 
-- BUG: build tool option buttons don't show up when you use keyboard shortcuts
-- CLEANUP: InspectTarget could probably be an interface - SetInspectState, SetInspectHoverdState, etc
+- camera zoom on the inspected target
+  - IInspectTarget should have a "centerpoint" vector to use for this
 - time
 - stairs should be able to overlap on the bottom/top
 - rooms must be next to another room EXCEPT entrance/exit
@@ -23,6 +23,8 @@
 
 # Done
 
+- CLEANUP: InspectTarget could probably be an interface - SetInspectState, SetInspectHoverdState, etc
+- re-implement inspecting rooms
 - BUG: clicking on a room when no tool is selected deletes the room?
 - 'building entrance/exit'
 - residents

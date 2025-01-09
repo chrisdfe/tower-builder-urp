@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ToolButton : MonoBehaviour
 {
     public Color activeColor = Color.red;
-    public Tool correspondingTool;
+    public ToolHandle correspondingTool;
 
     Image buttonImage;
     Button button;

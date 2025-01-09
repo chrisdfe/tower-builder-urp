@@ -97,7 +97,7 @@ public class WorldController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(1))
         {
-            toolsController.SetTool(Tool.None);
+            toolsController.SetTool(ToolHandle.None);
         }
     }
 
@@ -105,17 +105,17 @@ public class WorldController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            toolsController.SetTool(Tool.Inspect);
+            toolsController.SetTool(ToolHandle.Inspect);
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            toolsController.SetTool(Tool.Build);
+            toolsController.SetTool(ToolHandle.Build);
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            toolsController.SetTool(Tool.Destroy);
+            toolsController.SetTool(ToolHandle.Destroy);
         }
     }
 

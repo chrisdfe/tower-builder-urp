@@ -9,7 +9,7 @@ namespace TowerBuilder
 {
     public class ToolsController
     {
-        public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
+        public PrevAndCurrent<ToolHandle> tool { get; private set; } = new(ToolHandle.Inspect);
         public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomConstants.ALL_DEFINITIONS[0]);
         public Room blueprintRoom { get; private set; }
         public Room inspectedRoom { get; private set; }
@@ -31,7 +31,7 @@ namespace TowerBuilder
             this.worldController = worldController;
 
             // State
-            if (tool.current == Tool.Build)
+            if (tool.current == ToolHandle.Build)
             {
                 CreateAndInitializeBlueprintRoom();
             }
@@ -48,7 +48,7 @@ namespace TowerBuilder
             // TODO - Split into 'handle cursorIsOverUIChanged' and 'handleTileChanged'
             switch (tool.current)
             {
-                case Tool.Build:
+                case ToolHandle.Build:
                     if (cursorIsOverUI.HasChanged())
                     {
                         if (cursorIsOverUI.current)
@@ -71,10 +71,10 @@ namespace TowerBuilder
                         }
                     }
                     break;
-                case Tool.Inspect:
+                case ToolHandle.Inspect:
                     CalculateInspectionHoverState();
                     break;
-                case Tool.Destroy:
+                case ToolHandle.Destroy:
                     if (hoveredTile.HasChanged())
                     {
                         if (hoveredTile.prev != null)
@@ -103,10 +103,10 @@ namespace TowerBuilder
         {
             switch (tool.current)
             {
-                case Tool.Build:
+                case ToolHandle.Build:
                     worldController.buildingsController.AddRoomAtCurrentTileIfValid();
                     break;
-                case Tool.Inspect:
+                case ToolHandle.Inspect:
 
                     // inspect current hovered target
                     if (hoveredInspectTarget != null)
@@ -132,7 +132,7 @@ namespace TowerBuilder
                     }
 
                     break;
-                case Tool.Destroy:
+                case ToolHandle.Destroy:
                     worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();
                     break;
                 default:
@@ -140,7 +140,7 @@ namespace TowerBuilder
             }
         }
 
-        public void SetTool(Tool newTool)
+        public void SetTool(ToolHandle newTool)
         {
             tool.Set(newTool);
 
@@ -150,14 +150,14 @@ namespace TowerBuilder
                 // tear down previous tool
                 switch (tool.prev)
                 {
-                    case Tool.Build:
+                    case ToolHandle.Build:
                         // blueprintRoom will be null when the player hovers over the UI
                         if (blueprintRoom != null)
                         {
                             RemoveBlueprintRoom();
                         }
                         break;
-                    case Tool.Inspect:
+                    case ToolHandle.Inspect:
                         {
                             // teardown inspectedHoveredTarget
                             if (hoveredInspectTarget != null)
@@ -174,7 +174,7 @@ namespace TowerBuilder
 
                             break;
                         }
-                    case Tool.Destroy:
+                    case ToolHandle.Destroy:
                         {
                             var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
                             room?.SetMarkedForDeletionState(false);
@@ -187,7 +187,7 @@ namespace TowerBuilder
                 // set up new tool
                 switch (tool.current)
                 {
-                    case Tool.Build:
+                    case ToolHandle.Build:
                         // avoid creating duplicate blueprint rooms
                         // a blueprint room will be created when the cursor leaves the UI so don't do it here
                         if (!worldController.cursorIsOverUI.current)
@@ -195,12 +195,12 @@ namespace TowerBuilder
                             CreateAndInitializeBlueprintRoom();
                         }
                         break;
-                    case Tool.Inspect:
+                    case ToolHandle.Inspect:
                         {
                             CalculateInspectionHoverState();
                             break;
                         }
-                    case Tool.Destroy:
+                    case ToolHandle.Destroy:
                         {
                             var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
                             room?.SetMarkedForDeletionState(true);
