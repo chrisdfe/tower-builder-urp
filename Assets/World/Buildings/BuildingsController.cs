@@ -71,7 +71,7 @@ namespace TowerBuilder
 
         public void AddRoomAtCurrentTileIfValid()
         {
-            if (!worldController.toolsController.blueprintRoom.isValid)
+            if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
             {
                 worldController.AddNotification("You cannot build this room.");
                 return;
@@ -89,7 +89,7 @@ namespace TowerBuilder
                 building = CreateBuilding();
             }
 
-            building.AddRoom(tile, worldController.toolsController.selectedRoomDefinition.current);
+            building.AddRoom(tile, worldController.toolsController.buildTool.selectedRoomDefinition.current);
         }
 
         public void RemoveFrontmostRoomAtCurrentTile()

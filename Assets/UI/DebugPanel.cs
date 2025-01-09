@@ -45,10 +45,10 @@ public class DebugPanel : MonoBehaviour
         tickText.text = "Tick: " + worldController.timeController.tick.current;
         buildingsText.text = "Buildings: " + worldController.buildingsController.buildings.Count;
         roomsText.text = "Total rooms: " + worldController.buildingsController.RoomsCount();
-        selectedToolText.text = "Selected tool: " + worldController.toolsController.tool.current;
+        selectedToolText.text = "Selected tool: " + worldController.toolsController.toolHandle.current;
 
         // blueprint
-        var blueprintRoom = worldController.toolsController.blueprintRoom;
+        var blueprintRoom = worldController.toolsController.buildTool.blueprintRoom;
         if (blueprintRoom != null)
         {
             blueprintDefinitionText.text = "Blueprint: " + blueprintRoom.definition.title;
@@ -58,7 +58,7 @@ public class DebugPanel : MonoBehaviour
             blueprintDefinitionText.text = "";
         }
 
-        var inspectTarget = worldController.toolsController.inspectTarget;
+        var inspectTarget = worldController.toolsController.inspectTool.inspectTarget;
         if (inspectTarget != null)
         {
             if (inspectTarget is Resident)
