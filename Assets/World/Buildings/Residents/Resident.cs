@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class Resident : MonoBehaviour
+    public class Resident : MonoBehaviour, IInspectTarget
     {
         public static float RESIDENT_Z_OFFSET = 2f;
 
@@ -78,13 +78,13 @@ namespace TowerBuilder
         void UpdateColor()
         {
             Color color;
-            if (isInspectionHovered)
-            {
-                color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
-            }
-            else if (isInspected)
+            if (isInspected)
             {
                 color = RoomConstants.ROOM_INSPECTED_COLOR;
+            }
+            else if (isInspectionHovered)
+            {
+                color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
             }
             else
             {

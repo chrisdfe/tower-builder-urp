@@ -61,13 +61,13 @@ public class DebugPanel : MonoBehaviour
         var inspectTarget = worldController.toolsController.inspectTarget;
         if (inspectTarget != null)
         {
-            if (inspectTarget is ResidentInspectTarget)
+            if (inspectTarget is Resident)
             {
-                inspectTargetText.text = "Inspected resident: " + (inspectTarget as ResidentInspectTarget).resident.title;
+                inspectTargetText.text = "Inspected resident: " + (inspectTarget as Resident).title;
             }
-            else if (inspectTarget is RoomInspectTarget)
+            else if (inspectTarget is Room)
             {
-                inspectTargetText.text = "Inspected room: " + (inspectTarget as RoomInspectTarget).room.title;
+                inspectTargetText.text = "Inspected room: " + (inspectTarget as Room).title;
             }
         }
         else

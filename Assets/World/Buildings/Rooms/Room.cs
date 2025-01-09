@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class Room : MonoBehaviour
+    public class Room : MonoBehaviour, IInspectTarget
     {
 
         public RoomDefinition definition;
-        public string title;
+        public string title { get; set; } = "Room";
+
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
 
         // Residents that live in this room
@@ -97,13 +98,13 @@ namespace TowerBuilder
                 {
                     color = RoomConstants.ROOM_MARKED_FOR_DELETION_COLOR;
                 }
-                else if (isInspectionHovered)
-                {
-                    color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
-                }
                 else if (isInspected)
                 {
                     color = RoomConstants.ROOM_INSPECTED_COLOR;
+                }
+                else if (isInspectionHovered)
+                {
+                    color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
                 }
                 else
                 {

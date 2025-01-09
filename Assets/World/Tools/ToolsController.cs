@@ -15,8 +15,8 @@ namespace TowerBuilder
         public Room inspectedRoom { get; private set; }
         public Resident blueprintResident { get; private set; }
 
-        public InspectTarget hoveredInspectTarget { get; private set; }
-        public InspectTarget inspectTarget { get; private set; }
+        public IInspectTarget hoveredInspectTarget { get; private set; }
+        public IInspectTarget inspectTarget { get; private set; }
 
         WorldController worldController;
 
@@ -117,15 +117,15 @@ namespace TowerBuilder
                         // inspect hovered inspect target
                         inspectTarget = hoveredInspectTarget;
 
-                        if (hoveredInspectTarget is ResidentInspectTarget)
+                        if (hoveredInspectTarget is Resident)
                         {
-                            (inspectTarget as ResidentInspectTarget).resident.SetInspectionHoveredState(false);
-                            (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(true);
+                            (inspectTarget as Resident).SetInspectionHoveredState(false);
+                            (inspectTarget as Resident).SetInspectedState(true);
                         }
-                        else if (hoveredInspectTarget is RoomInspectTarget)
+                        else if (hoveredInspectTarget is Room)
                         {
-                            (inspectTarget as RoomInspectTarget).room.SetInspectionHoveredState(false);
-                            (inspectTarget as RoomInspectTarget).room.SetInspectedState(true);
+                            (inspectTarget as Room).SetInspectionHoveredState(false);
+                            (inspectTarget as Room).SetInspectedState(true);
                         }
 
                         // TODO - building
@@ -162,9 +162,9 @@ namespace TowerBuilder
                             // teardown inspectedHoveredTarget
                             if (hoveredInspectTarget != null)
                             {
-                                if (hoveredInspectTarget is ResidentInspectTarget)
+                                if (hoveredInspectTarget is Resident)
                                 {
-                                    (hoveredInspectTarget as ResidentInspectTarget).resident.SetInspectionHoveredState(false);
+                                    (hoveredInspectTarget as Resident).SetInspectionHoveredState(false);
                                 }
 
                                 hoveredInspectTarget = null;
@@ -319,12 +319,12 @@ namespace TowerBuilder
 
                             // Don't do anything if this resident is the current inspect hover target
                             if (
-                                !(hoveredInspectTarget is ResidentInspectTarget && (hoveredInspectTarget as ResidentInspectTarget).resident == resident)
+                                !(hoveredInspectTarget is Resident && (hoveredInspectTarget as Resident) == resident)
                             )
                             {
                                 TeardownHoveredInspectTarget();
 
-                                hoveredInspectTarget = new ResidentInspectTarget(resident);
+                                hoveredInspectTarget = resident;
                                 resident.SetInspectionHoveredState(true);
                             }
 
@@ -338,13 +338,12 @@ namespace TowerBuilder
 
                             // Don't do anything if this room is currently being hovered over
                             if (
-                                hoveredInspectTarget == null ||
-                                !(hoveredInspectTarget is RoomInspectTarget && (hoveredInspectTarget as RoomInspectTarget).room == room)
+                                !(hoveredInspectTarget is Room && (hoveredInspectTarget as Room) == room)
                             )
                             {
                                 TeardownHoveredInspectTarget();
 
-                                hoveredInspectTarget = new RoomInspectTarget(room);
+                                hoveredInspectTarget = room;
                                 room.SetInspectionHoveredState(true);
                             }
 
@@ -366,13 +365,13 @@ namespace TowerBuilder
             //
             if (hoveredInspectTarget != null)
             {
-                if (hoveredInspectTarget is ResidentInspectTarget)
+                if (hoveredInspectTarget is Resident)
                 {
-                    (hoveredInspectTarget as ResidentInspectTarget).resident.SetInspectionHoveredState(false);
+                    (hoveredInspectTarget as Resident).SetInspectionHoveredState(false);
                 }
-                else if (hoveredInspectTarget is RoomInspectTarget)
+                else if (hoveredInspectTarget is Room)
                 {
-                    (hoveredInspectTarget as RoomInspectTarget).room.SetInspectionHoveredState(false);
+                    (hoveredInspectTarget as Room).SetInspectionHoveredState(false);
                 }
 
                 hoveredInspectTarget = null;
@@ -384,13 +383,13 @@ namespace TowerBuilder
             //
             if (inspectTarget != null)
             {
-                if (inspectTarget is ResidentInspectTarget)
+                if (inspectTarget is Resident)
                 {
-                    (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(false);
+                    (inspectTarget as Resident).SetInspectedState(false);
                 }
-                else if (inspectTarget is RoomInspectTarget)
+                else if (inspectTarget is Room)
                 {
-                    (inspectTarget as RoomInspectTarget).room.SetInspectedState(false);
+                    (inspectTarget as Room).SetInspectedState(false);
                 }
 
                 inspectTarget = null;
