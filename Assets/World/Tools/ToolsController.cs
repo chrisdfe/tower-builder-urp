@@ -112,18 +112,7 @@ namespace TowerBuilder
                     if (hoveredInspectTarget != null)
                     {
                         // uninspect current inspected target, if it exists
-                        if (inspectTarget != null)
-                        {
-                            if (hoveredInspectTarget is ResidentInspectTarget)
-                            {
-                                // TODO 
-                                (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(false);
-                            }
-                            // TODO - room
-                            // TODO - building
-
-                            inspectTarget = null;
-                        }
+                        TeardownInspectTarget();
 
                         // inspect hovered inspect target
                         if (hoveredInspectTarget is ResidentInspectTarget)
@@ -176,16 +165,7 @@ namespace TowerBuilder
                                 hoveredInspectTarget = null;
                             }
 
-                            // teardown inspect target
-                            if (inspectTarget != null)
-                            {
-                                if (inspectTarget is ResidentInspectTarget)
-                                {
-                                    (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(false);
-                                }
-
-                                inspectTarget = null;
-                            }
+                            TeardownInspectTarget();
 
                             break;
                         }
@@ -377,6 +357,20 @@ namespace TowerBuilder
 
                     hoveredInspectTarget = null;
                 }
+            }
+        }
+
+        void TeardownInspectTarget()
+        {
+            //
+            if (inspectTarget != null)
+            {
+                if (inspectTarget is ResidentInspectTarget)
+                {
+                    (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(false);
+                }
+
+                inspectTarget = null;
             }
         }
     }
