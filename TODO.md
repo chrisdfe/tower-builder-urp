@@ -1,8 +1,17 @@
 # TODO
 
+## currently:
+
+- re-implement inspecting rooms
+
+## next:
+
+- BUG: build tool option buttons don't show up when you use keyboard shortcuts
+- CLEANUP: InspectTarget could probably be an interface - SetInspectState, SetInspectHoverdState, etc
 - time
 - stairs should be able to overlap on the bottom/top
 - rooms must be next to another room EXCEPT entrance/exit
+- refactor ToolsController to use InspectTool, BuildTool, and DestroyTool classes
 - stairs should have an 'entrance' and 'exit'
 - BUG: seperate buildings don't appear to be getting created when they should
 - inspect panel should list residents/workers

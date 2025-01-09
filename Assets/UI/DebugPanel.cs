@@ -1,4 +1,5 @@
 using TMPro;
+using TowerBuilder;
 using UnityEngine;
 
 public class DebugPanel : MonoBehaviour
@@ -10,7 +11,11 @@ public class DebugPanel : MonoBehaviour
     TextMeshProUGUI roomsText;
     TextMeshProUGUI selectedToolText;
     TextMeshProUGUI blueprintDefinitionText;
-    TextMeshProUGUI inspectedRoomText;
+    TextMeshProUGUI inspectTargetText;
+    // I can't figure out how to get the panel to resize when inspect text wraps onto 2 lines
+    // so it's this for now
+    TextMeshProUGUI paddingText1;
+    TextMeshProUGUI paddingText2;
     TextMeshProUGUI residentsText;
     TextMeshProUGUI workersText;
 
@@ -23,7 +28,11 @@ public class DebugPanel : MonoBehaviour
         roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         blueprintDefinitionText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        inspectedRoomText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        inspectTargetText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        paddingText1 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        paddingText1.text = "";
+        paddingText2 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        paddingText2.text = "";
         residentsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         workersText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
 
@@ -49,14 +58,21 @@ public class DebugPanel : MonoBehaviour
             blueprintDefinitionText.text = "";
         }
 
-        var inspectedRoom = worldController.toolsController.inspectedRoom;
-        if (inspectedRoom != null)
+        var inspectTarget = worldController.toolsController.inspectTarget;
+        if (inspectTarget != null)
         {
-            inspectedRoomText.text = "Inspected room: " + inspectedRoom.name;
+            if (inspectTarget is ResidentInspectTarget)
+            {
+                inspectTargetText.text = "Inspected resident: " + (inspectTarget as ResidentInspectTarget).resident.title;
+            }
+            else if (inspectTarget is RoomInspectTarget)
+            {
+                inspectTargetText.text = "Inspected room: " + (inspectTarget as RoomInspectTarget).room.title;
+            }
         }
         else
         {
-            inspectedRoomText.text = "";
+            inspectTargetText.text = "\n\n";
         }
 
         residentsText.text = "Total residents: " + worldController.buildingsController.ResidentsCount();

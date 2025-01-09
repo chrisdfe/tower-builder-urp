@@ -5,6 +5,7 @@ namespace TowerBuilder
 {
     public class Room : MonoBehaviour
     {
+
         public RoomDefinition definition;
         public string title;
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
@@ -29,6 +30,9 @@ namespace TowerBuilder
         // this is the room that is being inspected with the inspect tool
         public bool isInspected { get; private set; } = false;
 
+        // Prefabs
+        public GameObject roomTilePrefab;
+
         List<RoomTile> roomTiles = new();
         Tile originTile;
 
@@ -42,7 +46,6 @@ namespace TowerBuilder
             CalcluateTilesFromOrigin();
 
             // Instantiate tiles
-            var roomTilePrefab = WorldController.Get().roomTilePrefab;
             foreach (var tile in tiles)
             {
                 var roomTileGameObject = Instantiate(roomTilePrefab, tile.ToWorldPosition(), Quaternion.identity, transform);
@@ -84,7 +87,7 @@ namespace TowerBuilder
 
                 foreach (var roomTile in roomTiles)
                 {
-                    roomTile.GetComponent<MeshRenderer>().material = blueprintMaterial;
+                    roomTile.SetMaterial(blueprintMaterial);
                 }
             }
             else
@@ -107,9 +110,10 @@ namespace TowerBuilder
                     // Default to room definition color
                     color = RoomConstants.ROOM_TYPE_COLORS[definition.type];
                 }
+
                 foreach (var roomTile in roomTiles)
                 {
-                    roomTile.GetComponent<MeshRenderer>().material.color = color;
+                    roomTile.SetColor(color);
                 }
             }
         }

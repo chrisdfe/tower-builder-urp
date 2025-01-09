@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c34e7cc02168864492631367b8c1018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomTilePrefab: {fileID: 4439510627177680330, guid: 871987a92f75fe2489f1e7217be7e378,
+    type: 3}
+  title: 

@@ -978,8 +978,6 @@ MonoBehaviour:
     type: 3}
   roomPrefab: {fileID: 4681847931022313429, guid: 91ffe9a927425c64799f7988fd5ed7b0,
     type: 3}
-  roomTilePrefab: {fileID: 8254457192939473836, guid: 142b1714d5eefb844a977e85daf6d3aa,
-    type: 3}
   residentPrefab: {fileID: 3962829658512368055, guid: de025426500b69c4c9e57d310daa8b70,
     type: 3}
   blueprintValidRoomTileMaterial: {fileID: 2100000, guid: 872019b9d5053fc47b0826328bb90965,
@@ -999,6 +997,7 @@ GameObject:
   - component: {fileID: 784577631}
   - component: {fileID: 784577630}
   - component: {fileID: 784577633}
+  - component: {fileID: 784577634}
   m_Layer: 5
   m_Name: DebugPanel
   m_TagString: Untagged
@@ -1102,8 +1101,22 @@ MonoBehaviour:
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &784577634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784577628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
