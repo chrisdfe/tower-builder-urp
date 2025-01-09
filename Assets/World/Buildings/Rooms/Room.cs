@@ -29,7 +29,7 @@ namespace TowerBuilder
         // this is the room that is being inspected with the inspect tool
         public bool isInspected { get; private set; } = false;
 
-        List<GameObject> roomTiles = new();
+        List<RoomTile> roomTiles = new();
         Tile originTile;
 
         // TODO - this isn't going to work for resizable rooms
@@ -45,7 +45,9 @@ namespace TowerBuilder
             var roomTilePrefab = WorldController.Get().roomTilePrefab;
             foreach (var tile in tiles)
             {
-                var roomTile = Instantiate(roomTilePrefab, tile.ToWorldPosition(), Quaternion.identity, transform);
+                var roomTileGameObject = Instantiate(roomTilePrefab, tile.ToWorldPosition(), Quaternion.identity, transform);
+                var roomTile = roomTileGameObject.GetComponent<RoomTile>();
+                roomTile.room = this;
                 roomTiles.Add(roomTile);
             }
         }
