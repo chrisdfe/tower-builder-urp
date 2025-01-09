@@ -10,7 +10,7 @@ namespace TowerBuilder
     public class ToolsController
     {
         public PrevAndCurrent<Tool> tool { get; private set; } = new(Tool.Inspect);
-        public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomData.ALL_DEFINITIONS[0]);
+        public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomConstants.ALL_DEFINITIONS[0]);
         public Room blueprintRoom { get; private set; }
         public Room inspectedRoom { get; private set; }
         public Resident blueprintResident { get; private set; }
@@ -225,7 +225,7 @@ namespace TowerBuilder
 
             RoomDefinition FindDefinition()
             {
-                foreach (var definition in RoomData.ALL_DEFINITIONS)
+                foreach (var definition in RoomConstants.ALL_DEFINITIONS)
                 {
                     if (definition.title == title)
                     {

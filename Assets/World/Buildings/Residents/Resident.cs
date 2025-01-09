@@ -80,11 +80,11 @@ namespace TowerBuilder
             Color color;
             if (isInspectionHovered)
             {
-                color = RoomData.ROOM_INSPECTION_HOVERED_COLOR;
+                color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
             }
             else if (isInspected)
             {
-                color = RoomData.ROOM_INSPECTED_COLOR;
+                color = RoomConstants.ROOM_INSPECTED_COLOR;
             }
             else
             {

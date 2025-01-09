@@ -90,20 +90,20 @@ namespace TowerBuilder
                 Color color;
                 if (isMarkedForDeletion)
                 {
-                    color = RoomData.ROOM_MARKED_FOR_DELETION_COLOR;
+                    color = RoomConstants.ROOM_MARKED_FOR_DELETION_COLOR;
                 }
                 else if (isInspectionHovered)
                 {
-                    color = RoomData.ROOM_INSPECTION_HOVERED_COLOR;
+                    color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
                 }
                 else if (isInspected)
                 {
-                    color = RoomData.ROOM_INSPECTED_COLOR;
+                    color = RoomConstants.ROOM_INSPECTED_COLOR;
                 }
                 else
                 {
                     // Default to room definition color
-                    color = RoomData.ROOM_TYPE_COLORS[definition.type];
+                    color = RoomConstants.ROOM_TYPE_COLORS[definition.type];
                 }
                 foreach (var roomTile in roomTiles)
                 {
@@ -117,11 +117,11 @@ namespace TowerBuilder
             float z;
             if (isBlueprint)
             {
-                z = -RoomData.BLUEPRINT_Z_OFFSET;
+                z = -RoomConstants.BLUEPRINT_Z_OFFSET;
             }
             else
             {
-                z = RoomData.ROOM_LAYER_Z_OFFSETS[definition.layer] * -1;
+                z = RoomConstants.ROOM_LAYER_Z_OFFSETS[definition.layer] * -1;
             }
 
             foreach (var tile in roomTiles)

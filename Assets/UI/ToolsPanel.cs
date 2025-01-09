@@ -96,7 +96,7 @@ namespace TowerBuilder
             {
                 case Tool.Build:
                     //
-                    foreach (var roomDefinition in RoomData.ALL_DEFINITIONS)
+                    foreach (var roomDefinition in RoomConstants.ALL_DEFINITIONS)
                     {
                         var toolOptionButton = Instantiate(toolButtonPrefab, toolOptionButtonsWrapper);
                         toolOptionButton.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = roomDefinition.title;

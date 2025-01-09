@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TowerBuilder
 {
     // Global place for hardcoded room data
-    public static class RoomData
+    public static class RoomConstants
     {
         // Z-offsets
         public static Dictionary<RoomLayer, float> ROOM_LAYER_Z_OFFSETS = new() {
