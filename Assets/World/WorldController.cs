@@ -21,8 +21,10 @@ public class WorldController : MonoBehaviour
 
     // State
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
+
     public ToolsController toolsController { get; private set; }
     public BuildingsController buildingsController { get; private set; }
+    public TimeController timeController { get; private set; }
 
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
@@ -44,6 +46,7 @@ public class WorldController : MonoBehaviour
     {
         toolsController = new ToolsController(this);
         buildingsController = new BuildingsController(this);
+        timeController = new TimeController(this);
 
         // Other
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();

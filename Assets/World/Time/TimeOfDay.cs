@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TowerBuilder.DataTypes.Time
+namespace TowerBuilder
 {
     public class TimeOfDay
     {
@@ -70,6 +70,6 @@ namespace TowerBuilder.DataTypes.Time
             FindByKey(GetNextTimeOfDayKey(timeOfDay.key));
 
         public static TimeOfDay FindByKey(Key key) =>
-            new List<TimeOfDay>(Constants.TIMES_OF_DAY).Find(timeOfDay => timeOfDay.key == key);
+            new List<TimeOfDay>(TimeConstants.TIMES_OF_DAY).Find(timeOfDay => timeOfDay.key == key);
     }
 }

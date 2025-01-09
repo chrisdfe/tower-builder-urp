@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TowerBuilder.DataTypes.Time;
-using TowerBuilder.Utils;
 using UnityEngine;
 
-namespace TowerBuilder.DataTypes.Time
+namespace TowerBuilder
 {
-    public static class Constants
+    public static class TimeConstants
     {
         public const int MINUTES_ELAPSED_PER_TICK = 5;
 

@@ -1,5 +1,5 @@
 
-namespace TowerBuilder.DataTypes.Time
+namespace TowerBuilder
 {
     public enum DayType
     {

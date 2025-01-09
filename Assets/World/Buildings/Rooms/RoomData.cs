@@ -28,7 +28,7 @@ namespace TowerBuilder
         public static Color ROOM_INSPECTED_COLOR = Color.white;
 
         // Room definitions
-        public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[6] {
+        public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[] {
             new RoomDefinition() {
                 //
                 title = "Lobby",

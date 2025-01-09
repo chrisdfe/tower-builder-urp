@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace TowerBuilder.DataTypes.Time
+namespace TowerBuilder
 {
     public class TimeValue
     {
@@ -29,80 +25,6 @@ namespace TowerBuilder.DataTypes.Time
         // 1 +
         public int year;
 
-        public int timeOfDayIndex
-        {
-            get
-            {
-                for (int i = Constants.TIMES_OF_DAY.Length - 1; i >= 0; i--)
-                {
-                    TimeOfDay timeOfDay = Constants.TIMES_OF_DAY[i];
-
-                    if (hour >= timeOfDay.startsOnHour)
-                    {
-                        return i;
-                    }
-                }
-
-                return 0;
-            }
-        }
-
-        public TimeOfDay timeOfDay
-        {
-            get
-            {
-                return Constants.TIMES_OF_DAY[timeOfDayIndex];
-            }
-        }
-
-        public int previousTimeOfDayIndex
-        {
-            get
-            {
-                int index = timeOfDayIndex;
-                index--;
-                if (index < 0)
-                {
-                    index = Constants.TIMES_OF_DAY.Length - 1;
-                }
-                return index;
-            }
-        }
-
-        public int nextTimeOfDayIndex
-        {
-            get
-            {
-                int index = timeOfDayIndex;
-                index++;
-                if (index >= Constants.TIMES_OF_DAY.Length - 1)
-                {
-                    index = 0;
-                }
-                return index;
-            }
-        }
-
-        public TimeOfDay previousTimeOfDay
-        {
-            get => Constants.TIMES_OF_DAY[previousTimeOfDayIndex];
-        }
-
-        public TimeOfDay nextTimeOfDay
-        {
-            get => Constants.TIMES_OF_DAY[nextTimeOfDayIndex];
-        }
-
-        public TimeValue(TimeValue timeValue)
-        {
-            minute = timeValue.minute;
-            hour = timeValue.hour;
-            day = timeValue.day;
-            week = timeValue.week;
-            season = timeValue.season;
-            year = timeValue.year;
-        }
-
         public TimeValue(Input input)
         {
             minute = input.minute ?? 0;
@@ -123,6 +45,68 @@ namespace TowerBuilder.DataTypes.Time
         public override string ToString() =>
             $"{hour}:{minute}, day: {day}, week: {week}, season: {season}, year: {year}";
 
+        public int GetTimeOfDayIndex()
+        {
+            for (var i = TimeConstants.TIMES_OF_DAY.Length - 1; i >= 0; i--)
+            {
+                TimeOfDay timeOfDay = TimeConstants.TIMES_OF_DAY[i];
+
+                if (hour >= timeOfDay.startsOnHour)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
+        public TimeOfDay GetTimeOfDay()
+        {
+            return TimeConstants.TIMES_OF_DAY[GetTimeOfDayIndex()];
+        }
+
+        public int GetPreviousTimeOfDayIndex()
+        {
+            int index = GetTimeOfDayIndex();
+            index--;
+            if (index < 0)
+            {
+                index = TimeConstants.TIMES_OF_DAY.Length - 1;
+            }
+            return index;
+        }
+
+        public int GetNextTimeOfDayIndex()
+        {
+            int index = GetTimeOfDayIndex();
+            index++;
+            if (index >= TimeConstants.TIMES_OF_DAY.Length - 1)
+            {
+                index = 0;
+            }
+            return index;
+        }
+
+        public TimeOfDay GetPreviousTimeOfDay()
+        {
+            return TimeConstants.TIMES_OF_DAY[GetPreviousTimeOfDayIndex()];
+        }
+
+        public TimeOfDay GetNextTimeOfDay()
+        {
+            return TimeConstants.TIMES_OF_DAY[GetNextTimeOfDayIndex()];
+        }
+
+        public TimeValue(TimeValue timeValue)
+        {
+            minute = timeValue.minute;
+            hour = timeValue.hour;
+            day = timeValue.day;
+            week = timeValue.week;
+            season = timeValue.season;
+            year = timeValue.year;
+        }
+
         public TimeValue Clone()
         {
             return new TimeValue()
@@ -139,11 +123,11 @@ namespace TowerBuilder.DataTypes.Time
         public int AsMinutes()
         {
             int minutes = minute;
-            int hourMinutes = hour * Constants.MINUTES_PER_HOUR;
-            int dayMinutes = day * Constants.MINUTES_PER_DAY;
-            int weekMinutes = week * Constants.MINUTES_PER_WEEK;
-            int seasonMinutes = season * Constants.MINUTES_PER_SEASON;
-            int yearMinutes = year * Constants.MINUTES_PER_YEAR;
+            int hourMinutes = hour * TimeConstants.MINUTES_PER_HOUR;
+            int dayMinutes = day * TimeConstants.MINUTES_PER_DAY;
+            int weekMinutes = week * TimeConstants.MINUTES_PER_WEEK;
+            int seasonMinutes = season * TimeConstants.MINUTES_PER_SEASON;
+            int yearMinutes = year * TimeConstants.MINUTES_PER_YEAR;
 
             return (
                 minutes +
@@ -158,20 +142,20 @@ namespace TowerBuilder.DataTypes.Time
         public void SetFromMinutes(int minutes)
         {
             int leftover = minutes;
-            year = leftover / Constants.MINUTES_PER_YEAR;
-            leftover = leftover % Constants.MINUTES_PER_YEAR;
+            year = leftover / TimeConstants.MINUTES_PER_YEAR;
+            leftover = leftover % TimeConstants.MINUTES_PER_YEAR;
 
-            season = leftover / Constants.MINUTES_PER_SEASON;
-            leftover = leftover % Constants.MINUTES_PER_SEASON;
+            season = leftover / TimeConstants.MINUTES_PER_SEASON;
+            leftover = leftover % TimeConstants.MINUTES_PER_SEASON;
 
-            week = leftover / Constants.MINUTES_PER_WEEK;
-            leftover = leftover % Constants.MINUTES_PER_WEEK;
+            week = leftover / TimeConstants.MINUTES_PER_WEEK;
+            leftover = leftover % TimeConstants.MINUTES_PER_WEEK;
 
-            day = leftover / Constants.MINUTES_PER_DAY;
-            leftover = leftover % Constants.MINUTES_PER_DAY;
+            day = leftover / TimeConstants.MINUTES_PER_DAY;
+            leftover = leftover % TimeConstants.MINUTES_PER_DAY;
 
-            hour = leftover / Constants.MINUTES_PER_HOUR;
-            leftover = leftover % Constants.MINUTES_PER_HOUR;
+            hour = leftover / TimeConstants.MINUTES_PER_HOUR;
+            leftover = leftover % TimeConstants.MINUTES_PER_HOUR;
 
             minute = leftover;
         }
@@ -184,21 +168,18 @@ namespace TowerBuilder.DataTypes.Time
         /* 
             Static Interface
         */
-        public static TimeValue zero
+        public static TimeValue Zero()
         {
-            get
+            return new TimeValue()
             {
-                return new TimeValue()
-                {
 
-                    minute = 0,
-                    hour = 0,
-                    day = 0,
-                    week = 0,
-                    season = 0,
-                    year = 0,
-                };
-            }
+                minute = 0,
+                hour = 0,
+                day = 0,
+                week = 0,
+                season = 0,
+                year = 0,
+            };
         }
 
         public static TimeValue Add(TimeValue timeValue, Input timeInput)
@@ -224,7 +205,7 @@ namespace TowerBuilder.DataTypes.Time
 
         public static TimeValue ToRelative(TimeValue timeValue)
         {
-            return new TimeValue(new TimeValue.Input()
+            return new TimeValue(new Input()
             {
                 minute = timeValue.minute,
                 hour = timeValue.hour,
