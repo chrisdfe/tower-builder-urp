@@ -33,7 +33,7 @@ public class DebugPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tickText.text = "Tick: " + worldController.tick.current;
+        tickText.text = "Tick: " + worldController.timeController.tick.current;
         buildingsText.text = "Buildings: " + worldController.buildingsController.buildings.Count;
         roomsText.text = "Total rooms: " + worldController.buildingsController.RoomsCount();
         selectedToolText.text = "Selected tool: " + worldController.toolsController.tool.current;

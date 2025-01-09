@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class WorldController : MonoBehaviour
 {
     public static float TILE_SIZE { get; } = 1f;
-    public static float TICK_LENGTH_S { get; } = 1f;
 
     // Prefabs
     public GameObject roomTilePlaceholderPrefab;
@@ -29,9 +28,6 @@ public class WorldController : MonoBehaviour
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
     public List<Notification> notifications { get; private set; } = new();
-
-    public PrevAndCurrent<uint> tick { get; private set; } = new(0);
-    float tickTimerElapsed = 0f;
 
     // Other
     Canvas canvas;
@@ -56,7 +52,7 @@ public class WorldController : MonoBehaviour
 
     void Update()
     {
-        UpdateTickTimer();
+        UpdateTime();
         CheckForCursorOverUI();
         HandleMouseInput();
         HandleKeyboardInput();
@@ -65,13 +61,12 @@ public class WorldController : MonoBehaviour
         toolsController.OnUpdate();
     }
 
-    void UpdateTickTimer()
+    void UpdateTime()
     {
-        tickTimerElapsed += Time.deltaTime;
-        if (tickTimerElapsed >= TICK_LENGTH_S)
+        timeController.OnUpdate();
+
+        if (timeController.tick.HasChanged())
         {
-            tick.Set(tick.current + 1);
-            tickTimerElapsed = 0f;
             OnTick();
         }
     }
@@ -84,6 +79,7 @@ public class WorldController : MonoBehaviour
         List<RaycastResult> results = new();
 
         graphicRaycaster.Raycast(pointerEventData, results);
+
 
         cursorIsOverUI.Set(results.Count > 0);
     }

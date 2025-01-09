@@ -1,5 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace TowerBuilder
 {
@@ -11,10 +15,19 @@ namespace TowerBuilder
         public Room inspectedRoom { get; private set; }
         public Resident blueprintResident { get; private set; }
 
+        public InspectTarget hoveredInspectTarget { get; private set; }
+        public InspectTarget inspectTarget { get; private set; }
+
         WorldController worldController;
+
+        int worldEntityLayerMask;
 
         public ToolsController(WorldController worldController)
         {
+            // TODO - Probably should go somewhere else, since this is game-wide
+            int worldEntityMaskLayerIndex = LayerMask.NameToLayer("World Entity");
+            worldEntityLayerMask = 1 << worldEntityMaskLayerIndex;
+
             this.worldController = worldController;
 
             // State
@@ -59,20 +72,7 @@ namespace TowerBuilder
                     }
                     break;
                 case Tool.Inspect:
-                    if (hoveredTile.HasChanged())
-                    {
-                        if (hoveredTile.prev != null)
-                        {
-                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.prev);
-                            room?.SetInspectionHoveredState(false);
-                        }
-
-                        if (hoveredTile.current != null)
-                        {
-                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.current);
-                            room?.SetInspectionHoveredState(true);
-                        }
-                    }
+                    CalculateInspectionHoverState();
                     break;
                 case Tool.Destroy:
                     if (hoveredTile.HasChanged())
@@ -107,26 +107,41 @@ namespace TowerBuilder
                     worldController.buildingsController.AddRoomAtCurrentTileIfValid();
                     break;
                 case Tool.Inspect:
-                    // un-inspect current inspected room, if it exist
-                    if (inspectedRoom)
+
+                    // inspect current hovered target
+                    if (hoveredInspectTarget != null)
                     {
-                        inspectedRoom.SetInspectedState(false);
-                        inspectedRoom = null;
+                        // uninspect current inspected target, if it exists
+                        if (inspectTarget != null)
+                        {
+                            if (hoveredInspectTarget is ResidentInspectTarget)
+                            {
+                                // TODO 
+                                (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(false);
+                            }
+                            // TODO - room
+                            // TODO - building
+
+                            inspectTarget = null;
+                        }
+
+                        // inspect hovered inspect target
+                        if (hoveredInspectTarget is ResidentInspectTarget)
+                        {
+                            // TODO 
+                            inspectTarget = hoveredInspectTarget;
+                            (inspectTarget as ResidentInspectTarget).resident.SetInspectionHoveredState(false);
+                            (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(true);
+                        }
+                        // TODO - room
+                        // TODO - building
                     }
 
-                    // inpect room at tile, if there is one
-                    var tile = worldController.hoveredTile.current;
-                    var room = worldController.buildingsController.FindFrontmostRoomAtTile(tile);
-
-                    if (room != null)
-                    {
-                        room.SetInspectionHoveredState(false);
-                        room.SetInspectedState(true);
-                        inspectedRoom = room;
-                    }
+                    break;
+                case Tool.Destroy:
+                    worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();
                     break;
                 default:
-                    worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();
                     break;
             }
         }
@@ -150,17 +165,28 @@ namespace TowerBuilder
                         break;
                     case Tool.Inspect:
                         {
-                            var inspectedHoveredRoom = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
-                            if (inspectedHoveredRoom != null)
+                            // teardown inspectedHoveredTarget
+                            if (hoveredInspectTarget != null)
                             {
-                                inspectedHoveredRoom.SetInspectionHoveredState(false);
+                                if (hoveredInspectTarget is ResidentInspectTarget)
+                                {
+                                    (hoveredInspectTarget as ResidentInspectTarget).resident.SetInspectionHoveredState(false);
+                                }
+
+                                hoveredInspectTarget = null;
                             }
 
-                            if (inspectedRoom != null)
+                            // teardown inspect target
+                            if (inspectTarget != null)
                             {
-                                inspectedRoom.SetInspectedState(false);
-                                inspectedRoom = null;
+                                if (inspectTarget is ResidentInspectTarget)
+                                {
+                                    (inspectTarget as ResidentInspectTarget).resident.SetInspectedState(false);
+                                }
+
+                                inspectTarget = null;
                             }
+
                             break;
                         }
                     case Tool.Destroy:
@@ -186,8 +212,7 @@ namespace TowerBuilder
                         break;
                     case Tool.Inspect:
                         {
-                            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
-                            room?.SetInspectionHoveredState(true);
+                            CalculateInspectionHoverState();
                             break;
                         }
                     case Tool.Destroy:
@@ -288,6 +313,70 @@ namespace TowerBuilder
 
                 // 
                 return true;
+            }
+        }
+
+        void CalculateInspectionHoverState()
+        {
+            // Determine what "world entity" is being hovered over currently
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100f, worldEntityLayerMask))
+            {
+                var tag = hit.transform.tag;
+
+                switch (tag)
+                {
+                    case "Resident":
+                        {
+                            var resident = hit.transform.GetComponent<Resident>();
+
+                            if (
+                                hoveredInspectTarget == null ||
+                                !(hoveredInspectTarget is ResidentInspectTarget && (hoveredInspectTarget as ResidentInspectTarget).resident == resident)
+                            )
+                            {
+                                hoveredInspectTarget = new ResidentInspectTarget(resident);
+                                resident.SetInspectionHoveredState(true);
+                            }
+
+                            break;
+                        }
+                    case "Room":
+                        {
+                            Debug.Log("it is a room");
+                            // var resident = hit.transform.GetComponent<Resident>();
+
+                            // if (
+                            //     hoveredInspectTarget == null ||
+                            //     !(hoveredInspectTarget is ResidentInspectTarget && (hoveredInspectTarget as ResidentInspectTarget).resident == resident)
+                            // )
+                            // {
+                            //     Debug.Log("setting hoveredInspectTarget to resident " + resident.title);
+                            //     hoveredInspectTarget = new ResidentInspectTarget(resident);
+                            //     // TODO - set resident inspect state
+                            // }
+
+                            break;
+                        }
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                // nothing is being hovered over - unset hoveredInspectTarget if it is not null
+                if (hoveredInspectTarget != null)
+                {
+                    // Transition inspect target out of inspected state
+                    if (hoveredInspectTarget is ResidentInspectTarget)
+                    {
+                        (hoveredInspectTarget as ResidentInspectTarget).resident.SetInspectionHoveredState(false);
+                    }
+
+                    hoveredInspectTarget = null;
+                }
             }
         }
     }

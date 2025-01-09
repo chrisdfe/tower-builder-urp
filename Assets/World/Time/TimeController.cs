@@ -1,8 +1,13 @@
+using UnityEngine;
+
 namespace TowerBuilder
 {
     public class TimeController
     {
-        public int tick { get; private set; } = 0;
+        public const float TICK_LENGTH_S = 1f;
+
+        public PrevAndCurrent<uint> tick { get; private set; } = new(0);
+        float tickTimerElapsed = 0f;
 
         WorldController worldController;
 
@@ -13,7 +18,17 @@ namespace TowerBuilder
 
         public void OnUpdate()
         {
-            // TODO- increment tick
+            tickTimerElapsed += Time.deltaTime;
+            if (tickTimerElapsed >= TICK_LENGTH_S)
+            {
+                tick.Set(tick.current + 1);
+                tickTimerElapsed = 0f;
+            }
+            else
+            {
+                // required for PrevAndCurrent.HasChanged() to actually work
+                tick.Set(tick.current);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 
 - time
 - stairs should be able to overlap on the bottom/top
+- rooms must be next to another room EXCEPT entrance/exit
 - stairs should have an 'entrance' and 'exit'
 - BUG: seperate buildings don't appear to be getting created when they should
 - inspect panel should list residents/workers
@@ -13,6 +14,7 @@
 
 # Done
 
+- BUG: clicking on a room when no tool is selected deletes the room?
 - 'building entrance/exit'
 - residents
   - resident gameobject/prefab
