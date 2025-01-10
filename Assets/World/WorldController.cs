@@ -97,7 +97,15 @@ public class WorldController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(1))
         {
-            toolsController.SetTool(ToolHandle.None);
+            if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget != null)
+            {
+                toolsController.inspectTool.SetInspectTarget(null);
+            }
+            else
+            {
+
+                toolsController.SetTool(ToolHandle.None);
+            }
         }
     }
 

@@ -19,8 +19,8 @@ namespace TowerBuilder
         public Dictionary<ToolHandle, ITool> toolsByHandle;
         ITool currentTool;
 
-        public delegate void OnToolChanged(ToolHandle toolHandle);
-        public OnToolChanged onToolChanged;
+        public delegate void ToolEvent();
+        public ToolEvent onToolChanged;
 
         public ToolsController(WorldController worldController)
         {
@@ -84,7 +84,7 @@ namespace TowerBuilder
                     currentTool = null;
                 }
 
-                onToolChanged(toolHandle.current);
+                onToolChanged?.Invoke();
             }
         }
     }

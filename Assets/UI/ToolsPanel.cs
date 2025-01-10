@@ -52,7 +52,7 @@ namespace TowerBuilder
             HighlightToolButton(worldController.toolsController.toolHandle.current);
         }
 
-        void OnToolChanged(ToolHandle toolHandle)
+        void OnToolChanged()
         {
 
             HighlightToolButton(worldController.toolsController.toolHandle.current);

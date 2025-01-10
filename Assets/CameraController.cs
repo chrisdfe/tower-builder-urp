@@ -1,4 +1,5 @@
 using TowerBuilder;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -6,18 +7,62 @@ namespace TowerBuilder
 
     public class CameraController : MonoBehaviour
     {
-        static float MOVEMENT_SPEED = 1.5f;
-        static float MOVEMENT_AMOUNT = 1.2f;
+        [SerializeField]
+        AnimationCurve inspectAnimationCurve;
+
+        const float MOVEMENT_SPEED = 1.5f;
+        const float MOVEMENT_AMOUNT = 1.2f;
+        const float INSPECT_ZOOM_AMOUNT = 2f;
+        const float INSPECT_ZOOM_LENGTH_S = 0.5f;
 
         Vector3 targetPosition;
         float movementTimer = 0;
 
+        WorldController worldController;
+
+        float originalZoomLevel;
+        float inspectZoomLevel;
+        float targetZoomLevel;
+        float startZoomLevel;
+        float inspectZoomTimer;
+
         void Awake()
         {
             targetPosition = Camera.main.transform.position;
+
+            originalZoomLevel = Camera.main.orthographicSize;
+            startZoomLevel = originalZoomLevel;
+            targetZoomLevel = originalZoomLevel;
+            // decreasing orthographic size increases zoom level
+            inspectZoomLevel = originalZoomLevel - INSPECT_ZOOM_AMOUNT;
+            inspectZoomTimer = INSPECT_ZOOM_LENGTH_S;
+
+            worldController = WorldController.Get();
+        }
+
+        void Start()
+        {
+            worldController.toolsController.inspectTool.onInspectTargetUpdated += OnInspectTargetUpdate;
         }
 
         void Update()
+        {
+            HandleInput();
+
+            // animate inspect zoom
+            float zoomProgress = 1f;
+            if (inspectZoomTimer < INSPECT_ZOOM_LENGTH_S)
+            {
+                inspectZoomTimer += Time.deltaTime;
+                var normalizedProgress = inspectZoomTimer / INSPECT_ZOOM_LENGTH_S;
+                zoomProgress = inspectAnimationCurve.Evaluate(normalizedProgress);
+            }
+
+            Camera.main.orthographicSize = Mathf.Lerp(startZoomLevel, targetZoomLevel, zoomProgress);
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, movementTimer);
+        }
+
+        void HandleInput()
         {
             bool shouldResetTimer = false;
 
@@ -56,8 +101,24 @@ namespace TowerBuilder
             {
                 movementTimer += Time.deltaTime / MOVEMENT_SPEED;
             }
+        }
 
-            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, movementTimer);
+        void OnInspectTargetUpdate()
+        {
+            var inspectTarget = worldController.toolsController.inspectTool.inspectTarget;
+
+            startZoomLevel = Camera.main.orthographicSize;
+
+            if (inspectTarget == null)
+            {
+                targetZoomLevel = originalZoomLevel;
+            }
+            else
+            {
+                targetZoomLevel = inspectZoomLevel;
+            }
+
+            inspectZoomTimer = 0;
         }
     }
 }
