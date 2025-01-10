@@ -19,6 +19,9 @@ namespace TowerBuilder
         public Dictionary<ToolHandle, ITool> toolsByHandle;
         ITool currentTool;
 
+        public delegate void OnToolChanged(ToolHandle toolHandle);
+        public OnToolChanged onToolChanged;
+
         public ToolsController(WorldController worldController)
         {
             this.worldController = worldController;
@@ -80,6 +83,8 @@ namespace TowerBuilder
                 {
                     currentTool = null;
                 }
+
+                onToolChanged(toolHandle.current);
             }
         }
     }

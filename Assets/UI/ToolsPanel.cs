@@ -44,6 +44,7 @@ namespace TowerBuilder
             toolOptionButtonsWrapper = transform.Find("ToolOptionsButtonsWrapper");
 
             worldController = WorldController.Get();
+            worldController.toolsController.onToolChanged += OnToolChanged;
         }
 
         void Start()
@@ -51,12 +52,12 @@ namespace TowerBuilder
             HighlightToolButton(worldController.toolsController.toolHandle.current);
         }
 
-        void Update()
+        void OnToolChanged(ToolHandle toolHandle)
         {
-            if (worldController.toolsController.toolHandle.HasChanged())
-            {
-                HighlightToolButton(worldController.toolsController.toolHandle.current);
-            }
+
+            HighlightToolButton(worldController.toolsController.toolHandle.current);
+            ClearToolOptionsButtons();
+            CreateToolOptionButtonsForCurrentTool();
         }
 
         void OnInspectButtonClick()
@@ -77,8 +78,6 @@ namespace TowerBuilder
         void SetActiveTool(ToolHandle newTool)
         {
             WorldController.Get().toolsController.SetTool(newTool);
-            ClearToolOptionsButtons();
-            CreateToolOptionButtonsForCurrentTool();
         }
 
         void HighlightToolButton(ToolHandle tool)
