@@ -2,14 +2,15 @@
 
 ## currently:
 
-- camera zoom on the inspected target
-  - IInspectTarget should have a "centerpoint" vector to use for this
+- room validators
+  - room must be touching another room (except entrance/exit)
 
 ## next:
 
 - time
+- center blueprint tile to cursor
+  - I could refactor/reuse room.GetInspectTargetOrigin for this
 - stairs should be able to overlap on the bottom/top
-- rooms must be next to another room EXCEPT entrance/exit
 - refactor ToolsController to use InspectTool, BuildTool, and DestroyTool classes
 - stairs should have an 'entrance' and 'exit'
 - BUG: seperate buildings don't appear to be getting created when they should
@@ -22,6 +23,8 @@
 
 # Done
 
+- camera zoom on the inspected target
+  - IInspectTarget should have a "centerpoint" vector to use for this
 - BUG: build tool option buttons don't show up when you use keyboard shortcuts
 - CLEANUP: InspectTarget could probably be an interface - SetInspectState, SetInspectHoverdState, etc
 - re-implement inspecting rooms

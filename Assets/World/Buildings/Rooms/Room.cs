@@ -202,7 +202,49 @@ namespace TowerBuilder
             return false;
         }
 
+        public Vector2 GetInspectFocalPoint()
+        {
+            var lowestX = float.PositiveInfinity;
+            var highestX = float.NegativeInfinity;
 
+            foreach (var roomTile in roomTiles)
+            {
+                if (roomTile.transform.position.x < lowestX)
+                {
+                    lowestX = roomTile.transform.position.x;
+                }
+                else if (roomTile.transform.position.x > highestX)
+                {
+                    highestX = roomTile.transform.position.x;
+                }
+            }
+
+            var x = lowestX + (highestX - lowestX);
+
+            var lowestY = float.PositiveInfinity;
+            var highestY = float.NegativeInfinity;
+
+            foreach (var roomTile in roomTiles)
+            {
+                if (roomTile.transform.position.y < lowestY)
+                {
+                    lowestY = roomTile.transform.position.y;
+                }
+                else if (roomTile.transform.position.y > highestY)
+                {
+                    highestY = roomTile.transform.position.y;
+                }
+            }
+
+            var y = lowestY + (highestY - lowestY);
+
+            var result = new Vector2(x, y);
+            return result;
+        }
+
+        //
+        // Private interface
+        //
         void CalcluateTilesFromOrigin()
         {
             List<Tile> result = new();

@@ -29,8 +29,6 @@ namespace TowerBuilder
         //
         public void OnMouseUp()
         {
-            Debug.Log("onmouseup: " + hoveredInspectTarget);
-
             // inspect current hovered target
             if (hoveredInspectTarget != null)
             {

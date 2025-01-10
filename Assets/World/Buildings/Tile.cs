@@ -7,6 +7,11 @@ namespace TowerBuilder
         public int x;
         public int y;
 
+        public override string ToString()
+        {
+            return $"({x}, {y})";
+        }
+
         public Tile(int x, int y)
         {
             this.x = x;

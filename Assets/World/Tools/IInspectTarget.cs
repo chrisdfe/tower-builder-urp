@@ -1,3 +1,4 @@
+using UnityEngine;
 
 namespace TowerBuilder
 {
@@ -6,5 +7,6 @@ namespace TowerBuilder
         public string title { get; }
         public void SetInspectedState(bool inspected);
         public void SetInspectionHoveredState(bool inspected);
+        public Vector2 GetInspectFocalPoint();
     }
 }

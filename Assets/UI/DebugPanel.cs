@@ -7,6 +7,7 @@ public class DebugPanel : MonoBehaviour
     public GameObject bodyTextPrefab;
 
     TextMeshProUGUI tickText;
+    TextMeshProUGUI hoveredTileText;
     TextMeshProUGUI buildingsText;
     TextMeshProUGUI roomsText;
     TextMeshProUGUI selectedToolText;
@@ -24,6 +25,7 @@ public class DebugPanel : MonoBehaviour
     void Awake()
     {
         tickText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        hoveredTileText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         buildingsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
@@ -43,6 +45,7 @@ public class DebugPanel : MonoBehaviour
     void Update()
     {
         tickText.text = "Tick: " + worldController.timeController.tick.current;
+        hoveredTileText.text = $"Hovered tile: ({worldController.hoveredTile.current.x},{worldController.hoveredTile.current.y})";
         buildingsText.text = "Buildings: " + worldController.buildingsController.buildings.Count;
         roomsText.text = "Total rooms: " + worldController.buildingsController.RoomsCount();
         selectedToolText.text = "Selected tool: " + worldController.toolsController.toolHandle.current;

@@ -62,6 +62,14 @@ namespace TowerBuilder
             UpdatePosition();
         }
 
+        public Vector2 GetInspectFocalPoint()
+        {
+            return new Vector2(
+                bod.transform.position.x,
+                bod.transform.position.y
+            );
+        }
+
         //
         // Private interface
         //
