@@ -4,6 +4,7 @@
 
 - room validators
   - room must be touching another room (except entrance/exit)
+  - stairs must be fully on top of other rooms
 
 ## next:
 
@@ -20,6 +21,8 @@
 - routing for residents
 - resident entry point (to be replaced at some point)
 - wallet/money
+- overlays
+  - 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
 
 # Done
 
