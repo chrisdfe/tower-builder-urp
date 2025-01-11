@@ -8,6 +8,7 @@
 
 ## next:
 
+- camera shake when building/destroying a room
 - time
 - routing for residents
 - More specific info in inspect view
