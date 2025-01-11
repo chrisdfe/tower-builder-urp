@@ -7,6 +7,7 @@ namespace TowerBuilder
     public class Building : MonoBehaviour
     {
         public string title = "Building";
+
         public List<Room> rooms { get; private set; } = new();
 
         public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
