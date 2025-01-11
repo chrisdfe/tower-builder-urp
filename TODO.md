@@ -9,6 +9,11 @@
 ## next:
 
 - time
+- routing for residents
+- More specific info in inspect view
+- IMPROVEMENT: inspect zoom
+  - it should last longer, but slow down a lot towards the end
+  - you should be able to use camera movement keys while the zoom out is happening
 - center blueprint tile to cursor
   - I could refactor/reuse room.GetInspectTargetOrigin for this
 - stairs should be able to overlap on the bottom/top
@@ -18,11 +23,11 @@
 - inspect panel should list residents/workers
 - inspect-able residents
 - schedules for residents
-- routing for residents
 - resident entry point (to be replaced at some point)
 - wallet/money
 - overlays
   - 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
+- building exterior - like a 3rd of a tile of extra stuff on the outside
 
 # Done
 
