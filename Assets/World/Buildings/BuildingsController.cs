@@ -69,15 +69,9 @@ namespace TowerBuilder
             return result;
         }
 
-        public void AddRoomAtCurrentTileIfValid()
+        // Warning - doesn't do any validation
+        public void AddRoomAtTile(RoomDefinition roomDefinition, Tile tile)
         {
-            if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
-            {
-                worldController.AddNotification("You cannot build this room.");
-                return;
-            }
-
-            var tile = worldController.mousePositionToTile();
             var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
 
             // Search for a building adjacent
@@ -89,7 +83,20 @@ namespace TowerBuilder
                 building = CreateBuilding();
             }
 
-            building.AddRoom(tile, worldController.toolsController.buildTool.selectedRoomDefinition.current);
+            building.AddRoom(tile, roomDefinition);
+        }
+
+        public void AddRoomAtCurrentTileIfValid()
+        {
+            if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
+            {
+                worldController.AddNotification("You cannot build this room.");
+                return;
+            }
+
+            var tile = worldController.mousePositionToTile();
+
+            AddRoomAtTile(worldController.toolsController.buildTool.selectedRoomDefinition.current, tile);
         }
 
         public void RemoveFrontmostRoomAtCurrentTile()

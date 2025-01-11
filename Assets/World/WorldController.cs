@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TowerBuilder;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -47,6 +48,13 @@ public class WorldController : MonoBehaviour
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
         eventSystem = canvas.GetComponent<EventSystem>();
+    }
+
+    void Start()
+    {
+        // this won't ultimately be here - just for debug reasons
+        var entranceExitRoomDefinition = RoomConstants.ALL_DEFINITIONS.ToList().Find(definition => definition.title == "Entrance/Exit");
+        buildingsController.AddRoomAtTile(entranceExitRoomDefinition, Tile.Zero());
     }
 
     void Update()
