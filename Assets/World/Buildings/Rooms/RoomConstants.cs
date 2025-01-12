@@ -39,6 +39,7 @@ namespace TowerBuilder
                 },
                 type = RoomType.CommonArea,
             },
+
             new RoomDefinition() {
                 //
                 title = "Entrance/Exit",
@@ -46,7 +47,11 @@ namespace TowerBuilder
                     new(0, 0),
                 },
                 type = RoomType.CommonArea,
+
+                // TODO - only one allowed per building
+                buildValidators = new(RoomBuildValidators.standardBuildValidators),
             },
+
             new RoomDefinition() {
                 //
                 title = "Barracks",
@@ -60,6 +65,7 @@ namespace TowerBuilder
                 type = RoomType.Residential,
                 residentialCapacity = 12,
             },
+
             new RoomDefinition() {
                 //
                 title = "Pod",
@@ -72,6 +78,7 @@ namespace TowerBuilder
                 type = RoomType.Residential,
                 residentialCapacity = 3,
             },
+
             new RoomDefinition() {
                 //
                 title = "Office",
@@ -84,6 +91,7 @@ namespace TowerBuilder
                 type = RoomType.Office,
                 workerCapacity = 12,
             },
+
             new RoomDefinition() {
                 //
                 title = "Stairs",
@@ -94,7 +102,10 @@ namespace TowerBuilder
                     new(0, 1),
                     new(1, 1),
                 },
-                type = RoomType.TransportationItem
+                type = RoomType.TransportationItem,
+
+                // TODO - stairs validators
+                buildValidators = new()
             },
         };
     }

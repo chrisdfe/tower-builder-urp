@@ -28,9 +28,19 @@ namespace TowerBuilder
             return new Vector3(x, y, 0);
         }
 
+        public Tile[] GetOrthagonalAdjacentTiles()
+        {
+            return new Tile[] {
+                new(x, y-1),
+                new(x+1, y),
+                new(x, y+1),
+                new(x-1, y),
+            };
+        }
+
         public Tile[] GetAdjacentTiles()
         {
-            return new Tile[8] {
+            return new Tile[] {
                 new(x-1, y-1),
                 new(x, y-1),
                 new(x+1, y-1),
@@ -44,7 +54,7 @@ namespace TowerBuilder
 
         public Tile[] GetAdjacentTilesIncludingSelf()
         {
-            return new Tile[9] {
+            return new Tile[] {
                 new(x, y),
                 new(x-1, y-1),
                 new(x, y-1),

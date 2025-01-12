@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -76,7 +77,7 @@ namespace TowerBuilder
 
             // Search for a building adjacent
             // TODO - combine buildings?
-            var building = buildings.Find(building => building.ContainsRoomAtTile(allAdjacentTiles));
+            var building = buildings.Find(building => building.ContainsRoomAtTiles(allAdjacentTiles.ToList()));
 
             if (building == null)
             {
@@ -90,7 +91,11 @@ namespace TowerBuilder
         {
             if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
             {
-                worldController.AddNotification("You cannot build this room.");
+                foreach (var error in worldController.toolsController.buildTool.blueprintRoom.buildValidationErrors)
+                {
+                    worldController.AddNotification(error.message);
+                }
+
                 return;
             }
 
@@ -137,12 +142,78 @@ namespace TowerBuilder
             return null;
         }
 
+
+        public bool ContainsRoomsAtTile(Tile tile)
+        {
+            return FindRoomsAtTile(tile) != null;
+        }
+
+        public bool ContainsRoomAtTile(Tile tile, RoomLayer roomLayer)
+        {
+            return FindRoomAtTile(tile, roomLayer) != null;
+        }
+
+        public bool ContainsRoomsAtTiles(List<Tile> tiles)
+        {
+            return FindRoomsAtTiles(tiles).Count > 0;
+        }
+
+        public bool ContainsRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer)
+        {
+            return FindRoomsAtTiles(tiles, roomLayer).Count > 0;
+        }
+
+        public List<Room> FindRoomsAtTiles(List<Tile> tiles)
+        {
+            foreach (var building in buildings)
+            {
+                // Buildings can't overlap so we don't need to account for that
+                var rooms = building.FindRoomsAtTiles(tiles);
+                if (rooms.Count > 0)
+                {
+                    return rooms;
+                }
+            }
+
+            return new();
+        }
+
         public List<Room> FindRoomsAtTile(Tile tile)
         {
             foreach (var building in buildings)
             {
                 // Buildings can't overlap so we don't need to account for that
                 var rooms = building.FindRoomsAtTile(tile);
+                if (rooms.Count > 0)
+                {
+                    return rooms;
+                }
+            }
+
+            return new();
+        }
+
+        public Room FindRoomAtTile(Tile tile, RoomLayer roomLayer)
+        {
+            foreach (var building in buildings)
+            {
+                // Buildings can't overlap so we don't need to account for that
+                var room = building.FindRoomAtTile(tile, roomLayer);
+                if (room != null)
+                {
+                    return room;
+                }
+            }
+
+            return new();
+        }
+
+        public List<Room> FindRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer)
+        {
+            foreach (var building in buildings)
+            {
+                // Buildings can't overlap so we don't need to account for that
+                var rooms = building.FindRoomsAtTiles(tiles, roomLayer);
                 if (rooms.Count > 0)
                 {
                     return rooms;

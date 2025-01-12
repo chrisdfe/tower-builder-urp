@@ -58,12 +58,22 @@ namespace TowerBuilder
 
         public bool ContainsRoomAtTile(Tile tile)
         {
-            return rooms.Find(otherRoom => otherRoom.ContainsTile(tile)) != null;
+            return FindRoomsAtTile(tile).Count > 0;
         }
 
-        public bool ContainsRoomAtTile(Tile[] tiles)
+        public bool ContainsRoomAtTile(List<Tile> tiles, RoomLayer roomLayer)
         {
-            return FindRoomsAtTiles(tiles) != null;
+            return FindRoomsAtTiles(tiles, roomLayer).Count > 0;
+        }
+
+        public bool ContainsRoomAtTiles(List<Tile> tiles)
+        {
+            return FindRoomsAtTiles(tiles).Count > 0;
+        }
+
+        public bool ContainsRoomAtTiles(List<Tile> tiles, RoomLayer roomLayer)
+        {
+            return FindRoomsAtTiles(tiles, roomLayer).Count > 0;
         }
 
         public List<Room> FindRoomsAtTile(Tile tile)
@@ -71,9 +81,19 @@ namespace TowerBuilder
             return rooms.FindAll(otherRoom => otherRoom.ContainsTile(tile));
         }
 
-        public List<Room> FindRoomsAtTiles(Tile[] tiles)
+        public List<Room> FindRoomsAtTiles(List<Tile> tiles)
         {
-            return rooms.FindAll(otherRoom => otherRoom.ContainsTile(tiles));
+            return rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles));
+        }
+
+        public Room FindRoomAtTile(Tile tile, RoomLayer roomLayer)
+        {
+            return rooms.Find(otherRoom => otherRoom.ContainsTile(tile) && otherRoom.definition.layer == roomLayer);
+        }
+
+        public List<Room> FindRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer)
+        {
+            return rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles) && otherRoom.definition.layer == roomLayer);
         }
 
         // TODO - cache this number

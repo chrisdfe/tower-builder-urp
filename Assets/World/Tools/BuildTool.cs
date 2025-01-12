@@ -66,7 +66,7 @@ namespace TowerBuilder
                 {
                     blueprintRoom.SetOriginTile(worldController.hoveredTile.current);
                     blueprintRoom.SetZPosition();
-                    ValidateBlueprintRoom();
+                    blueprintRoom.Validate(worldController);
                 }
             }
         }
@@ -98,11 +98,10 @@ namespace TowerBuilder
                         return definition;
                     }
                 }
+
                 return null;
             }
         }
-
-
 
         //
         // Private interface
@@ -110,7 +109,7 @@ namespace TowerBuilder
         void CreateAndInitializeBlueprintRoom()
         {
             blueprintRoom = CreateBlueprintRoom();
-            ValidateBlueprintRoom();
+            blueprintRoom.Validate(worldController);
         }
 
         Room CreateBlueprintRoom()
@@ -135,35 +134,5 @@ namespace TowerBuilder
             GameObject.Destroy(blueprintRoom.gameObject);
             blueprintRoom = null;
         }
-
-        void ValidateBlueprintRoom()
-        {
-            var isValid = GetValid();
-            blueprintRoom.SetValidState(isValid);
-
-            bool GetValid()
-            {
-                // Validate overlap
-                foreach (var building in worldController.buildingsController.buildings)
-                {
-                    foreach (var otherRoom in building.rooms)
-                    {
-                        if (
-                            otherRoom.ContainsTile(blueprintRoom.tiles.ToArray()) &&
-                            // rooms of different layers can be built on top of each other obviously
-                            blueprintRoom.definition.layer == otherRoom.definition.layer
-                        )
-                        {
-                            return false;
-                        }
-                    }
-                }
-
-                // 
-                return true;
-            }
-        }
-
-
     }
 }

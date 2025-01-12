@@ -15,5 +15,7 @@ namespace TowerBuilder
 
         // How many residents can work in this room
         public uint workerCapacity = 0;
+
+        public List<IRoomValidator> buildValidators = new(RoomBuildValidators.standardBuildValidators);
     }
 }

@@ -2,14 +2,12 @@
 
 ## currently:
 
-- room validators
-  - room must be touching another room (except entrance/exit)
-  - stairs must be fully on top of other rooms
-
 ## next:
 
 - camera shake when building/destroying a room
 - time
+- room validator: stairs must be fully on top of other rooms
+- room validator: only x of a room allowed per building
 - routing for residents
 - More specific info in inspect view
 - IMPROVEMENT: inspect zoom
@@ -32,6 +30,8 @@
 
 # Done
 
+- room validators
+  - room must be touching another room (except entrance/exit)
 - camera zoom on the inspected target
   - IInspectTarget should have a "centerpoint" vector to use for this
 - BUG: build tool option buttons don't show up when you use keyboard shortcuts

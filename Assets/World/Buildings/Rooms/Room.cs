@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace TowerBuilder
 {
@@ -31,11 +32,17 @@ namespace TowerBuilder
         // this is the room that is being inspected with the inspect tool
         public bool isInspected { get; private set; } = false;
 
+        public List<RoomValidationError> buildValidationErrors { get; private set; } = new();
+
         // Prefabs
         public GameObject roomTilePrefab;
 
         List<RoomTile> roomTiles = new();
         Tile originTile;
+
+        //
+        // Public interface
+        //
 
         // TODO - this isn't going to work for resizable rooms
         // TODO - make the originTile the center tile instead of bottom left
@@ -149,9 +156,24 @@ namespace TowerBuilder
             SetZPosition();
         }
 
-        public void SetValidState(bool isValid)
+        public void Validate(WorldController worldController)
         {
-            this.isValid = isValid;
+            List<RoomValidationError> errors = new();
+
+            foreach (var buildValidator in definition.buildValidators)
+            {
+                //
+                var error = buildValidator.Validate(this, worldController);
+
+                if (error != null)
+                {
+                    errors.Add(error);
+                }
+            }
+
+            this.buildValidationErrors = errors;
+            this.isValid = errors.Count == 0;
+
             UpdateColor();
         }
 
@@ -186,7 +208,7 @@ namespace TowerBuilder
             return false;
         }
 
-        public bool ContainsTile(Tile[] targetTiles)
+        public bool ContainsTiles(List<Tile> targetTiles)
         {
             foreach (Tile tile in tiles)
             {
@@ -240,6 +262,44 @@ namespace TowerBuilder
 
             var result = new Vector2(x, y);
             return result;
+        }
+
+        public List<Tile> GetAdjacentTiles()
+        {
+            // TODO - could probably use a HashSet or something
+            var result = new List<Tile>();
+
+            foreach (var tile in tiles)
+            {
+                var adjacentTiles = tile.GetOrthagonalAdjacentTiles();
+
+                foreach (var adjacentTile in adjacentTiles)
+                {
+                    if (
+                        // Don't include adjacent tiles that are part of this room
+                        !ContainsTile(adjacentTile) &&
+                        // Don't add the same tile twice
+                        !isAlreadyPresentInResults(adjacentTile))
+                    {
+                        result.Add(adjacentTile);
+                    }
+                }
+            }
+
+            return result;
+
+            bool isAlreadyPresentInResults(Tile adjacentTile)
+            {
+                foreach (var resultTile in result)
+                {
+                    if (resultTile.Matches(adjacentTile))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         //
