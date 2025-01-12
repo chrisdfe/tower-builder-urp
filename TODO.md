@@ -10,12 +10,12 @@
 - routing for residents
 - schedules for residents
 - More specific info in inspect view
-- IMPROVEMENT: inspect zoom
-  - it should last longer, but slow down a lot towards the end
-  - you should be able to use camera movement keys while the zoom out is happening
 - 'undeletable' rooms (starting entrance/exit)
 - center blueprint tile to cursor
   - I could refactor/reuse room.GetInspectTargetOrigin for this
+- tooltip for resident name etc
+- cleanup: think about just calling cameraController._ or tooltipController._ directly instead of using delegates
+- sfx/music system (controller)
 - room validator: stairs must be fully on top of other rooms
 - room validator: only x of a room allowed per building
 - room validator: stairs should be able to overlap on the bottom/top but not both
@@ -26,6 +26,21 @@
 - overlays
   - 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
 - building exterior - like a 3rd of a tile of extra stuff on the outside
+- tooltip
+- camera improvement: camera zoom with scroll wheel
+- camera imrovement: hold middle mouse down to move around
+- camera improvement: should have a 'current tile' that it snaps to
+- camera improvement: inspect zoom
+  - it should last longer, but slow down a lot towards the end
+  - you should be able to use camera movement keys while the zoom out is happening
+
+## room ideas
+
+- garbage room
+  - each resident/worker creates a certain amount of garbage that has to be stored and unloaded
+- garden
+  - both makes people happy and makes money
+- recreation rooms
 
 # Done
 
