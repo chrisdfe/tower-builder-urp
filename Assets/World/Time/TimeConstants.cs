@@ -8,10 +8,14 @@ namespace TowerBuilder
     public static class TimeConstants
     {
         public const int MINUTES_ELAPSED_PER_TICK = 5;
+        // public const int MINUTES_ELAPSED_PER_TICK = 15;
 
         // In seconds
-        public const float TICK_INTERVAL = .8f;
+        // public const float TICK_LENGTH_S = .8f;
+        public const float TICK_LENGTH_S = 1f;
+        // public const float TICK_LENGTH_S = 0.4f;
 
+        // TODO - this is probably the wrong way to do this - should be minutes elapsed per tick instead
         // tick intervals in seconds
         public static Dictionary<TimeSpeed, float> TIME_SPEED_TICK_INTERVALS = new Dictionary<TimeSpeed, float>()
         {
@@ -23,6 +27,17 @@ namespace TowerBuilder
             [TimeSpeed.Fastest] = 0.05f,
             // [TimeSpeed.Fastest] = 0.5f,
         };
+
+        // public static Dictionary<TimeSpeed, float> TIME_SPEED_TICK_INTERVALS = new Dictionary<TimeSpeed, float>()
+        // {
+        //     [TimeSpeed.Pause] = float.PositiveInfinity,
+        //     // [TimeSpeed.Normal] = 1.0f,
+        //     [TimeSpeed.Normal] = 1.0f,
+        //     // [TimeSpeed.Fast] = 0.7f,
+        //     [TimeSpeed.Fast] = 0.5f,
+        //     [TimeSpeed.Fastest] = 0.05f,
+        //     // [TimeSpeed.Fastest] = 0.5f,
+        // };
 
         public const int MINUTES_PER_HOUR = 60;
 
