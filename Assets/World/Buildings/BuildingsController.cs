@@ -13,6 +13,10 @@ namespace TowerBuilder
         Transform buildingsContainer;
         Transform residentsContainer;
 
+        public delegate void BuildingEvent();
+        public BuildingEvent onRoomBuilt;
+        public BuildingEvent onRoomDestroyed;
+
         public BuildingsController(WorldController worldController)
         {
             this.worldController = worldController;
@@ -102,6 +106,9 @@ namespace TowerBuilder
             var tile = worldController.mousePositionToTile();
 
             AddRoomAtTile(worldController.toolsController.buildTool.selectedRoomDefinition.current, tile);
+
+            // TODO - this could get confusing
+            onRoomBuilt?.Invoke();
         }
 
         public void RemoveFrontmostRoomAtCurrentTile()
@@ -120,6 +127,8 @@ namespace TowerBuilder
                     {
                         RemoveBuilding(building);
                     }
+
+                    onRoomDestroyed?.Invoke();
                 }
             }
         }
@@ -141,7 +150,6 @@ namespace TowerBuilder
 
             return null;
         }
-
 
         public bool ContainsRoomsAtTile(Tile tile)
         {

@@ -8,18 +8,21 @@ namespace TowerBuilder
     public class CameraController : MonoBehaviour
     {
         [SerializeField]
-        AnimationCurve inspectAnimationCurve;
+        AnimationCurve inspectZoomAnimationCurve;
+
+        [SerializeField]
+        AnimationCurve roomBuildShakeFalloffAnimationCurve;
 
         const float MOVEMENT_SPEED = 1.5f;
         const float MOVEMENT_AMOUNT = 1.2f;
         const float INSPECT_ZOOM_AMOUNT = 2f;
         const float INSPECT_ZOOM_LENGTH_S = 0.5f;
 
+        // movement
         Vector3 targetPosition;
         float movementTimer = 0;
 
-        WorldController worldController;
-
+        // inspect zoom1
         float originalZoomLevel;
         float inspectZoomLevel;
         float targetZoomLevel;
@@ -46,6 +49,17 @@ namespace TowerBuilder
             }
         }
 
+        // camera shake
+        const float ROOM_BUILD_SHAKE_LENGTH_S = 0.3f;
+        const float ROOM_BUILD_SHAKE_INTENSITY = 0.15f;
+        float roomBuildShakeTimer = ROOM_BUILD_SHAKE_LENGTH_S;
+        // float currentRoomShakeValue = ROOM_BUILD_SHAKE_INTENSITY;
+
+        WorldController worldController;
+
+        //
+        // Lifecycle
+        // 
         void Awake()
         {
             originalInspectPosition = Camera.main.transform.position;
@@ -65,6 +79,8 @@ namespace TowerBuilder
         void Start()
         {
             worldController.toolsController.inspectTool.onInspectTargetUpdated += OnInspectTargetUpdate;
+            worldController.buildingsController.onRoomBuilt += OnRoomBuilt;
+            worldController.buildingsController.onRoomDestroyed += OnRoomDestroyed;
         }
 
         void Update()
@@ -74,7 +90,7 @@ namespace TowerBuilder
             {
                 inspectZoomTimer += Time.deltaTime;
                 var normalizedProgress = inspectZoomTimer / INSPECT_ZOOM_LENGTH_S;
-                var inspectZoomProgress = inspectAnimationCurve.Evaluate(normalizedProgress);
+                var inspectZoomProgress = inspectZoomAnimationCurve.Evaluate(normalizedProgress);
 
                 Camera.main.transform.position = Vector3.Lerp(startInspectPosition, targetInspectPosition, inspectZoomProgress);
                 Camera.main.orthographicSize = Mathf.Lerp(startZoomLevel, targetZoomLevel, inspectZoomProgress);
@@ -83,6 +99,38 @@ namespace TowerBuilder
             {
                 HandleInput();
                 Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, movementTimer);
+            }
+
+            if (roomBuildShakeTimer < ROOM_BUILD_SHAKE_LENGTH_S)
+            {
+                var normalizedProgress = roomBuildShakeTimer / ROOM_BUILD_SHAKE_LENGTH_S;
+                var shakeFalloff = roomBuildShakeFalloffAnimationCurve.Evaluate(normalizedProgress);
+
+                // if (currentRoomShakeValue == ROOM_BUILD_SHAKE_INTENSITY)
+                // {
+                //     currentRoomShakeValue = -ROOM_BUILD_SHAKE_INTENSITY;
+                // }
+                // else
+                // {
+                //     currentRoomShakeValue = ROOM_BUILD_SHAKE_INTENSITY;
+                // }
+
+                // var shakeVector = new Vector3(
+                //     0,
+                //     // Random.insideUnitSphere.y,
+                //     ROOM_BUILD_SHAKE_INTENSITY,
+                //     0
+                // );
+
+                var shakeVector = Random.insideUnitSphere * ROOM_BUILD_SHAKE_INTENSITY;
+                var shakeAmount = shakeVector * shakeFalloff;
+
+                Camera.main.transform.localPosition += shakeAmount;
+                roomBuildShakeTimer += Time.deltaTime;
+            }
+            else
+            {
+                roomBuildShakeTimer = ROOM_BUILD_SHAKE_LENGTH_S;
             }
         }
 
@@ -129,6 +177,9 @@ namespace TowerBuilder
             }
         }
 
+        //
+        // Event handlers
+        //
         void OnInspectTargetUpdate()
         {
             var inspectTarget = worldController.toolsController.inspectTool.inspectTarget;
@@ -157,6 +208,17 @@ namespace TowerBuilder
             targetPosition = targetInspectPosition;
 
             inspectZoomTimer = 0;
+        }
+
+        void OnRoomBuilt()
+        {
+            roomBuildShakeTimer = 0f;
+        }
+
+        void OnRoomDestroyed()
+        {
+            // TODO - seperate destroy shake type
+            roomBuildShakeTimer = 0f;
         }
     }
 }
