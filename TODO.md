@@ -5,22 +5,22 @@
 ## next:
 
 - time
-- room validator: stairs must be fully on top of other rooms
-- room validator: only x of a room allowed per building
+- transportation items
+  - each should have 1+ 'entrance' and 'exit'
 - routing for residents
+- schedules for residents
 - More specific info in inspect view
 - IMPROVEMENT: inspect zoom
   - it should last longer, but slow down a lot towards the end
   - you should be able to use camera movement keys while the zoom out is happening
+- 'undeletable' rooms (starting entrance/exit)
 - center blueprint tile to cursor
   - I could refactor/reuse room.GetInspectTargetOrigin for this
-- stairs should be able to overlap on the bottom/top
-- refactor ToolsController to use InspectTool, BuildTool, and DestroyTool classes
-- stairs should have an 'entrance' and 'exit'
+- room validator: stairs must be fully on top of other rooms
+- room validator: only x of a room allowed per building
+- room validator: stairs should be able to overlap on the bottom/top but not both
 - BUG: seperate buildings don't appear to be getting created when they should
-- inspect panel should list residents/workers
-- inspect-able residents
-- schedules for residents
+- inspect panel should list residents/workers in inspected room
 - resident entry point (to be replaced at some point)
 - wallet/money
 - overlays
@@ -29,6 +29,8 @@
 
 # Done
 
+- inspect-able residents
+- refactor ToolsController to use InspectTool, BuildTool, and DestroyTool classes
 - camera shake when building/destroying a room
 - room validators
   - room must be touching another room (except entrance/exit)
