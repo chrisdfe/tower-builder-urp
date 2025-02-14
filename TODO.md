@@ -4,6 +4,7 @@
 
 ## next:
 
+- CLEANUP: roomTile should have 'coordinates' instead of just tranform.position
 - time
 - transportation items
   - each should have 1+ 'entrance' and 'exit'

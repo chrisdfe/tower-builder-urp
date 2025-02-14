@@ -235,7 +235,8 @@ namespace TowerBuilder
                 {
                     lowestX = roomTile.transform.position.x;
                 }
-                else if (roomTile.transform.position.x > highestX)
+
+                if (roomTile.transform.position.x > highestX)
                 {
                     highestX = roomTile.transform.position.x;
                 }
@@ -252,7 +253,8 @@ namespace TowerBuilder
                 {
                     lowestY = roomTile.transform.position.y;
                 }
-                else if (roomTile.transform.position.y > highestY)
+
+                if (roomTile.transform.position.y > highestY)
                 {
                     highestY = roomTile.transform.position.y;
                 }
