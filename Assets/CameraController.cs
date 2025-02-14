@@ -1,3 +1,4 @@
+using System.Collections;
 using TowerBuilder;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,26 +14,18 @@ namespace TowerBuilder
         [SerializeField]
         AnimationCurve roomBuildShakeFalloffAnimationCurve;
 
-        const float MOVEMENT_SPEED = 1.5f;
-        const float MOVEMENT_AMOUNT = 1.2f;
         const float INSPECT_ZOOM_AMOUNT = 2f;
-        const float INSPECT_ZOOM_LENGTH_S = 0.5f;
 
         // movement
-        Vector3 targetPosition;
-        float movementTimer = 0;
+        Coroutine movementCoroutine;
 
-        // inspect zoom1
-        float originalZoomLevel;
+        // inspect zoom
+        float defaultZoomLevel;
         float inspectZoomLevel;
-        float targetZoomLevel;
-        float startZoomLevel;
-        float inspectZoomTimer = INSPECT_ZOOM_LENGTH_S;
-        // The position to return to when inspect mode is exited
+
         // TODO - lock camera to a certain tile, and store that tile here
+        // The position to return to when inspect mode is exited
         Vector3 originalInspectPosition = Vector3.zero;
-        Vector3 startInspectPosition = Vector3.zero;
-        Vector3 targetInspectPosition;
         bool isInInspectMode = false;
 
         // This never changes
@@ -50,11 +43,6 @@ namespace TowerBuilder
         }
 
         // camera shake
-        const float ROOM_BUILD_SHAKE_LENGTH_S = 0.3f;
-        const float ROOM_BUILD_SHAKE_INTENSITY = 0.15f;
-        float roomBuildShakeTimer = ROOM_BUILD_SHAKE_LENGTH_S;
-        // float currentRoomShakeValue = ROOM_BUILD_SHAKE_INTENSITY;
-
         WorldController worldController;
 
         //
@@ -62,16 +50,9 @@ namespace TowerBuilder
         // 
         void Awake()
         {
-            originalInspectPosition = Camera.main.transform.position;
-            targetPosition = Camera.main.transform.position;
-            targetInspectPosition = Camera.main.transform.position;
-
-            originalZoomLevel = Camera.main.orthographicSize;
-            startZoomLevel = originalZoomLevel;
-            targetZoomLevel = originalZoomLevel;
-
+            defaultZoomLevel = Camera.main.orthographicSize;
             // decreasing orthographic size increases zoom level
-            inspectZoomLevel = originalZoomLevel - INSPECT_ZOOM_AMOUNT;
+            inspectZoomLevel = defaultZoomLevel - INSPECT_ZOOM_AMOUNT;
 
             worldController = WorldController.Get();
         }
@@ -85,52 +66,9 @@ namespace TowerBuilder
 
         void Update()
         {
-            // if (inspectZoomTimer < INSPECT)
-            if (inspectZoomTimer < INSPECT_ZOOM_LENGTH_S)
-            {
-                inspectZoomTimer += Time.deltaTime;
-                var normalizedProgress = inspectZoomTimer / INSPECT_ZOOM_LENGTH_S;
-                var inspectZoomProgress = inspectZoomAnimationCurve.Evaluate(normalizedProgress);
-
-                Camera.main.transform.position = Vector3.Lerp(startInspectPosition, targetInspectPosition, inspectZoomProgress);
-                Camera.main.orthographicSize = Mathf.Lerp(startZoomLevel, targetZoomLevel, inspectZoomProgress);
-            }
-            else
+            if (!isInInspectMode)
             {
                 HandleInput();
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, targetPosition, movementTimer);
-            }
-
-            if (roomBuildShakeTimer < ROOM_BUILD_SHAKE_LENGTH_S)
-            {
-                var normalizedProgress = roomBuildShakeTimer / ROOM_BUILD_SHAKE_LENGTH_S;
-                var shakeFalloff = roomBuildShakeFalloffAnimationCurve.Evaluate(normalizedProgress);
-
-                // if (currentRoomShakeValue == ROOM_BUILD_SHAKE_INTENSITY)
-                // {
-                //     currentRoomShakeValue = -ROOM_BUILD_SHAKE_INTENSITY;
-                // }
-                // else
-                // {
-                //     currentRoomShakeValue = ROOM_BUILD_SHAKE_INTENSITY;
-                // }
-
-                // var shakeVector = new Vector3(
-                //     0,
-                //     // Random.insideUnitSphere.y,
-                //     ROOM_BUILD_SHAKE_INTENSITY,
-                //     0
-                // );
-
-                var shakeVector = Random.insideUnitSphere * ROOM_BUILD_SHAKE_INTENSITY;
-                var shakeAmount = shakeVector * shakeFalloff;
-
-                Camera.main.transform.localPosition += shakeAmount;
-                roomBuildShakeTimer += Time.deltaTime;
-            }
-            else
-            {
-                roomBuildShakeTimer = ROOM_BUILD_SHAKE_LENGTH_S;
             }
         }
 
@@ -139,41 +77,144 @@ namespace TowerBuilder
             // User input is ignored in inspect mode, for now
             if (isInInspectMode) return;
 
-            bool shouldResetTimer = false;
-
             // Input
             if (Input.GetKeyDown(KeyCode.W))
             {
-                targetPosition += Vector3.up * MOVEMENT_AMOUNT;
-                shouldResetTimer = true;
+                MoveBy(Vector3.up);
             }
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                targetPosition += Vector3.left * MOVEMENT_AMOUNT;
-                shouldResetTimer = true;
+                MoveBy(Vector3.left);
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                targetPosition += Vector3.down * MOVEMENT_AMOUNT;
-                shouldResetTimer = true;
+                MoveBy(Vector3.down);
             }
 
             if (Input.GetKeyDown(KeyCode.D))
             {
-                targetPosition += Vector3.right * MOVEMENT_AMOUNT;
-                shouldResetTimer = true;
+                MoveBy(Vector3.right);
+            }
+        }
+
+        //
+        // Animations
+        //
+        // TODO - stop moveing when inspect mode starts
+        void MoveBy(Vector3 amount)
+        {
+            const float MOVEMENT_AMOUNT = 1.2f;
+            StartMovementTo(Camera.main.transform.position + (amount * MOVEMENT_AMOUNT));
+        }
+
+        Coroutine StartMovementTo(Vector3 targetPosition)
+        {
+            const float MOVEMENT_SPEED_S = 0.5f;
+
+            if (movementCoroutine != null)
+            {
+                StopCoroutine(movementCoroutine);
             }
 
-            // Movement
-            if (shouldResetTimer)
+            movementCoroutine = StartCoroutine(Run());
+            return movementCoroutine;
+
+            IEnumerator Run()
             {
-                movementTimer = 0;
+                var startPosition = Camera.main.transform.position;
+
+                //
+                var timer = 0f;
+                while (timer < MOVEMENT_SPEED_S)
+                {
+                    var normalizedProgress = timer / MOVEMENT_SPEED_S;
+                    Camera.main.transform.position = Vector3.Lerp(startPosition, targetPosition, normalizedProgress);
+
+                    timer += Time.deltaTime;
+                    yield return null;
+                }
             }
-            else
+        }
+
+        Coroutine StartInspectZoomTo(IInspectTarget inspectTarget)
+        {
+            const float INSPECT_ZOOM_LENGTH_S = 0.5f;
+
+            return StartCoroutine(Run());
+
+            IEnumerator Run()
             {
-                movementTimer += Time.deltaTime / MOVEMENT_SPEED;
+                var startZoomLevel = Camera.main.orthographicSize;
+                var startPosition = Camera.main.transform.position;
+
+                Vector3 targetPosition;
+                float targetZoomLevel;
+
+                if (inspectTarget == null)
+                {
+                    targetPosition = originalInspectPosition;
+                    targetZoomLevel = defaultZoomLevel;
+
+                    isInInspectMode = false;
+                }
+                else
+                {
+                    // Set position to return to when inspect mode ends
+                    originalInspectPosition = Camera.main.transform.position;
+
+                    var focalPoint = inspectTarget.GetInspectFocalPoint();
+                    targetPosition = new Vector3(focalPoint.x, focalPoint.y, cameraZ);
+                    targetZoomLevel = inspectZoomLevel;
+
+                    isInInspectMode = true;
+                }
+
+                var timer = 0f;
+                while (timer < INSPECT_ZOOM_LENGTH_S)
+                {
+                    var normalizedProgress = timer / INSPECT_ZOOM_LENGTH_S;
+                    var inspectZoomProgress = inspectZoomAnimationCurve.Evaluate(normalizedProgress);
+
+                    Camera.main.transform.position = Vector3.Lerp(startPosition, targetPosition, inspectZoomProgress);
+                    Camera.main.orthographicSize = Mathf.Lerp(startZoomLevel, targetZoomLevel, inspectZoomProgress);
+
+                    timer += Time.deltaTime;
+
+                    yield return null;
+                }
+            }
+        }
+
+        // TODO - this could be a bit smoother
+        Coroutine StartRoomShake()
+        {
+            const float ROOM_BUILD_SHAKE_LENGTH_S = 0.3f;
+            const float ROOM_BUILD_SHAKE_INTENSITY = 0.1f;
+
+            return StartCoroutine(Run());
+
+            IEnumerator Run()
+            {
+                var timer = 0f;
+                var originalPosition = Camera.main.transform.localPosition;
+
+                while (timer < ROOM_BUILD_SHAKE_LENGTH_S)
+                {
+                    var normalizedProgress = timer / ROOM_BUILD_SHAKE_LENGTH_S;
+                    var shakeFalloff = roomBuildShakeFalloffAnimationCurve.Evaluate(normalizedProgress);
+                    var shakeVector = Random.insideUnitSphere * ROOM_BUILD_SHAKE_INTENSITY;
+                    var shakeAmount = shakeVector * shakeFalloff;
+
+                    Camera.main.transform.localPosition += shakeAmount;
+
+                    timer += Time.deltaTime;
+
+                    yield return null;
+                }
+
+                Camera.main.transform.localPosition = originalPosition;
             }
         }
 
@@ -183,42 +224,17 @@ namespace TowerBuilder
         void OnInspectTargetUpdate()
         {
             var inspectTarget = worldController.toolsController.inspectTool.inspectTarget;
-
-            startZoomLevel = Camera.main.orthographicSize;
-            startInspectPosition = Camera.main.transform.position;
-            originalInspectPosition = Camera.main.transform.position;
-
-            if (inspectTarget == null)
-            {
-                targetInspectPosition = originalInspectPosition;
-                targetZoomLevel = originalZoomLevel;
-
-                isInInspectMode = false;
-            }
-            else
-            {
-                originalInspectPosition = Camera.main.transform.position;
-                var focalPoint = inspectTarget.GetInspectFocalPoint();
-                targetInspectPosition = new Vector3(focalPoint.x, focalPoint.y, cameraZ);
-                targetZoomLevel = inspectZoomLevel;
-
-                isInInspectMode = true;
-            }
-
-            targetPosition = targetInspectPosition;
-
-            inspectZoomTimer = 0;
+            StartInspectZoomTo(inspectTarget);
         }
 
         void OnRoomBuilt()
         {
-            roomBuildShakeTimer = 0f;
+            StartRoomShake();
         }
 
         void OnRoomDestroyed()
         {
-            // TODO - seperate destroy shake type
-            roomBuildShakeTimer = 0f;
+            StartRoomShake();
         }
     }
 }
