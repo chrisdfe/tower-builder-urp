@@ -105,7 +105,7 @@ namespace TowerBuilder
         // TODO - stop moveing when inspect mode starts
         void MoveBy(Vector3 amount)
         {
-            const float MOVEMENT_AMOUNT = 1.2f;
+            const float MOVEMENT_AMOUNT = 1f;
             StartMovementTo(Camera.main.transform.position + (amount * MOVEMENT_AMOUNT));
         }
 

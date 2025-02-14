@@ -77,6 +77,8 @@ namespace TowerBuilder
 
         public void SetInspectTarget(IInspectTarget inspectTarget)
         {
+            if (this.inspectTarget == inspectTarget) return;
+
             // teardown current inspect target
             if (this.inspectTarget != null)
             {

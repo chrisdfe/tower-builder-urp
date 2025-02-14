@@ -4,6 +4,7 @@
 
 ## next:
 
+- BUG: the UI scales weirdly when I resize the window
 - CLEANUP: roomTile should have 'coordinates' instead of just tranform.position
 - time
 - transportation items
