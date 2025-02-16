@@ -837,7 +837,7 @@ GameObject:
   m_Component:
   - component: {fileID: 358429628}
   m_Layer: 0
-  m_Name: ResidentsContainer
+  m_Name: OccupantsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1161,8 +1161,7 @@ MonoBehaviour:
     type: 3}
   roomPrefab: {fileID: 4681847931022313429, guid: 91ffe9a927425c64799f7988fd5ed7b0,
     type: 3}
-  residentPrefab: {fileID: 3962829658512368055, guid: de025426500b69c4c9e57d310daa8b70,
-    type: 3}
+  occupantPrefab: {fileID: 0}
   blueprintValidRoomTileMaterial: {fileID: 2100000, guid: 872019b9d5053fc47b0826328bb90965,
     type: 2}
   blueprintInvalidRoomTileMaterial: {fileID: 2100000, guid: 032611c0056339243a58c03c23db26a2,
