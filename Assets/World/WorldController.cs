@@ -13,7 +13,7 @@ public class WorldController : MonoBehaviour
     public GameObject roomTilePlaceholderPrefab;
     public GameObject buildingPrefab;
     public GameObject roomPrefab;
-    public GameObject residentPrefab;
+    public GameObject occupantPrefab;
 
     public Material blueprintValidRoomTileMaterial;
     public Material blueprintInvalidRoomTileMaterial;

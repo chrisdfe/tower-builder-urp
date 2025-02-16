@@ -13,11 +13,11 @@ namespace TowerBuilder
 
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.zero };
 
-        // Residents that live in this room
-        public List<Resident> residents { get; private set; } = new List<Resident>();
+        // Occupants that live in this room
+        public List<Occupant> occupants { get; private set; } = new List<Occupant>();
 
-        // Residents that work in this room
-        public List<Resident> workers { get; private set; } = new List<Resident>();
+        // Occupants that work in this room
+        public List<Occupant> workers { get; private set; } = new List<Occupant>();
 
         // TODO - should be a list of validation errors
         public bool isValid { get; private set; } = true;

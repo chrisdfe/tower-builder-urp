@@ -11,7 +11,7 @@ namespace TowerBuilder
         WorldController worldController;
 
         Transform buildingsContainer;
-        Transform residentsContainer;
+        Transform occupantsContainer;
 
         public delegate void BuildingEvent();
         public BuildingEvent onRoomBuilt;
@@ -22,7 +22,7 @@ namespace TowerBuilder
             this.worldController = worldController;
 
             buildingsContainer = GameObject.Find("BuildingsContainer").transform;
-            residentsContainer = GameObject.Find("ResidentsContainer").transform;
+            occupantsContainer = GameObject.Find("OccupantsContainer").transform;
         }
 
         //
@@ -37,13 +37,13 @@ namespace TowerBuilder
         }
 
         // TODO - cache this number
-        public int ResidentsCount()
+        public int OccupantsCount()
         {
             var result = 0;
 
             foreach (var building in buildings)
             {
-                result += building.ResidentsCount();
+                result += building.OccupantsCount();
             }
 
             return result;
@@ -262,51 +262,51 @@ namespace TowerBuilder
             return building;
         }
 
-        Resident CreateResident()
+        Occupant CreateOccupant()
         {
-            var residentPrefab = worldController.residentPrefab;
-            var residentGameObject = GameObject.Instantiate(residentPrefab, residentsContainer);
-            var resident = residentGameObject.GetComponent<Resident>();
-            return resident;
+            var occupantPrefab = worldController.occupantPrefab;
+            var occupantGameObject = GameObject.Instantiate(occupantPrefab, occupantsContainer);
+            var occupant = occupantGameObject.GetComponent<Occupant>();
+            return occupant;
         }
 
         void HandleBuildingRoomVacancies(Building building)
         {
-            // TODO - re-use the same residents for residences/offices
-            // create residents for rooms that have residence slots available
+            // TODO - re-use the same occupants for residences/offices
+            // create occupants for rooms that have residence slots available
             var availableResidenceRooms = building.GetRoomsWithAvailableResidenceSlots();
 
             foreach (var room in availableResidenceRooms)
             {
-                var subTileOffset = room.residents.Count;
+                var subTileOffset = room.occupants.Count;
 
-                var resident = CreateResident();
+                var occupant = CreateOccupant();
 
                 // TODO - this will update the position twice. not a huge deal
-                resident.SetTile(room.tiles[0]);
-                resident.SetSubTileOffset(subTileOffset * 0.3f);
-                room.residents.Add(resident);
-                resident.residence = room;
-                resident.title = $"{building.title} Resident {building.ResidentsCount()}";
-                resident.gameObject.name = resident.title;
+                occupant.SetTile(room.tiles[0]);
+                occupant.SetSubTileOffset(subTileOffset * 0.3f);
+                room.occupants.Add(occupant);
+                occupant.residence = room;
+                occupant.title = $"{building.title} Occupant {building.OccupantsCount()}";
+                occupant.gameObject.name = occupant.title;
 
-                worldController.notifications.Add(new Notification(resident.title + " has moved into " + room.title));
+                worldController.notifications.Add(new Notification(occupant.title + " has moved into " + room.title));
             }
 
-            // give residents jobs if they are unemployed and there is work available
-            var unemployedResidents = building.GetUnemployedResidents();
+            // give occupants jobs if they are unemployed and there is work available
+            var unemployedOccupants = building.GetUnemployedOccupants();
 
-            if (unemployedResidents.Count > 0)
+            if (unemployedOccupants.Count > 0)
             {
                 var availableWorkerRooms = building.GetRoomsWithAvailableWorkerSlots();
 
                 foreach (var room in availableWorkerRooms)
                 {
-                    foreach (var resident in unemployedResidents)
+                    foreach (var occupant in unemployedOccupants)
                     {
-                        resident.office = room;
-                        room.workers.Add(resident);
-                        worldController.notifications.Add(new Notification(resident.title + " has been assigned work at " + room.title));
+                        occupant.office = room;
+                        room.workers.Add(occupant);
+                        worldController.notifications.Add(new Notification(occupant.title + " has been assigned work at " + room.title));
                     }
                 }
             }

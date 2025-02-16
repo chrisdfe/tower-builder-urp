@@ -116,11 +116,11 @@ namespace TowerBuilder
                 // TODO - see if I can clean any of this up now that ITool exists
                 switch (tag)
                 {
-                    case "Resident":
+                    case "Occupant":
                         {
-                            var resident = hit.transform.GetComponent<Resident>();
+                            var occupant = hit.transform.GetComponent<Occupant>();
 
-                            SetHoveredInspectTarget(resident);
+                            SetHoveredInspectTarget(occupant);
 
                             break;
                         }

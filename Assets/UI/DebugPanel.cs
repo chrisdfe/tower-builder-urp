@@ -17,7 +17,7 @@ public class DebugPanel : MonoBehaviour
     // so it's this for now
     TextMeshProUGUI paddingText1;
     TextMeshProUGUI paddingText2;
-    TextMeshProUGUI residentsText;
+    TextMeshProUGUI occupantsText;
     TextMeshProUGUI workersText;
 
     WorldController worldController;
@@ -35,7 +35,7 @@ public class DebugPanel : MonoBehaviour
         paddingText1.text = "";
         paddingText2 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         paddingText2.text = "";
-        residentsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        occupantsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
         workersText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
 
         worldController = WorldController.Get();
@@ -64,9 +64,9 @@ public class DebugPanel : MonoBehaviour
         var inspectTarget = worldController.toolsController.inspectTool.inspectTarget;
         if (inspectTarget != null)
         {
-            if (inspectTarget is Resident)
+            if (inspectTarget is Occupant)
             {
-                inspectTargetText.text = "Inspected resident: " + (inspectTarget as Resident).title;
+                inspectTargetText.text = "Inspected occupant: " + (inspectTarget as Occupant).title;
             }
             else if (inspectTarget is Room)
             {
@@ -78,7 +78,7 @@ public class DebugPanel : MonoBehaviour
             inspectTargetText.text = "\n\n";
         }
 
-        residentsText.text = "Total residents: " + worldController.buildingsController.ResidentsCount();
+        occupantsText.text = "Total occupants: " + worldController.buildingsController.OccupantsCount();
         workersText.text = "Total wokers: " + worldController.buildingsController.WorkerCount();
     }
 }

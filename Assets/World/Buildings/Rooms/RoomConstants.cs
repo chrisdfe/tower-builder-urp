@@ -17,7 +17,7 @@ namespace TowerBuilder
         // Colors
         public static Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
             { RoomType.CommonArea, Color.gray },
-            { RoomType.Residential, Color.green },
+            { RoomType.Occupantial, Color.green },
             { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) },
             { RoomType.Office, Color.magenta }
         };
@@ -61,8 +61,8 @@ namespace TowerBuilder
                     new(3, 0),
                     new(4, 0),
                 },
-                type = RoomType.Residential,
-                residentialCapacity = 12,
+                type = RoomType.Occupantial,
+                occupantialCapacity = 12,
             },
 
             new RoomDefinition() {
@@ -74,8 +74,8 @@ namespace TowerBuilder
                     new(0, 1),
                     new(1, 1),
                 },
-                type = RoomType.Residential,
-                residentialCapacity = 3,
+                type = RoomType.Occupantial,
+                occupantialCapacity = 3,
             },
 
             new RoomDefinition() {

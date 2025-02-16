@@ -2,23 +2,24 @@
 
 ## currently:
 
+- [ ] routing for occupants
+- [ ] ability to tell a occupant to go here or there
+- [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 3-5 subtiles per tile
+  - [ ] once no more subtiles are free, room is "full"
+  - [ ] the more occupant per tile the more 'cramped' (ultimately)
+
 ## next:
 
-- [ ] divide tiles up into 'subtiles' for residents to stand on. maybe 3-5 subtiles per tile
-  - [ ] the more residents per tile the more 'cramped' (ultimately)
+- [ ] "Modify" tool, to change windows etc of rooms
+- [ ] rooms that aren't resizable but don't build a wall between itself and another room of its typek
+  - [ ] eg entrance/exit, lobby, stairs
 - [ ] Resizable rooms
   - [ ] It can just be rooms merge when rooms of the same type are placed next to each other for now
 - [ ] destroy rooms on a per-block basis
-- [ ] rooms that aren't resizable but don't build a wall between itself and another room of its type
-  - [ ] eg entrance/exit, lobby, stairs
-- [ ] "Modify" tool, to change windows etc of rooms
 - [ ] BUG: the UI scales weirdly when I resize the window
-- [ ] CLEANUP: roomTile should have 'coordinates' instead of just tranform.position
-- [ ] Rename "Resident" to "Villager" or "Occupant" or something
 - [ ] time
 - [ ] transportation items
   - [ ] each should have 1+ 'entrance' and 'exit'
-- [ ] routing for residents
 - [ ] schedules for residents
 - [ ] More specific info in inspect view
 - [ ] 'undeletable' rooms (starting entrance/exit)
@@ -55,6 +56,8 @@
 
 # Done
 
+- [x] Rename "Resident" to "Villager" or "Occupant" or something
+- [x] CLEANUP: roomTile should have 'coordinates' instead of just tranform.position
 - [x] make stairs on the same level as others for now
 - [x] Inpect tool should be the default
 - [x] basic room tile meshes that render walls/ceiling/floors in the correct place for what position they are in the room

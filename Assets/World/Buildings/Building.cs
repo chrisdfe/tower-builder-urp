@@ -36,10 +36,10 @@ namespace TowerBuilder
         {
             rooms.Remove(room);
 
-            // Delete all residents for now
-            foreach (var resident in room.residents)
+            // Delete all occupants for now
+            foreach (var occupant in room.occupants)
             {
-                Destroy(resident.gameObject);
+                Destroy(occupant.gameObject);
             }
 
             // Don't delete workers, just unassign their place of work
@@ -97,13 +97,13 @@ namespace TowerBuilder
         }
 
         // TODO - cache this number
-        public int ResidentsCount()
+        public int OccupantsCount()
         {
             var result = 0;
 
             foreach (var room in rooms)
             {
-                result += room.residents.Count;
+                result += room.occupants.Count;
             }
 
             return result;
@@ -129,7 +129,7 @@ namespace TowerBuilder
             //
             foreach (var room in rooms)
             {
-                if (room.residents.Count < room.definition.residentialCapacity)
+                if (room.occupants.Count < room.definition.occupantialCapacity)
                 {
                     result.Add(room);
                 }
@@ -138,17 +138,17 @@ namespace TowerBuilder
             return result;
         }
 
-        public List<Resident> GetUnemployedResidents()
+        public List<Occupant> GetUnemployedOccupants()
         {
-            var result = new List<Resident>();
+            var result = new List<Occupant>();
 
             foreach (var room in rooms)
             {
-                foreach (var resident in room.residents)
+                foreach (var occupant in room.occupants)
                 {
-                    if (resident.office == null)
+                    if (occupant.office == null)
                     {
-                        result.Add(resident);
+                        result.Add(occupant);
                     }
                 }
             }

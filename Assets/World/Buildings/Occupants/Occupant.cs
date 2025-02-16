@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class Resident : MonoBehaviour, IInspectTarget
+    public class Occupant : MonoBehaviour, IInspectTarget
     {
-        public static float RESIDENT_Z_OFFSET = 0.1f;
+        public static float OCCUPANT_Z_OFFSET = 0.1f;
 
-        public string title { get; set; } = "Resident";
+        public string title { get; set; } = "Occupant";
         public Tile tile { get; private set; }
         public Room office { get; set; }
         public Room residence { get; set; }
@@ -80,7 +80,7 @@ namespace TowerBuilder
             transform.position = new Vector3(
                 tilePosition.x + subTileOffset,
                 tilePosition.y,
-                -RESIDENT_Z_OFFSET
+                -OCCUPANT_Z_OFFSET
             );
         }
 
