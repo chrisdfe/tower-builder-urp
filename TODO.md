@@ -2,6 +2,12 @@
 
 ## currently:
 
+- [ ] add ability to change windows etc of rooms to inspect tool
+- [ ] rooms that aren't resizable but don't build a wall between itself and another room of its type
+
+  - [ ] Room 'groups'
+  - [ ] eg entrance/exit, lobby, stairs
+
 - [ ] routing for occupants
 - [ ] ability to tell a occupant to go here or there
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 3-5 subtiles per tile
@@ -10,9 +16,6 @@
 
 ## next:
 
-- [ ] "Modify" tool, to change windows etc of rooms
-- [ ] rooms that aren't resizable but don't build a wall between itself and another room of its typek
-  - [ ] eg entrance/exit, lobby, stairs
 - [ ] Resizable rooms
   - [ ] It can just be rooms merge when rooms of the same type are placed next to each other for now
 - [ ] destroy rooms on a per-block basis
