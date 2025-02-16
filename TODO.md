@@ -4,10 +4,11 @@
 
 ## next:
 
+- [ ] divide tiles up into 'subtiles' for residents to stand on. maybe 3-5 subtiles per tile
+  - [ ] the more residents per tile the more 'cramped' (ultimately)
 - [ ] Resizable rooms
   - [ ] It can just be rooms merge when rooms of the same type are placed next to each other for now
 - [ ] destroy rooms on a per-block basis
-- [ ] make stairs on the same level as others for now
 - [ ] rooms that aren't resizable but don't build a wall between itself and another room of its type
   - [ ] eg entrance/exit, lobby, stairs
 - [ ] "Modify" tool, to change windows etc of rooms
@@ -23,7 +24,8 @@
 - [ ] 'undeletable' rooms (starting entrance/exit)
 - [ ] center blueprint tile to cursor
   - [ ] I could refactor/reuse room.GetInspectTargetOrigin for this
-- [ ] tooltip for resident name etc
+- [ ] tooltip
+  - [ ] tooltip for resident name etc
 - [ ] cleanup: think about just calling cameraController._ or tooltipController._ directly instead of using delegates
 - [ ] sfx/music system (controller)
 - [ ] room validator: stairs must be fully on top of other rooms
@@ -36,7 +38,6 @@
 - [ ] overlays
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
 - [ ] building exterior - like a 3rd of a tile of extra stuff on the outside
-- [ ] tooltip
 - [ ] camera improvement: camera zoom with scroll wheel
 - [ ] camera imrovement: hold middle mouse down to move around
 - [ ] camera improvement: should have a 'current tile' that it snaps to
@@ -54,6 +55,8 @@
 
 # Done
 
+- [x] make stairs on the same level as others for now
+- [x] Inpect tool should be the default
 - [x] basic room tile meshes that render walls/ceiling/floors in the correct place for what position they are in the room
 - [x] inspect-able residents
 - [x] refactor ToolsController to use InspectTool, BuildTool, and DestroyTool classes

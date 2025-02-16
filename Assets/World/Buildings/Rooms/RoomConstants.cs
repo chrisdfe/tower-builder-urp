@@ -49,7 +49,6 @@ namespace TowerBuilder
                 type = RoomType.CommonArea,
 
                 // TODO - only one allowed per building
-                buildValidators = new(RoomBuildValidators.standardBuildValidators),
             },
 
             new RoomDefinition() {
@@ -95,7 +94,7 @@ namespace TowerBuilder
             new RoomDefinition() {
                 //
                 title = "Stairs",
-                layer = RoomLayer.TransportationItem,
+                // layer = RoomLayer.TransportationItem,
                 shape = new List<Tile>() {
                     new(0, 0),
                     new(1, 0),
@@ -105,7 +104,7 @@ namespace TowerBuilder
                 type = RoomType.TransportationItem,
 
                 // TODO - stairs validators
-                buildValidators = new()
+                // buildValidators = new()
             },
         };
     }

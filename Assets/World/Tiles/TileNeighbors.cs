@@ -69,9 +69,7 @@ namespace TowerBuilder
         //
         public TilePosition GetOrthogonalTilePosition()
         {
-            Debug.Log("GetOrthogonalTilePosition");
             var tileOrientation = NeighborListToTileOrientation(GetOccupiedOrthogonalList());
-            Debug.Log("tileOrientation: " + tileOrientation);
 
             return tileOrientation switch
             {

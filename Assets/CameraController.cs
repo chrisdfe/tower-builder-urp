@@ -14,7 +14,7 @@ namespace TowerBuilder
         [SerializeField]
         AnimationCurve roomBuildShakeFalloffAnimationCurve;
 
-        const float INSPECT_ZOOM_AMOUNT = 2f;
+        const float INSPECT_ZOOM_AMOUNT = 5f;
 
         // movement
         Coroutine movementCoroutine;
@@ -111,7 +111,7 @@ namespace TowerBuilder
 
         Coroutine StartMovementTo(Vector3 targetPosition)
         {
-            const float MOVEMENT_SPEED_S = 0.5f;
+            const float MOVEMENT_SPEED_S = 0.2f;
 
             if (movementCoroutine != null)
             {
@@ -191,7 +191,7 @@ namespace TowerBuilder
         Coroutine StartRoomShake()
         {
             const float ROOM_BUILD_SHAKE_LENGTH_S = 0.3f;
-            const float ROOM_BUILD_SHAKE_INTENSITY = 0.1f;
+            const float ROOM_BUILD_SHAKE_INTENSITY = 0.05f;
 
             return StartCoroutine(Run());
 

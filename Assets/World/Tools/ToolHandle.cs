@@ -3,7 +3,7 @@ namespace TowerBuilder
 {
     public enum ToolHandle
     {
-        None,
+        // None,
         Inspect,
         Build,
         Destroy,

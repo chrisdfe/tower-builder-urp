@@ -109,10 +109,9 @@ public class WorldController : MonoBehaviour
             {
                 toolsController.inspectTool.SetInspectTarget(null);
             }
-            else
+            else if (toolsController.toolHandle.current != ToolHandle.Inspect)
             {
-
-                toolsController.SetTool(ToolHandle.None);
+                toolsController.SetTool(ToolHandle.Inspect);
             }
         }
     }
