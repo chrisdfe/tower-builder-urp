@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -10,7 +11,7 @@ namespace TowerBuilder
         public RoomDefinition definition;
         public string title { get; set; } = "Room";
 
-        public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.Zero() };
+        public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.zero };
 
         // Residents that live in this room
         public List<Resident> residents { get; private set; } = new List<Resident>();
@@ -59,6 +60,7 @@ namespace TowerBuilder
                 var roomTileGameObject = Instantiate(roomTilePrefab, tile.ToWorldPosition(), Quaternion.identity, transform);
                 var roomTile = roomTileGameObject.GetComponent<RoomTile>();
                 roomTile.room = this;
+                roomTile.SetTile(tile);
                 roomTiles.Add(roomTile);
             }
         }
@@ -76,6 +78,14 @@ namespace TowerBuilder
                 var roomTile = roomTiles[i];
                 // 
                 roomTile.transform.position = tile.ToWorldPosition();
+            }
+        }
+
+        public void CalculateTileNeighbors()
+        {
+            foreach (var tile in tiles)
+            {
+                tile.SetNeighborsAndPositionFromFullTileList(tiles);
             }
         }
 

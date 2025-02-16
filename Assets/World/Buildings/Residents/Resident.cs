@@ -76,6 +76,7 @@ namespace TowerBuilder
         void UpdatePosition()
         {
             var tilePosition = tile.ToWorldPosition();
+
             transform.position = new Vector3(
                 tilePosition.x + subTileOffset,
                 tilePosition.y,

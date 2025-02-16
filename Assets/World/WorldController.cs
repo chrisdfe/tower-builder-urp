@@ -19,7 +19,7 @@ public class WorldController : MonoBehaviour
     public Material blueprintInvalidRoomTileMaterial;
 
     // State
-    public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.Zero(), Tile.Matches);
+    public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.zero, Tile.Matches);
 
     public ToolsController toolsController { get; private set; }
     public BuildingsController buildingsController { get; private set; }
@@ -54,7 +54,7 @@ public class WorldController : MonoBehaviour
     {
         // this won't ultimately be here - just for debug reasons
         var entranceExitRoomDefinition = RoomConstants.ALL_DEFINITIONS.ToList().Find(definition => definition.title == "Entrance/Exit");
-        buildingsController.AddRoomAtTile(entranceExitRoomDefinition, Tile.Zero());
+        buildingsController.AddRoomAtTile(entranceExitRoomDefinition, Tile.zero);
     }
 
     void Update()
