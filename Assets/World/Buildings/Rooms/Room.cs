@@ -61,6 +61,7 @@ namespace TowerBuilder
                 var roomTile = roomTileGameObject.GetComponent<RoomTile>();
                 roomTile.room = this;
                 roomTile.SetTile(tile);
+                roomTile.CalculateSegmentsFromTileList(tiles);
                 roomTiles.Add(roomTile);
             }
         }
@@ -76,16 +77,9 @@ namespace TowerBuilder
             {
                 var tile = tiles[i];
                 var roomTile = roomTiles[i];
-                // 
-                roomTile.transform.position = tile.ToWorldPosition();
-            }
-        }
 
-        public void CalculateTileNeighbors()
-        {
-            foreach (var tile in tiles)
-            {
-                tile.SetNeighborsAndPositionFromFullTileList(tiles);
+                // TODO - something about this function seems incomplete
+                roomTile.transform.position = tile.ToWorldPosition();
             }
         }
 

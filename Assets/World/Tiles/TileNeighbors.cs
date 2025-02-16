@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace TowerBuilder
 {
@@ -26,14 +27,14 @@ namespace TowerBuilder
         public TileNeighbors(Tile tile, List<Tile> tileList)
         {
             occupiedMap = new Dictionary<TileOrientation, bool>() {
-                { TileOrientation.Above,      tileList.Contains(tile.GetCoordinatesAbove()) },
-                { TileOrientation.AboveRight, tileList.Contains(tile.GetCoordinatesAboveRight()) },
-                { TileOrientation.Right,      tileList.Contains(tile.GetCoordinatesRight()) },
-                { TileOrientation.BelowRight, tileList.Contains(tile.GetCoordinatesBelowRight()) },
-                { TileOrientation.Below,      tileList.Contains(tile.GetCoordinatesBelow()) },
-                { TileOrientation.BelowLeft,  tileList.Contains(tile.GetCoordinatesBelowLeft()) },
-                { TileOrientation.Left,       tileList.Contains(tile.GetCoordinatesLeft()) },
-                { TileOrientation.AboveLeft,  tileList.Contains(tile.GetCoordinatesAboveLeft()) },
+                { TileOrientation.Above,      Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesAbove()) },
+                { TileOrientation.AboveRight, Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesAboveRight()) },
+                { TileOrientation.Right,      Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesRight()) },
+                { TileOrientation.BelowRight, Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesBelowRight()) },
+                { TileOrientation.Below,      Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesBelow()) },
+                { TileOrientation.BelowLeft,  Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesBelowLeft()) },
+                { TileOrientation.Left,       Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesLeft()) },
+                { TileOrientation.AboveLeft,  Tile.ListContainsTileThatMatches(tileList, tile.GetCoordinatesAboveLeft()) },
             };
         }
 
@@ -68,7 +69,9 @@ namespace TowerBuilder
         //
         public TilePosition GetOrthogonalTilePosition()
         {
+            Debug.Log("GetOrthogonalTilePosition");
             var tileOrientation = NeighborListToTileOrientation(GetOccupiedOrthogonalList());
+            Debug.Log("tileOrientation: " + tileOrientation);
 
             return tileOrientation switch
             {

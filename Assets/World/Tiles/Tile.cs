@@ -7,6 +7,17 @@ namespace TowerBuilder
 {
     public class Tile
     {
+        // Map of tilePosition enum -> fbx node names
+        public static Dictionary<TileType, string> TypeLabelMap =
+            new() {
+                { TileType.None,       "None" },
+                { TileType.Single,     "Single" },
+                { TileType.Horizontal, "Horizontal" },
+                { TileType.Vertical,   "Vertical" },
+                { TileType.Diagonal,   "Diagonal" },
+                { TileType.Full,       "Full" },
+            };
+
         public int x = 0;
         public int y = 0;
 
@@ -32,7 +43,7 @@ namespace TowerBuilder
         //
         // public interface
         //
-        public void SetNeighborsAndPositionFromFullTileList(List<Tile> tiles)
+        public void CalculatePositionFromTileList(List<Tile> tiles)
         {
             var neighbors = new TileNeighbors(this, tiles);
             orthogonalPosition = neighbors.GetOrthogonalTilePosition();
@@ -116,15 +127,7 @@ namespace TowerBuilder
         public static Tile zero => new Tile(0, 0);
         public static Tile one => new Tile(1, 1);
 
-        // Map of tilePosition enum -> fbx node names
-        public static Dictionary<TileType, string> TypeLabelMap =
-            new() {
-                { TileType.None,       "None" },
-                { TileType.Single,     "Single" },
-                { TileType.Horizontal, "Horizontal" },
-                { TileType.Vertical,   "Vertical" },
-                { TileType.Diagonal,   "Diagonal" },
-                { TileType.Full,       "Full" },
-            };
+        // TODO - this doesn't exactly seem the right place for this
+        public static bool ListContainsTileThatMatches(List<Tile> tileList, Tile tile) => tileList.Find(otherTile => otherTile.Matches(tile)) != null;
     }
 }

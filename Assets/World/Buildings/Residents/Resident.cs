@@ -6,7 +6,7 @@ namespace TowerBuilder
 {
     public class Resident : MonoBehaviour, IInspectTarget
     {
-        public static float RESIDENT_Z_OFFSET = 2f;
+        public static float RESIDENT_Z_OFFSET = 0.1f;
 
         public string title { get; set; } = "Resident";
         public Tile tile { get; private set; }

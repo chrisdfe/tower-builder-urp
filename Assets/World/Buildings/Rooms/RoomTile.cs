@@ -264,6 +264,17 @@ public class RoomTile : MonoBehaviour
     public void SetTile(Tile tile)
     {
         this.tile = tile;
+    }
+
+    public void CalculateSegmentsFromTileList(List<Tile> roomTiles)
+    {
+        Debug.Log("calculating position");
+        tile.CalculatePositionFromTileList(roomTiles);
+        if (roomTiles.Count > 1)
+        {
+            Debug.Log("In a room larger than 1 tile.");
+            Debug.Log("tile.position: " + tile.orthogonalPosition);
+        }
         ToggleSegmentsForTilePosition();
     }
 

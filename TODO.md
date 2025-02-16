@@ -2,13 +2,18 @@
 
 ## currently:
 
-- [ ] basic room tile meshes that render walls/ceiling/floors in the correct place for what position they are in the room
-
 ## next:
 
-- [ ] "Modify" tool
+- [ ] Resizable rooms
+  - [ ] It can just be rooms merge when rooms of the same type are placed next to each other for now
+- [ ] destroy rooms on a per-block basis
+- [ ] make stairs on the same level as others for now
+- [ ] rooms that aren't resizable but don't build a wall between itself and another room of its type
+  - [ ] eg entrance/exit, lobby, stairs
+- [ ] "Modify" tool, to change windows etc of rooms
 - [ ] BUG: the UI scales weirdly when I resize the window
 - [ ] CLEANUP: roomTile should have 'coordinates' instead of just tranform.position
+- [ ] Rename "Resident" to "Villager" or "Occupant" or something
 - [ ] time
 - [ ] transportation items
   - [ ] each should have 1+ 'entrance' and 'exit'
@@ -49,6 +54,7 @@
 
 # Done
 
+- [x] basic room tile meshes that render walls/ceiling/floors in the correct place for what position they are in the room
 - [x] inspect-able residents
 - [x] refactor ToolsController to use InspectTool, BuildTool, and DestroyTool classes
 - [x] camera shake when building/destroying a room
