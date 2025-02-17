@@ -2,9 +2,10 @@
 
 ## currently:
 
-- [ ] rooms that aren't resizable but don't build a wall between itself and another room of its type
+- [x] rooms that aren't resizable but don't build a wall between itself and another room of its type
 
-  - [ ] Room 'groups'
+  - [x] Room 'groups'
+  - [ ] BUG: only the first roomGroup is counted
   - [ ] eg entrance/exit, lobby, stairs
 
 - [ ] routing for occupants

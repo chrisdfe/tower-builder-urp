@@ -72,7 +72,6 @@ namespace TowerBuilder
                             return tileList;
                         });
 
-
                         foreach (var roomInGroup in roomGroup)
                         {
                             //
