@@ -6,10 +6,12 @@ public class DebugPanel : MonoBehaviour
 {
     public GameObject bodyTextPrefab;
 
+    TextMeshProUGUI allText;
     TextMeshProUGUI tickText;
     TextMeshProUGUI hoveredTileText;
     TextMeshProUGUI buildingsText;
     TextMeshProUGUI roomsText;
+    TextMeshProUGUI roomGroupsText;
     TextMeshProUGUI selectedToolText;
     TextMeshProUGUI blueprintDefinitionText;
     TextMeshProUGUI inspectTargetText;
@@ -24,61 +26,72 @@ public class DebugPanel : MonoBehaviour
 
     void Awake()
     {
-        tickText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        hoveredTileText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        buildingsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        blueprintDefinitionText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        inspectTargetText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        paddingText1 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        paddingText1.text = "";
-        paddingText2 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        paddingText2.text = "";
-        occupantsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        workersText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        allText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // tickText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // hoveredTileText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // buildingsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // roomGroupsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // occupantsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // workersText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
 
+        // blueprintDefinitionText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // inspectTargetText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // paddingText1 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // paddingText1.text = "";
+        // paddingText2 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
+        // paddingText2.text = "";
         worldController = WorldController.Get();
     }
 
     // Update is called once per frame
     void Update()
     {
-        tickText.text = "Tick: " + worldController.timeController.tick.current;
-        hoveredTileText.text = $"Hovered tile: ({worldController.hoveredTile.current.x},{worldController.hoveredTile.current.y})";
-        buildingsText.text = "Buildings: " + worldController.buildingsController.buildings.Count;
-        roomsText.text = "Total rooms: " + worldController.buildingsController.RoomsCount();
-        selectedToolText.text = "Selected tool: " + worldController.toolsController.toolHandle.current;
+        allText.text = "";
+        allText.text += "Tick: " + worldController.timeController.tick.current;
+        allText.text += $"\nHovered tile: ({worldController.hoveredTile.current.x},{worldController.hoveredTile.current.y})";
+        allText.text += "\nBuildings: " + worldController.buildingsController.buildings.Count;
+        allText.text += "\nTotal rooms: " + worldController.buildingsController.RoomsCount();
+        allText.text += "\nTotal room groups: " + worldController.buildingsController.RoomGroupCount();
+        allText.text += "\nSelected tool: " + worldController.toolsController.toolHandle.current;
+
+        allText.text += "\nTotal occupants: " + worldController.buildingsController.OccupantsCount();
+        allText.text += "\nTotal wokers: " + worldController.buildingsController.WorkerCount();
 
         // blueprint
         var blueprintRoom = worldController.toolsController.buildTool.blueprintRoom;
         if (blueprintRoom != null)
         {
-            blueprintDefinitionText.text = "Blueprint: " + blueprintRoom.definition.title;
+            allText.text += "\nBlueprint: " + blueprintRoom.definition.title;
         }
         else
         {
-            blueprintDefinitionText.text = "";
+            // blueprintDefinitionText.text = "";
         }
 
         var inspectTarget = worldController.toolsController.inspectTool.inspectTarget;
         if (inspectTarget != null)
         {
+            allText.text += "\n";
             if (inspectTarget is Occupant)
             {
-                inspectTargetText.text = "Inspected occupant: " + (inspectTarget as Occupant).title;
+                allText.text += "\nInspected occupant: " + (inspectTarget as Occupant).title;
             }
             else if (inspectTarget is Room)
             {
-                inspectTargetText.text = "Inspected room: " + (inspectTarget as Room).title;
+                var inspectRoomTarget = inspectTarget as Room;
+                var building = worldController.buildingsController.FindBuildingByRoom(inspectRoomTarget);
+                var roomGroup = building.FindRoomGroupByRoom(inspectRoomTarget);
+
+                allText.text += "\nInspected room: " + (inspectTarget as Room).title;
+                allText.text += $"\nis in building: {building}";
+                allText.text += $"\nis in room group: {roomGroup}";
             }
         }
         else
         {
-            inspectTargetText.text = "\n\n";
+            // allText.text = "\n\n";
         }
-
-        occupantsText.text = "Total occupants: " + worldController.buildingsController.OccupantsCount();
-        workersText.text = "Total wokers: " + worldController.buildingsController.WorkerCount();
     }
 }

@@ -38,7 +38,7 @@ namespace TowerBuilder
             this.y = y;
         }
 
-        public override string ToString() => $"x: {x}, y: {y}";
+        public override string ToString() => $"({x}, {y})";
 
         //
         // public interface

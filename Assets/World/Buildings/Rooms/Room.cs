@@ -290,7 +290,7 @@ namespace TowerBuilder
                 foreach (var adjacentTile in adjacentTiles)
                 {
                     if (
-                        // Don't include adjacent tiles that are part of this room
+                        // Don't include tiles that are part of this room
                         !ContainsTile(adjacentTile) &&
                         // Don't add the same tile twice
                         !isAlreadyPresentInResults(adjacentTile))

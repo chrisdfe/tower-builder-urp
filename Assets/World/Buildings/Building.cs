@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace TowerBuilder
 {
@@ -30,53 +31,50 @@ namespace TowerBuilder
             room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
             roomGameObject.name = room.title;
 
+            // Add to roomGroup if room is groupable
             if (room.definition.isGroupable)
             {
                 // check if the room we just created is next to another room of the same time
                 var adjacentTiles = room.GetAdjacentTiles();
+
                 var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
+
                 var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
                     otherRoom.definition == room.definition
                 )).ToList();
 
                 if (adjacentRoomsOfTheSameType.Count > 0)
                 {
-                    // TODO here - combine all roomGroups now into a single roomGroup
+                    var newRoomGroup = new List<Room> { room };
 
+                    List<List<Room>> roomGroupsToDelete = new();
+
+                    // transfer rooms from adjacent room group into new group and 
+                    // and delete the original room groups
                     foreach (var adjacentRoom in adjacentRoomsOfTheSameType)
                     {
-                        var roomGroup = FindRoomGroupByRoom(adjacentRoom);
+                        var adjacentRoomGroup = FindRoomGroupByRoom(adjacentRoom);
 
-                        // TODO - assert that this roomGroup exists
-                        if (roomGroup == null)
+                        Assert.IsNotNull(adjacentRoomGroup);
+
+                        roomGroupsToDelete.Add(adjacentRoomGroup);
+
+                        foreach (var adjacentRoomGroupRoom in adjacentRoomGroup)
                         {
-                            throw new System.Exception($"Unable to find expected roomGroup for room {room}");
+                            newRoomGroup.Add(adjacentRoomGroupRoom);
                         }
+                    }
 
-                        roomGroup.Add(room);
+                    roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
 
-                        // if not, then
-                        //      create a new room group, and add both rooms to it
-                        // if the room is not next to another room of the same type,
-                        //      create a new room group with this room group in it
-                        // then re-calculate positions/toggle segments in each of these rooms
+                    roomGroups.Add(newRoomGroup);
 
-                        // TODO - put into a function?
-                        var allTilesInRooms = roomGroup.Aggregate(new List<Tile>(), (tileList, room) =>
-                        {
-                            foreach (var tile in room.tiles)
-                            {
-                                tileList.Add(tile);
-                            }
+                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup);
 
-                            return tileList;
-                        });
-
-                        foreach (var roomInGroup in roomGroup)
-                        {
-                            //
-                            roomInGroup.CalculateSegmentsFromTileList(allTilesInRooms);
-                        }
+                    // Now re-calculate positions/toggle segments in each of these rooms
+                    foreach (var roomInNewRoomGroup in newRoomGroup)
+                    {
+                        roomInNewRoomGroup.CalculateSegmentsFromTileList(allTilesInRooms);
                     }
                 }
                 else
@@ -251,6 +249,24 @@ namespace TowerBuilder
                 if (room.definition.type == type)
                 {
                     result.Add(room);
+                }
+            }
+
+            return result;
+        }
+
+        //
+        // static interface
+        //
+        public static List<Tile> GetAllTilesInRooms(List<Room> roomList)
+        {
+            var result = new List<Tile>();
+
+            foreach (var room in roomList)
+            {
+                foreach (var tile in room.tiles)
+                {
+                    result.Add(tile);
                 }
             }
 

@@ -1163,6 +1163,8 @@ MonoBehaviour:
     type: 3}
   occupantPrefab: {fileID: 3962829658512368055, guid: de025426500b69c4c9e57d310daa8b70,
     type: 3}
+  debugTileSquarePrefab: {fileID: 671748170559781018, guid: a23338886ffec79429a931ad55485d02,
+    type: 3}
   blueprintValidRoomTileMaterial: {fileID: 2100000, guid: 872019b9d5053fc47b0826328bb90965,
     type: 2}
   blueprintInvalidRoomTileMaterial: {fileID: 2100000, guid: 032611c0056339243a58c03c23db26a2,

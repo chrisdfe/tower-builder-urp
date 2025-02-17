@@ -14,6 +14,7 @@ public class WorldController : MonoBehaviour
     public GameObject buildingPrefab;
     public GameObject roomPrefab;
     public GameObject occupantPrefab;
+    public GameObject debugTileSquarePrefab;
 
     public Material blueprintValidRoomTileMaterial;
     public Material blueprintInvalidRoomTileMaterial;
@@ -28,6 +29,9 @@ public class WorldController : MonoBehaviour
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
     public List<Notification> notifications { get; private set; } = new();
+
+    // Debug state
+    public List<GameObject> debugTileSquares = new();
 
     // Other
     Canvas canvas;
@@ -142,6 +146,44 @@ public class WorldController : MonoBehaviour
                 toolsController.SetTool(ToolHandle.Inspect);
             }
         }
+
+        // DEBUG
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (debugTileSquares.Count == 0)
+            {
+                if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget is Room)
+                {
+                    // var tiles = (toolsController.inspectTool.inspectTarget as Room).GetAdjacentTiles();
+                    var roomInspectTarget = toolsController.inspectTool.inspectTarget as Room;
+                    var building = buildingsController.FindBuildingByRoom(roomInspectTarget);
+                    var roomGroup = building.FindRoomGroupByRoom(roomInspectTarget);
+
+                    if (roomGroup != null)
+                    {
+                        var tiles = roomGroup.Aggregate(new List<Tile>(), (result, room) =>
+                        {
+                            foreach (var tile in room.tiles)
+                            {
+                                result.Add(tile);
+                            }
+
+                            return result;
+                        });
+
+                        CreateDebugTiles(tiles);
+                    }
+                    else
+                    {
+                        Debug.Log($"{roomInspectTarget} is not in a roomGroup");
+                    }
+                }
+            }
+            else
+            {
+                DestroyDebugTiles();
+            }
+        }
     }
 
     void UpdateCurrentTilePosition()
@@ -153,6 +195,26 @@ public class WorldController : MonoBehaviour
     void OnTick()
     {
         buildingsController.OnTick();
+    }
+
+    void CreateDebugTiles(List<Tile> tiles)
+    {
+        foreach (var tile in tiles)
+        {
+            var tileGo = Instantiate(debugTileSquarePrefab, tile.ToWorldPosition(), Quaternion.identity);
+            debugTileSquares.Add(tileGo);
+        }
+    }
+
+    void DestroyDebugTiles()
+    {
+        foreach (var go in debugTileSquares)
+        {
+            Destroy(go);
+        }
+
+        debugTileSquares = new();
+
     }
 
     //

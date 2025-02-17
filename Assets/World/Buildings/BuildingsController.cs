@@ -74,6 +74,18 @@ namespace TowerBuilder
             return result;
         }
 
+        public int RoomGroupCount()
+        {
+            int result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.roomGroups.Count;
+            }
+
+            return result;
+        }
+
         // Warning - doesn't do any validation
         public void AddRoomAtTile(RoomDefinition roomDefinition, Tile tile)
         {
@@ -81,11 +93,22 @@ namespace TowerBuilder
 
             // Search for a building adjacent
             // TODO - combine buildings?
-            var building = buildings.Find(building => building.ContainsRoomAtTiles(allAdjacentTiles.ToList()));
+            // var building = buildings.Find(building => building.ContainsRoomAtTiles(allAdjacentTiles.ToList()));
 
-            if (building == null)
+            // if (building == null)
+            // {
+            //     building = CreateBuilding();
+            // }
+
+            // DEBUG
+            Building building;
+            if (buildings.Count == 0)
             {
                 building = CreateBuilding();
+            }
+            else
+            {
+                building = buildings[0];
             }
 
             building.AddRoom(tile, roomDefinition);
