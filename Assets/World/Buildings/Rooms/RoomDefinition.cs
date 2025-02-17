@@ -10,8 +10,7 @@ namespace TowerBuilder
         public RoomLayer layer = RoomLayer.Default;
         public RoomType type = RoomType.CommonArea;
 
-        // Determines whether this room will be added to a room group when created
-        public bool isGroupable = false;
+        public RoomGroupCategory groupCategory = RoomGroupCategory.None;
 
         // How many occupants can live in this room
         public uint occupantialCapacity = 0;

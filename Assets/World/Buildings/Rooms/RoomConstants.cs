@@ -32,6 +32,9 @@ namespace TowerBuilder
             new RoomDefinition() {
                 //
                 title = "Lobby",
+
+                groupCategory = RoomGroupCategory.CommonArea,
+
                 shape = new List<Tile>() {
                     new(0, 0),
                     new(1, 0),
@@ -43,6 +46,9 @@ namespace TowerBuilder
             new RoomDefinition() {
                 //
                 title = "Entrance/Exit",
+
+                groupCategory = RoomGroupCategory.CommonArea,
+
                 shape = new List<Tile>() {
                     new(0, 0),
                 },
@@ -94,8 +100,9 @@ namespace TowerBuilder
             new RoomDefinition() {
                 //
                 title = "Stairs",
-                // layer = RoomLayer.TransportationItem,
-                isGroupable = true,
+
+                groupCategory = RoomGroupCategory.CommonArea,
+
                 shape = new List<Tile>() {
                     new(0, 0),
                     new(1, 0),

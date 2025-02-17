@@ -2,26 +2,19 @@
 
 ## currently:
 
-- [x] rooms that aren't resizable but don't build a wall between itself and another room of its type
-
-  - [x] Room 'groups'
-  - [x] BUG: only the first roomGroup is counted
-  - [ ] eg entrance/exit, lobby, stairs
-
-- [ ] routing for occupants
-
-  - [x] ability to tell a occupant to go here or there
-
 - [ ] add ability to change windows etc of rooms to inspect tool
-
+  - [ ] apply to entire room group as well
+- [ ] routing for occupants
+  - [x] ability to tell a occupant to go here or there
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 3-5 subtiles per tile
   - [ ] once no more subtiles are free, room is "full"
   - [ ] the more occupant per tile the more 'cramped' (ultimately)
 
 ## next:
 
-- [ ] Resizable rooms
-  - [ ] It can just be rooms merge when rooms of the same type are placed next to each other for now
+- [ ] BUG: figure out why when I de-focus then re-focus the unity editor while the game is running I get a bunch of errors. Probably an Awake() thing
+- [ ] BUG: fix building-adding code - right now it's hard coded as max 1 building
+- [ ] ability to fix how stairs still room group even if not aligned vertically
 - [ ] destroy rooms on a per-block basis
 - [ ] BUG: the UI scales weirdly when I resize the window
 - [ ] time
@@ -63,6 +56,12 @@
 
 # Done
 
+- [x] Resizable rooms
+  - [x] It can just be rooms merge when rooms of the same type are placed next to each other for now
+- [x] rooms that aren't resizable but don't build a wall between itself and another room of its type
+  - [x] Room 'groups'
+  - [x] BUG: only the first roomGroup is counted
+  - [x] eg entrance/exit, lobby, stairs
 - [x] Rename "Resident" to "Villager" or "Occupant" or something
 - [x] CLEANUP: roomTile should have 'coordinates' instead of just tranform.position
 - [x] make stairs on the same level as others for now

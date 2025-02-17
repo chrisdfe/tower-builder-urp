@@ -10,7 +10,7 @@ namespace TowerBuilder
     {
         public string title = "Building";
 
-        public List<List<Room>> roomGroups { get; private set; } = new();
+        public List<RoomGroup> roomGroups { get; private set; } = new();
         public List<Room> rooms { get; private set; } = new();
 
         public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
@@ -32,7 +32,7 @@ namespace TowerBuilder
             roomGameObject.name = room.title;
 
             // Add to roomGroup if room is groupable
-            if (room.definition.isGroupable)
+            if (room.definition.groupCategory != RoomGroupCategory.None)
             {
                 // check if the room we just created is next to another room of the same time
                 var adjacentTiles = room.GetAdjacentTiles();
@@ -40,14 +40,14 @@ namespace TowerBuilder
                 var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
 
                 var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
-                    otherRoom.definition == room.definition
+                    otherRoom.definition.groupCategory == room.definition.groupCategory
                 )).ToList();
 
                 if (adjacentRoomsOfTheSameType.Count > 0)
                 {
-                    var newRoomGroup = new List<Room> { room };
+                    var newRoomGroup = new RoomGroup { room };
 
-                    List<List<Room>> roomGroupsToDelete = new();
+                    List<RoomGroup> roomGroupsToDelete = new();
 
                     // transfer rooms from adjacent room group into new group and 
                     // and delete the original room groups
@@ -67,9 +67,11 @@ namespace TowerBuilder
 
                     roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
 
+                    newRoomGroup.name = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
+
                     roomGroups.Add(newRoomGroup);
 
-                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup);
+                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.GetList());
 
                     // Now re-calculate positions/toggle segments in each of these rooms
                     foreach (var roomInNewRoomGroup in newRoomGroup)
@@ -161,7 +163,7 @@ namespace TowerBuilder
             return rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles) && otherRoom.definition.layer == roomLayer);
         }
 
-        public List<Room> FindRoomGroupByRoom(Room room) =>
+        public RoomGroup FindRoomGroupByRoom(Room room) =>
             roomGroups.Find(roomGroup => roomGroup.Contains(room));
 
         // TODO - cache this number
