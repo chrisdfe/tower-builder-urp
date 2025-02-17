@@ -53,9 +53,14 @@ namespace TowerBuilder
         //
         // Public interface
         // 
-        public void OnMouseUp()
+        public void OnLeftMouseUp()
         {
-            currentTool?.OnMouseUp();
+            currentTool?.OnLeftMouseUp();
+        }
+
+        public void OnRightMouseUp()
+        {
+            currentTool?.OnRightMouseUp();
         }
 
         public void SetTool(ToolHandle newTool)

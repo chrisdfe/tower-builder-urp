@@ -70,6 +70,11 @@ namespace TowerBuilder
             );
         }
 
+        public void SetDestination(Tile tile)
+        {
+            Debug.Log($"time to go to tile {tile}");
+        }
+
         //
         // Private interface
         //

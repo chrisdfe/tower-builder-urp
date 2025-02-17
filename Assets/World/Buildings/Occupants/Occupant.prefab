@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 3207129853476867485}
   - component: {fileID: 6735527971939372288}
   m_Layer: 3
-  m_Name: Resident
-  m_TagString: Resident
+  m_Name: Occupant
+  m_TagString: Occupant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

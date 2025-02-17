@@ -3,9 +3,10 @@ namespace TowerBuilder
     public interface ITool
     {
         //
-        public void OnMouseUp();
-        public void Teardown();
+        public void OnLeftMouseUp();
+        public void OnRightMouseUp() { }
         public void Setup();
-        public void OnUpdate();
+        public void Teardown();
+        public void OnUpdate() { }
     }
 }

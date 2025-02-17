@@ -12,7 +12,7 @@ namespace TowerBuilder
         //
         // Lifecycle/handlers
         //
-        public void OnMouseUp()
+        public void OnLeftMouseUp()
         {
             worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();
         }

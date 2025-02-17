@@ -98,21 +98,16 @@ public class WorldController : MonoBehaviour
             return;
         }
 
+        // left mouse button
         if (Input.GetMouseButtonUp(0))
         {
-            toolsController.OnMouseUp();
+            toolsController.OnLeftMouseUp();
         }
 
+        // left mouse up
         if (Input.GetMouseButtonUp(1))
         {
-            if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget != null)
-            {
-                toolsController.inspectTool.SetInspectTarget(null);
-            }
-            else if (toolsController.toolHandle.current != ToolHandle.Inspect)
-            {
-                toolsController.SetTool(ToolHandle.Inspect);
-            }
+            toolsController.OnRightMouseUp();
         }
     }
 
@@ -131,6 +126,21 @@ public class WorldController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             toolsController.SetTool(ToolHandle.Destroy);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (toolsController.toolHandle.current == ToolHandle.Inspect)
+            {
+                if (toolsController.inspectTool.inspectTarget != null)
+                {
+                    toolsController.inspectTool.SetInspectTarget(null);
+                }
+            }
+            else
+            {
+                toolsController.SetTool(ToolHandle.Inspect);
+            }
         }
     }
 
