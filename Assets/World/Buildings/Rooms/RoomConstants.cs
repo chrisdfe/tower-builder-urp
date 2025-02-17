@@ -95,6 +95,7 @@ namespace TowerBuilder
                 //
                 title = "Stairs",
                 // layer = RoomLayer.TransportationItem,
+                isGroupable = true,
                 shape = new List<Tile>() {
                     new(0, 0),
                     new(1, 0),

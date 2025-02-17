@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -29,14 +30,62 @@ namespace TowerBuilder
             room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
             roomGameObject.name = room.title;
 
-            // TODO here -
-            // if the room type is 'combinable',
-            // check if the room we just created is next to another room
-            // if so, then
-            //      check for a roomGroup containing that room
-            // if not, then
-            //      create a new room group, and add both rooms to it
-            // then re-calculate positions/toggle segments in each of these rooms
+            if (room.definition.isGroupable)
+            {
+                // check if the room we just created is next to another room of the same time
+                var adjacentTiles = room.GetAdjacentTiles();
+                var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
+                var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
+                    otherRoom.definition == room.definition
+                )).ToList();
+
+                if (adjacentRoomsOfTheSameType.Count > 0)
+                {
+                    // TODO here - combine all roomGroups now into a single roomGroup
+
+                    foreach (var adjacentRoom in adjacentRoomsOfTheSameType)
+                    {
+                        var roomGroup = FindRoomGroupByRoom(adjacentRoom);
+
+                        // TODO - assert that this roomGroup exists
+                        if (roomGroup == null)
+                        {
+                            throw new System.Exception($"Unable to find expected roomGroup for room {room}");
+                        }
+
+                        roomGroup.Add(room);
+
+                        // if not, then
+                        //      create a new room group, and add both rooms to it
+                        // if the room is not next to another room of the same type,
+                        //      create a new room group with this room group in it
+                        // then re-calculate positions/toggle segments in each of these rooms
+
+                        // TODO - put into a function?
+                        var allTilesInRooms = roomGroup.Aggregate(new List<Tile>(), (tileList, room) =>
+                        {
+                            foreach (var tile in room.tiles)
+                            {
+                                tileList.Add(tile);
+                            }
+
+                            return tileList;
+                        });
+
+
+                        foreach (var roomInGroup in roomGroup)
+                        {
+                            //
+                            roomInGroup.CalculateSegmentsFromTileList(allTilesInRooms);
+                        }
+                    }
+                }
+                else
+                {
+                    // Create a new roomGroup with only this room in it for now
+                    roomGroups.Add(new() { room });
+                }
+            }
 
             return room;
         }
@@ -56,6 +105,15 @@ namespace TowerBuilder
             foreach (var worker in room.workers)
             {
                 worker.office = null;
+            }
+
+            // Remove room from all room groups
+            foreach (var roomGroup in roomGroups)
+            {
+                if (roomGroup.Contains(room))
+                {
+                    roomGroup.Remove(room);
+                }
             }
 
             Destroy(room.gameObject);
@@ -105,6 +163,9 @@ namespace TowerBuilder
         {
             return rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles) && otherRoom.definition.layer == roomLayer);
         }
+
+        public List<Room> FindRoomGroupByRoom(Room room) =>
+            roomGroups.Find(roomGroup => roomGroup.Contains(room));
 
         // TODO - cache this number
         public int OccupantsCount()

@@ -23,16 +23,6 @@ namespace TowerBuilder
             worldController.buildingsController.AddRoomAtCurrentTileIfValid();
         }
 
-        public void Teardown()
-        {
-            //
-            // blueprintRoom will be null when the player hovers over the UI
-            if (blueprintRoom != null)
-            {
-                RemoveBlueprintRoom();
-            }
-        }
-
         public void Setup()
         {
             // avoid creating duplicate blueprint rooms
@@ -40,6 +30,16 @@ namespace TowerBuilder
             if (!worldController.cursorIsOverUI.current)
             {
                 CreateAndInitializeBlueprintRoom();
+            }
+        }
+
+        public void Teardown()
+        {
+            //
+            // blueprintRoom will be null when the player hovers over the UI
+            if (blueprintRoom != null)
+            {
+                RemoveBlueprintRoom();
             }
         }
 

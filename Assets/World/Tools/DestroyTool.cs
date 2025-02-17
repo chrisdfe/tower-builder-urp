@@ -17,17 +17,17 @@ namespace TowerBuilder
             worldController.buildingsController.RemoveFrontmostRoomAtCurrentTile();
         }
 
-        public void Teardown()
-        {
-            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
-            room?.SetMarkedForDeletionState(false);
-        }
-
         public void Setup()
         {
             // TODO - have a local state for this like the inspect tool
             var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
             room?.SetMarkedForDeletionState(true);
+        }
+
+        public void Teardown()
+        {
+            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+            room?.SetMarkedForDeletionState(false);
         }
 
         public void OnUpdate()

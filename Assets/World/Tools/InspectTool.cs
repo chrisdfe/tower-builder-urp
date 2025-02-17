@@ -27,23 +27,6 @@ namespace TowerBuilder
         //
         // Lifecycle/handlers
         //
-        public void OnLeftMouseUp()
-        {
-            // inspect current hovered target
-            if (hoveredInspectTarget != null)
-            {
-                SetInspectTarget(hoveredInspectTarget);
-            }
-        }
-
-        public void OnRightMouseUp()
-        {
-            if (inspectTarget != null && inspectTarget is Occupant)
-            {
-                (inspectTarget as Occupant).SetDestination(worldController.hoveredTile.current);
-            }
-        }
-
         public void Setup()
         {
             CalculateInspectHoverTarget();
@@ -61,6 +44,23 @@ namespace TowerBuilder
         public void OnUpdate()
         {
             CalculateInspectHoverTarget();
+        }
+
+        public void OnLeftMouseUp()
+        {
+            // inspect current hovered target
+            if (hoveredInspectTarget != null)
+            {
+                SetInspectTarget(hoveredInspectTarget);
+            }
+        }
+
+        public void OnRightMouseUp()
+        {
+            if (inspectTarget != null && inspectTarget is Occupant)
+            {
+                (inspectTarget as Occupant).SetDestination(worldController.hoveredTile.current);
+            }
         }
 
         public void SetHoveredInspectTarget(IInspectTarget hoveredInspectTarget)

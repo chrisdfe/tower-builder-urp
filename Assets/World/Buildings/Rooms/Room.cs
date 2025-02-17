@@ -66,6 +66,14 @@ namespace TowerBuilder
             }
         }
 
+        public void CalculateSegmentsFromTileList(List<Tile> tiles)
+        {
+            foreach (var roomTile in roomTiles)
+            {
+                roomTile.CalculateSegmentsFromTileList(tiles);
+            }
+        }
+
         public void SetOriginTile(Tile originTile)
         {
             //
