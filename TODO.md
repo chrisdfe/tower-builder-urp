@@ -2,14 +2,17 @@
 
 ## currently:
 
-- [ ] add ability to change windows etc of rooms to inspect tool
 - [ ] rooms that aren't resizable but don't build a wall between itself and another room of its type
 
   - [ ] Room 'groups'
   - [ ] eg entrance/exit, lobby, stairs
 
 - [ ] routing for occupants
-- [ ] ability to tell a occupant to go here or there
+
+  - [x] ability to tell a occupant to go here or there
+
+- [ ] add ability to change windows etc of rooms to inspect tool
+
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 3-5 subtiles per tile
   - [ ] once no more subtiles are free, room is "full"
   - [ ] the more occupant per tile the more 'cramped' (ultimately)

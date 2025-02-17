@@ -8,6 +8,7 @@ namespace TowerBuilder
     {
         public string title = "Building";
 
+        public List<List<Room>> roomGroups { get; private set; } = new();
         public List<Room> rooms { get; private set; } = new();
 
         public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
@@ -27,6 +28,15 @@ namespace TowerBuilder
             rooms.Add(room);
             room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
             roomGameObject.name = room.title;
+
+            // TODO here -
+            // if the room type is 'combinable',
+            // check if the room we just created is next to another room
+            // if so, then
+            //      check for a roomGroup containing that room
+            // if not, then
+            //      create a new room group, and add both rooms to it
+            // then re-calculate positions/toggle segments in each of these rooms
 
             return room;
         }
