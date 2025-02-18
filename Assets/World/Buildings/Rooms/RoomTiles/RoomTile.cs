@@ -74,6 +74,12 @@ public class RoomTile : MonoBehaviour
         }
     }
 
+    public void SetSegmentVariant(RoomTileSegment segment, string variant)
+    {
+        var transformWrapper = segmentTransformWrappers.Find(wrapper => wrapper.segment == segment);
+        transformWrapper.SetActiveVariant(variant);
+    }
+
     //
     // private interface
     //

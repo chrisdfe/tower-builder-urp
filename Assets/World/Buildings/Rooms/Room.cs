@@ -316,6 +316,14 @@ namespace TowerBuilder
             }
         }
 
+        public void SetRoomTileSegmentVariant(RoomTileSegment roomTileSegment, string variant)
+        {
+            foreach (var roomTile in roomTiles)
+            {
+                roomTile.SetSegmentVariant(roomTileSegment, variant);
+            }
+        }
+
         //
         // Private interface
         //

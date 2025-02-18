@@ -71,7 +71,7 @@ namespace TowerBuilder
             {
                 var variantName = entry.Key;
                 var variant = entry.Value;
-                variant.SetActive(variantName == definition.defaultVariant);
+                variant.SetActive(variantName == activeVariant);
             }
         }
 
