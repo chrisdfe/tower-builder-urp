@@ -100,7 +100,7 @@ public class RoomTile : MonoBehaviour
     {
         var result = new List<RoomTileSegmentTransformWrapper>();
 
-        foreach (var segment in RoomTileConstants.SEGMENT_DATA_MAP.Keys)
+        foreach (var segment in RoomTileConstants.SEGMENT_DEFINITIONS.Keys)
         {
             var segmentTransformData = new RoomTileSegmentTransformWrapper(segment, meshRoot);
             result.Add(segmentTransformData);

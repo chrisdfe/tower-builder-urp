@@ -18,7 +18,7 @@ namespace TowerBuilder
         public RoomTileSegmentTransformWrapper(RoomTileSegment segment, Transform roomTileRootTransform)
         {
             this.segment = segment;
-            definition = RoomTileConstants.SEGMENT_DATA_MAP[segment];
+            definition = RoomTileConstants.SEGMENT_DEFINITIONS[segment];
 
             activeVariant = definition.defaultVariant;
             segmentRootTransform = roomTileRootTransform.Find(definition.rootNodeName);

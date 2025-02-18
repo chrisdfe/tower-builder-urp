@@ -12,6 +12,8 @@
 
 ## next:
 
+- [ ] time
+- [ ] schedules for residents
 - [ ] segment variant improvements:
   - [ ] apply segment variant to entire room group as well
   - [ ] apply segment variant to entire building as well
@@ -24,13 +26,12 @@
 - [ ] destroy rooms on a per-block basis
   - [ ] maybe the room group situation is already a solution for this
 - [ ] BUG: the UI scales weirdly when I resize the window
-- [ ] time
 - [ ] transportation items
   - [ ] maybe just rooms
   - [ ] each should have 1+ 'entrance' and 'exit'
-- [ ] schedules for residents
 - [ ] More specific info in inspect view
 - [ ] 'undeletable' rooms (starting entrance/exit)
+  - [ ] could do this with a destroy validator that always returns false
 - [ ] center blueprint tile to cursor
   - [ ] I could refactor/reuse room.GetInspectTargetOrigin for this
 - [ ] tooltip
@@ -53,6 +54,7 @@
 - [ ] camera improvement: inspect zoom
   - [ ] it should last longer, but slow down a lot towards the end
   - [ ] you should be able to use camera movement keys while the zoom out is happening
+- [ ] room furniture
 
 ## room ideas
 

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 namespace TowerBuilder
 {
+    using static RoomTileSegment;
+
     public static class RoomTileConstants
     {
         public static Dictionary<TilePosition, RoomTileSegment[]> SEGMENTS_FOR_TILE_POSITION = new Dictionary<TilePosition, RoomTileSegment[]>() {
@@ -13,209 +15,209 @@ namespace TowerBuilder
             // single (isolated)
             {
                 TilePosition.Single,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    Ceiling,
+                    LeftWall,
+                    RightWall,
+                    Floor
                 }
             },
 
             // middle (non-corner) edge tiles
             {
                 TilePosition.Top,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling
+                new[] {
+                    Ceiling
                 }
             },
             {
                 TilePosition.Right,
-                new RoomTileSegment[] {
-                    RoomTileSegment.RightWall
+                new[] {
+                    RightWall
                 }
             },
             {
                 TilePosition.Bottom,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Floor
+                new[] {
+                    Floor
                 }
             },
             {
                 TilePosition.Left,
-                new RoomTileSegment[] {
-                    RoomTileSegment.LeftWall
+                new[] {
+                    LeftWall
                 }
             },
 
             // centers
             {
                 TilePosition.Center,
-                new RoomTileSegment[] { }
+                new RoomTileSegment[] {}
             },
             {
                 TilePosition.HorizontalCenter,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.Floor
+                new[] {
+                    Ceiling,
+                    Floor
                 }
             },
             {
                 TilePosition.VerticalCenter,
-                new RoomTileSegment[] {
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.RightWall
+                new[] {
+                    LeftWall,
+                    RightWall
                 }
             },
             {
                 TilePosition.LowToHighDiagonalCenter,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    Ceiling,
+                    LeftWall,
+                    RightWall,
+                    Floor
                 }
             },
             {
                 TilePosition.HighToLowDiagonalCenter,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    Ceiling,
+                    LeftWall,
+                    RightWall,
+                    Floor
                 }
             },
 
             // corners
             {
                 TilePosition.TopLeft,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall
+                new[] {
+                    Ceiling,
+                    LeftWall
                 }
             },
             {
                 TilePosition.TopRight,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.RightWall
+                new[] {
+                    Ceiling,
+                    RightWall
                 }
             },
             {
                 TilePosition.BottomRight,
-                new RoomTileSegment[] {
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    RightWall,
+                    Floor
                 }
             },
             {
                 TilePosition.BottomLeft,
-                new RoomTileSegment[] {
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    LeftWall,
+                    Floor
                 }
             },
 
             // isolated cells
             {
                 TilePosition.TopIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.RightWall,
+                new[] {
+                    Ceiling,
+                    LeftWall,
+                    RightWall,
                 }
             },
             {
                 TilePosition.RightIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    Ceiling,
+                    RightWall,
+                    Floor
                 }
             },
             {
                 TilePosition.BottomIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    LeftWall,
+                    RightWall,
+                    Floor
                 }
             },
             {
                 TilePosition.LeftIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    Ceiling,
+                    LeftWall,
+                    Floor
                 }
             },
 
             {
                 TilePosition.TopRightIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.RightWall,
+                new[] {
+                    Ceiling,
+                    RightWall,
                 }
             },
             {
                 TilePosition.BottomRightIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.RightWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    RightWall,
+                    Floor
                 }
             },
             {
                 TilePosition.BottomLeftIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.LeftWall,
-                    RoomTileSegment.Floor
+                new[] {
+                    LeftWall,
+                    Floor
                 }
             },
             {
                 TilePosition.TopLeftIsolated,
-                new RoomTileSegment[] {
-                    RoomTileSegment.Ceiling,
-                    RoomTileSegment.LeftWall
+                new[] {
+                    Ceiling,
+                    LeftWall
                 }
             },
         };
 
-        public readonly static Dictionary<RoomTileSegment, RoomTileSegmentDefinition> SEGMENT_DATA_MAP = new()
+        public readonly static Dictionary<RoomTileSegment, RoomTileSegmentDefinition> SEGMENT_DEFINITIONS = new()
         {
             {
-                RoomTileSegment.Ceiling,
-                new RoomTileSegmentDefinition() {
+                Ceiling,
+                new() {
                     rootNodeName = "Ceiling",
                     variants = new string[] { "Full" },
                     defaultVariant = "Full",
                 }
             },
             {
-                RoomTileSegment.LeftWall,
-                new RoomTileSegmentDefinition() {
+                LeftWall,
+                new() {
                     rootNodeName = "LeftWall",
                     variants = new string[] { "Full" },
                     defaultVariant = "Full",
                 }
             },
             {
-                RoomTileSegment.RightWall,
-                new RoomTileSegmentDefinition() {
+                RightWall,
+                new() {
                     rootNodeName = "RightWall",
                     variants = new string[] { "Full" },
                     defaultVariant = "Full",
                 }
             },
             {
-                RoomTileSegment.Floor,
-                new RoomTileSegmentDefinition() {
+                Floor,
+                new() {
                     rootNodeName = "Floor",
                     variants = new string[] { "Full" },
                     defaultVariant = "Full",
                 }
             },
             {
-                RoomTileSegment.BackWall,
-                new RoomTileSegmentDefinition() {
+                BackWall,
+                new() {
                     rootNodeName = "BackWall",
                     variants = new string[] { "Blank", "Window", "Porthole", "LargeFlexibleWindow" },
                     defaultVariant = "Blank",
