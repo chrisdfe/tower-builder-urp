@@ -42,7 +42,7 @@ namespace TowerBuilder
 
         void CreateVariantButtons()
         {
-            foreach (var variant in RoomTileConstants.SEGMENT_DATA_MAP[RoomTileSegment.BackWall].variants)
+            foreach (var variant in RoomTileConstants.SEGMENT_DEFINITIONS[RoomTileSegment.BackWall].variants)
             {
                 var buttonGameObject = Instantiate(uiButtonPrefab, body);
                 var uiButton = buttonGameObject.GetComponent<UIButton>();

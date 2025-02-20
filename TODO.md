@@ -12,6 +12,8 @@
 
 ## next:
 
+- [ ] should be able to move camera in inspect move
+- [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] time
 - [ ] schedules for residents
 - [ ] segment variant improvements:

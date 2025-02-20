@@ -118,50 +118,39 @@ namespace TowerBuilder
             Destroy(room.gameObject);
         }
 
-        public bool ContainsRoom(Room room)
-        {
-            return rooms.Find(otherRoom => otherRoom == room) != null;
-        }
+        public bool ContainsRoom(Room room) =>
+            rooms.Find(otherRoom => otherRoom == room) != null;
 
-        public bool ContainsRoomAtTile(Tile tile)
-        {
-            return FindRoomsAtTile(tile).Count > 0;
-        }
+        public bool ContainsRoomAtTile(Tile tile) =>
+            FindRoomsAtTile(tile).Count > 0;
 
-        public bool ContainsRoomAtTile(List<Tile> tiles, RoomLayer roomLayer)
-        {
-            return FindRoomsAtTiles(tiles, roomLayer).Count > 0;
-        }
+        public bool ContainsRoomAtTile(List<Tile> tiles, RoomLayer roomLayer) =>
+            FindRoomsAtTiles(tiles, roomLayer).Count > 0;
 
-        public bool ContainsRoomAtTiles(List<Tile> tiles)
-        {
-            return FindRoomsAtTiles(tiles).Count > 0;
-        }
+        public bool ContainsRoomAtTiles(List<Tile> tiles) =>
+            FindRoomsAtTiles(tiles).Count > 0;
 
-        public bool ContainsRoomAtTiles(List<Tile> tiles, RoomLayer roomLayer)
-        {
-            return FindRoomsAtTiles(tiles, roomLayer).Count > 0;
-        }
+        public bool ContainsRoomAtTiles(List<Tile> tiles, RoomLayer roomLayer) =>
+            FindRoomsAtTiles(tiles, roomLayer).Count > 0;
 
-        public List<Room> FindRoomsAtTile(Tile tile)
-        {
-            return rooms.FindAll(otherRoom => otherRoom.ContainsTile(tile));
-        }
+        public List<Room> FindRoomsAtTile(Tile tile) =>
+            rooms.FindAll(otherRoom => otherRoom.ContainsTile(tile));
 
-        public List<Room> FindRoomsAtTiles(List<Tile> tiles)
-        {
-            return rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles));
-        }
+        public List<Room> FindRoomsAtTiles(List<Tile> tiles) =>
+            rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles));
 
-        public Room FindRoomAtTile(Tile tile, RoomLayer roomLayer)
-        {
-            return rooms.Find(otherRoom => otherRoom.ContainsTile(tile) && otherRoom.definition.layer == roomLayer);
-        }
+        public Room FindRoomAtTile(Tile tile, RoomLayer roomLayer) =>
+            rooms.Find(otherRoom => otherRoom.ContainsTile(tile) && otherRoom.definition.layer == roomLayer);
 
-        public List<Room> FindRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer)
-        {
-            return rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles) && otherRoom.definition.layer == roomLayer);
-        }
+        public Room FindRoomAtTile(Tile tile) => FindRoomAtTile(tile, RoomLayer.Default);
+
+        public List<Room> FindRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer) =>
+            rooms.FindAll(otherRoom => otherRoom.ContainsTiles(tiles) && otherRoom.definition.layer == roomLayer);
+
+        public List<Room> FindRoomsOnFloor(int floor, RoomLayer roomLayer) =>
+            rooms.FindAll(otherRoom => otherRoom.ContainsFloor(floor) && otherRoom.definition.layer == roomLayer);
+
+        public List<Room> FindRoomsOnFloor(int floor) => FindRoomsOnFloor(floor, RoomLayer.Default);
 
         public RoomGroup FindRoomGroupByRoom(Room room) =>
             roomGroups.Find(roomGroup => roomGroup.Contains(room));

@@ -59,7 +59,17 @@ namespace TowerBuilder
         {
             if (inspectTarget != null && inspectTarget is Occupant)
             {
-                (inspectTarget as Occupant).SetDestination(worldController.hoveredTile.current);
+                var tile = worldController.hoveredTile.current;
+                var room = worldController.buildingsController.FindFrontmostRoomAtTile(tile);
+                if (room != null)
+                {
+                    var building = worldController.buildingsController.FindBuildingByRoom(room);
+
+                    if (building != null)
+                    {
+                        (inspectTarget as Occupant).SetDestination(building, tile);
+                    }
+                }
             }
         }
 

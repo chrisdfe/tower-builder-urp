@@ -207,6 +207,7 @@ namespace TowerBuilder
             UpdateColor();
         }
 
+
         public bool ContainsTile(Tile tile)
         {
             foreach (Tile t in tiles)
@@ -314,6 +315,54 @@ namespace TowerBuilder
 
                 return false;
             }
+        }
+
+        public List<int> GetFloors()
+        {
+            HashSet<int> results = new();
+
+            foreach (var tile in tiles)
+            {
+                results.Add(tile.y);
+            }
+
+            return results.ToList();
+        }
+
+        public bool ContainsFloor(int floor) => GetFloors().Contains(floor);
+
+        public int GetLowestFloor()
+        {
+            var result = int.MaxValue;
+
+            foreach (var tile in tiles)
+            {
+                if (tile.y < result)
+                {
+                    result = tile.y;
+                }
+            }
+
+            return result;
+        }
+
+        public Tile GetBottomLeftTile()
+        {
+            Tile result = null;
+
+            var x = int.MaxValue;
+            var y = int.MinValue;
+            foreach (var tile in tiles)
+            {
+                if (tile.x < x || tile.y < y)
+                {
+                    result = tile;
+                    x = tile.x;
+                    y = tile.y;
+                }
+            }
+
+            return result;
         }
 
         public void SetRoomTileSegmentVariant(RoomTileSegment roomTileSegment, string variant)

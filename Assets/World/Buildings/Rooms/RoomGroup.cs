@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TowerBuilder
 {
@@ -35,5 +36,40 @@ namespace TowerBuilder
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public bool Contains(Room room) => rooms.Contains(room);
+
+        public List<int> GetFloors()
+        {
+            HashSet<int> result = new();
+
+            foreach (var room in rooms)
+            {
+                var floors = room.GetFloors();
+                result.UnionWith(floors);
+            }
+
+            return result.ToList();
+        }
+
+        public Tile GetBottomLeftTile()
+        {
+            var result = new Tile(int.MaxValue, int.MaxValue);
+
+            foreach (var room in rooms)
+            {
+                var roomBottomLeft = room.GetBottomLeftTile();
+
+                if (roomBottomLeft.x < result.x)
+                {
+                    result.x = roomBottomLeft.x;
+                }
+
+                if (roomBottomLeft.y < result.y)
+                {
+                    result.y = roomBottomLeft.y;
+                }
+            }
+
+            return result;
+        }
     }
 }

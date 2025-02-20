@@ -24,6 +24,7 @@ namespace TowerBuilder
 
         Color originalColor;
         Transform bod;
+        OccupantRouteFinder routeFinder;
 
         //
         // Lifecycle
@@ -33,6 +34,14 @@ namespace TowerBuilder
             bod = transform.Find("Bod");
             var bodMaterial = bod.GetComponent<MeshRenderer>().material;
             originalColor = bodMaterial.color;
+        }
+
+        void FixedUpdate()
+        {
+            if (routeFinder != null)
+            {
+                routeFinder.DebugDrawPaths();
+            }
         }
 
         //
@@ -70,9 +79,14 @@ namespace TowerBuilder
             );
         }
 
-        public void SetDestination(Tile tile)
+        public void SetDestination(Building building, Tile destinationTile)
         {
-            Debug.Log($"time to go to tile {tile}");
+            Debug.Log($"time to go to tile {destinationTile}. I am at {tile}");
+
+            routeFinder = new OccupantRouteFinder(building, tile, destinationTile);
+            routeFinder.Run();
+
+            Debug.Log("done.");
         }
 
         //
