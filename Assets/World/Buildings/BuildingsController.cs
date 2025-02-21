@@ -32,18 +32,19 @@ namespace TowerBuilder
         {
             foreach (var building in buildings)
             {
+                building.OnTick();
                 HandleBuildingRoomVacancies(building);
             }
         }
 
         // TODO - cache this number
-        public int OccupantsCount()
+        public int ResidentCount()
         {
             var result = 0;
 
             foreach (var building in buildings)
             {
-                result += building.OccupantsCount();
+                result += building.ResidentCount();
             }
 
             return result;
@@ -301,16 +302,16 @@ namespace TowerBuilder
 
             foreach (var room in availableResidenceRooms)
             {
-                var subTileOffset = room.occupants.Count;
+                var subTileOffset = room.residents.Count;
 
                 var occupant = CreateOccupant();
 
                 // TODO - this will update the position twice. not a huge deal
                 occupant.SetTile(room.tiles[0]);
                 occupant.SetSubTileOffset(subTileOffset * 0.3f);
-                room.occupants.Add(occupant);
+                room.residents.Add(occupant);
                 occupant.residence = room;
-                occupant.title = $"{building.title} Occupant {building.OccupantsCount()}";
+                occupant.title = $"{building.title} Occupant {building.ResidentCount()}";
                 occupant.gameObject.name = occupant.title;
 
                 worldController.notifications.Add(new Notification(occupant.title + " has moved into " + room.title));

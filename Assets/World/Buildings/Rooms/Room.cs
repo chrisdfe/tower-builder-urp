@@ -14,7 +14,7 @@ namespace TowerBuilder
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.zero };
 
         // Occupants that live in this room
-        public List<Occupant> occupants { get; private set; } = new List<Occupant>();
+        public List<Occupant> residents { get; private set; } = new List<Occupant>();
 
         // Occupants that work in this room
         public List<Occupant> workers { get; private set; } = new List<Occupant>();

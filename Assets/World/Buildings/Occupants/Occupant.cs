@@ -39,6 +39,22 @@ namespace TowerBuilder
             originalColor = bodMaterial.color;
         }
 
+        public void OnTick()
+        {
+            currentTask.OnTick();
+        }
+
+        public void FixedUpdate()
+        {
+            if (isInspected)
+            {
+                if (routeFinder != null)
+                {
+                    routeFinder.DebugDrawPaths();
+                }
+            }
+        }
+
         //
         // Public interface
         //
@@ -74,10 +90,32 @@ namespace TowerBuilder
             );
         }
 
+        public void TransitionToTask(IOccupantTask task)
+        {
+            if (currentTask != null)
+            {
+                currentTask.Teardown();
+
+                // This seems a bit messy in the long run but fine for now
+                if (currentTask is OccupantTravelingToDestinationTask)
+                {
+                    routeFinder = null;
+                }
+            }
+
+            currentTask = task;
+            task.Setup();
+        }
+
         public void SetDestination(Building building, Tile destinationTile)
         {
             routeFinder = new OccupantRouteFinder(building, tile, destinationTile);
             routeFinder.Run();
+
+            if (routeFinder.route != null)
+            {
+                TransitionToTask(new OccupantTravelingToDestinationTask(this, routeFinder.route));
+            }
         }
 
         //

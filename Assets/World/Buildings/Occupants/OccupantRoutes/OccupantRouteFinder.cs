@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -13,6 +14,11 @@ namespace TowerBuilder
         Tile destinationTile;
 
         public List<OccupantRouteAttempt> attempts = new();
+        public List<OccupantRouteAttempt> successfulAttempts = new();
+        public List<OccupantRouteAttempt> unsuccessfulAttempts = new();
+
+        // The output
+        public OccupantRoute route;
 
         public OccupantRouteFinder(Building building, Tile startTile, Tile destinationTile)
         {
@@ -35,17 +41,101 @@ namespace TowerBuilder
             );
 
             firstAttempt.Start();
+
+            //
+            foreach (var attempt in attempts)
+            {
+                if (attempt.hasReachedDestination)
+                {
+                    successfulAttempts.Add(attempt);
+                }
+                else
+                {
+                    unsuccessfulAttempts.Add(attempt);
+                }
+            }
+
+            // TODO - choose the shortest route
+            //        for now just choose the first one if it exists
+            // TODO - make sure we use the full route when comparing lengths to find the shortest one
+            if (successfulAttempts.Count > 0)
+            {
+                route = new OccupantRoute(CreateFullRouteFromSuccessfulAttempt(successfulAttempts[0]));
+            }
         }
 
-        public List<OccupantRouteAttempt> GetSuccessfulAttempts() => attempts.FindAll(attempt => attempt.hasReachedDestination);
+        List<OccupantRouteNode> CreateFullRouteFromSuccessfulAttempt(OccupantRouteAttempt attempt)
+        {
+            List<OccupantRouteNode> result = new();
 
-        public List<OccupantRouteAttempt> GetUnsuccessfulAttempts() => attempts.FindAll(attempt => !attempt.hasReachedDestination);
+            int idx = 0;
+            foreach (var node in attempt.path)
+            {
+                var nextIdx = idx + 1;
+                // TODO - something about this isn't working, it's skipping some tiles and duplicating others
+                if (nextIdx <= attempt.path.Count - 1)
+                {
+                    var nextNode = attempt.path[nextIdx];
+                    // first travel vertically
+                    if (nextNode.tile.y != node.tile.y)
+                    {
+                        var range = CreateRange(node.tile.y, nextNode.tile.y);
+                        foreach (var y in CreateRange(node.tile.y, nextNode.tile.y))
+                        {
+                            result.Add(new() { tile = new Tile(node.tile.x, y) });
+                        }
+                    }
+
+                    // then horizontally
+                    if (nextNode.tile.x != node.tile.x)
+                    {
+                        var range = CreateRange(node.tile.x, nextNode.tile.x);
+                        foreach (var x in range)
+                        {
+                            result.Add(new() { tile = new Tile(x, node.tile.y) });
+                        }
+                    }
+                }
+
+                idx++;
+            }
+
+            var lastNode = attempt.path[attempt.path.Count - 1];
+            result.Add(new() { tile = lastNode.tile });
+
+            return result;
+
+            // non-inclusive: includes a but not b
+            List<int> CreateRange(int a, int b)
+            {
+                var result = new List<int>();
+
+                if (a < b)
+                {
+                    for (var i = a; i < b; i++)
+                    {
+                        result.Add(i);
+                    }
+                }
+                else if (b < a)
+                {
+                    for (var i = a; i > b; i--)
+                    {
+                        result.Add(i);
+                    }
+                }
+                else
+                // a == b
+                {
+                    result = new();
+                }
+
+                return result;
+            }
+        }
 
         public void DebugDrawPaths()
         {
-            var successfulAttempts = GetSuccessfulAttempts();
-            var unsuccessfulAttempts = GetUnsuccessfulAttempts();
-
             int pathIdx = 0;
             foreach (var attempt in successfulAttempts)
             {

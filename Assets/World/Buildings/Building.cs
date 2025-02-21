@@ -38,7 +38,6 @@ namespace TowerBuilder
                 var adjacentTiles = room.GetAdjacentTiles();
 
                 var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
-
                 var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
                     otherRoom.definition.groupCategory == room.definition.groupCategory
                 )).ToList();
@@ -95,9 +94,9 @@ namespace TowerBuilder
             rooms.Remove(room);
 
             // Delete all occupants for now
-            foreach (var occupant in room.occupants)
+            foreach (var resident in room.residents)
             {
-                Destroy(occupant.gameObject);
+                Destroy(resident.gameObject);
             }
 
             // Don't delete workers, just unassign their place of work
@@ -116,6 +115,17 @@ namespace TowerBuilder
             }
 
             Destroy(room.gameObject);
+        }
+
+        public void OnTick()
+        {
+            foreach (var room in rooms)
+            {
+                foreach (var resident in room.residents)
+                {
+                    resident.OnTick();
+                }
+            }
         }
 
         public bool ContainsRoom(Room room) =>
@@ -156,13 +166,13 @@ namespace TowerBuilder
             roomGroups.Find(roomGroup => roomGroup.Contains(room));
 
         // TODO - cache this number
-        public int OccupantsCount()
+        public int ResidentCount()
         {
             var result = 0;
 
             foreach (var room in rooms)
             {
-                result += room.occupants.Count;
+                result += room.residents.Count;
             }
 
             return result;
@@ -188,7 +198,7 @@ namespace TowerBuilder
             //
             foreach (var room in rooms)
             {
-                if (room.occupants.Count < room.definition.occupantialCapacity)
+                if (room.residents.Count < room.definition.occupantialCapacity)
                 {
                     result.Add(room);
                 }
@@ -203,7 +213,7 @@ namespace TowerBuilder
 
             foreach (var room in rooms)
             {
-                foreach (var occupant in room.occupants)
+                foreach (var occupant in room.residents)
                 {
                     if (occupant.office == null)
                     {
