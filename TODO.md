@@ -2,8 +2,8 @@
 
 ## currently:
 
-- [ ] routing for occupants
-  - [x] ability to tell a occupant to go here or there
+- [x] routing for occupants
+  - [ ] ability to tell a occupant to go here or there
   - [ ] occupant 'tasks' - wandering, standing walking
     - [ ] subtasks too - e.g wandering subtasks: standing, walking to another subtile, etc
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 3-5 subtiles per tile

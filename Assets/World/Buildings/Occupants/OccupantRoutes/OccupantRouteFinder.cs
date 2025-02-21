@@ -81,8 +81,8 @@ namespace TowerBuilder
 
                 Vector3 GetPositionWithOffset(Vector3 position) =>
                     new Vector3(
-                        position.x + (pathIdx * 0.05f),
-                        position.y + (pathIdx * 0.05f),
+                        position.x + (pathIdx * 0.02f),
+                        position.y + (pathIdx * 0.02f),
                         position.z
                     );
             }

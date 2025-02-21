@@ -20,10 +20,13 @@ namespace TowerBuilder
         public bool isInspected { get; private set; } = false;
 
         // Positioning
+        // TODO - subtile should be the main thing, subtileOffset is derived from that
         public float subTileOffset = 0f;
 
         Color originalColor;
         Transform bod;
+
+        public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
         OccupantRouteFinder routeFinder;
 
         //
@@ -34,14 +37,6 @@ namespace TowerBuilder
             bod = transform.Find("Bod");
             var bodMaterial = bod.GetComponent<MeshRenderer>().material;
             originalColor = bodMaterial.color;
-        }
-
-        void FixedUpdate()
-        {
-            if (routeFinder != null)
-            {
-                routeFinder.DebugDrawPaths();
-            }
         }
 
         //
