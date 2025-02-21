@@ -6,18 +6,20 @@
   - [x] ability to tell a occupant to go here or there
   - [x] occupant 'tasks' - wandering, standing walking
     - [ ] subtasks too - e.g wandering subtasks: standing, walking to another subtile, etc
+- [ ] display current occupant task in inspect mode
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 6 subtiles per tile
   - [ ] 'FindRandomTile/SubtileInRoom'
   - [ ] place new residents randomly
   - [ ] once no more subtiles are free, room is "full"
   - [ ] the more occupant per tile the more 'cramped' (ultimately)
 - [ ] residents should use first available subtile along route
+- [ ] 'wander' task
 
 ## next:
 
+- [ ] should be able to move camera in inspect mode
 - [ ] center blueprint tile to cursor
   - [ ] I could refactor/reuse room.GetInspectTargetOrigin for this
-- [ ] should be able to move camera in inspect move
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] time
 - [ ] schedules for residents
