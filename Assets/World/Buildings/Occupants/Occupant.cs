@@ -24,6 +24,7 @@ namespace TowerBuilder
         public float subTileOffset = 0f;
 
         Color originalColor;
+        public Transform movementAnimationWrapper { get; private set; }
         Transform bod;
 
         public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
@@ -34,7 +35,8 @@ namespace TowerBuilder
         //
         void Awake()
         {
-            bod = transform.Find("Bod");
+            movementAnimationWrapper = transform.Find("MovementAnimationWrapper");
+            bod = movementAnimationWrapper.Find("Bod");
             var bodMaterial = bod.GetComponent<MeshRenderer>().material;
             originalColor = bodMaterial.color;
         }

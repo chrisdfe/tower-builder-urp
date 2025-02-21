@@ -76,7 +76,9 @@ public class DebugPanel : MonoBehaviour
             allText.text += "\n";
             if (inspectTarget is Occupant)
             {
-                allText.text += "\nInspected occupant: " + (inspectTarget as Occupant).title;
+                var occupantInspectTarget = inspectTarget as Occupant;
+                allText.text += "\nInspected occupant: " + occupantInspectTarget.title;
+                allText.text += $"\nCurrent task: {occupantInspectTarget.currentTask.name}";
             }
             else if (inspectTarget is Room)
             {

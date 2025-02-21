@@ -2,6 +2,8 @@ namespace TowerBuilder
 {
     public class OccupantWanderingTask : IOccupantTask
     {
+        public string name => "Wandering about";
+
         bool _isComplete = false;
         public bool isComplete => _isComplete;
 

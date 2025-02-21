@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
 namespace TowerBuilder
 {
     public class OccupantTravelingToDestinationTask : IOccupantTask
     {
+        public string name => $"Traveling to tile {route.GetLastNode().tile}";
+
         bool _isComplete = false;
         public bool isComplete => _isComplete;
 
@@ -17,10 +20,7 @@ namespace TowerBuilder
             this.route = route;
         }
 
-        public void Setup()
-        {
-            Debug.Log($"Traveling to tile {route.path[route.path.Count - 1].tile}");
-        }
+        public void Setup() { }
 
         public void Teardown() { }
 
@@ -30,9 +30,9 @@ namespace TowerBuilder
             var currentNode = GetCurrentNode();
 
             occupant.SetTile(currentNode.tile);
-            // set random subtile offset too?
+            occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
 
-            // TODO - start lerping to next node
+            // set random subtile offset too?
 
             if (GetNextIdx() == -1)
             {
@@ -43,7 +43,39 @@ namespace TowerBuilder
             }
             else
             {
+                StartAnimatingTransitionBetweenTiles();
                 currentIdx++;
+            }
+        }
+
+        void StartAnimatingTransitionBetweenTiles()
+        {
+            occupant.StartCoroutine(Run());
+
+            IEnumerator Run()
+            {
+                const float TRANSITION_LENGTH = TimeConstants.TICK_LENGTH_S;
+
+                var startNode = GetCurrentNode();
+                var nextNode = GetNextNode();
+
+                // TODO - this causes a null reference exception on the final tile
+                var tileDiff = nextNode.tile.Subtract(startNode.tile);
+                var startPosition = Vector3.zero;
+                var endPosition = tileDiff.ToWorldPosition();
+
+                var timer = 0f;
+                while (timer < TRANSITION_LENGTH)
+                {
+                    timer += Time.deltaTime;
+                    var normalizedProgress = timer / TRANSITION_LENGTH;
+                    var currentPostion = Vector3.Lerp(startPosition, endPosition, normalizedProgress);
+                    occupant.movementAnimationWrapper.transform.localPosition = currentPostion;
+
+                    yield return null;
+                }
+
+                occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
             }
         }
 
@@ -59,6 +91,18 @@ namespace TowerBuilder
             }
 
             return nextIdx;
+        }
+
+        OccupantRouteNode GetNextNode()
+        {
+            var nextIdx = GetNextIdx();
+
+            if (nextIdx == -1)
+            {
+                return null;
+            }
+
+            return route.path[nextIdx];
         }
     }
 }

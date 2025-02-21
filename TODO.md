@@ -2,24 +2,25 @@
 
 ## currently:
 
-- [x] routing for occupants
-  - [x] ability to tell a occupant to go here or there
-  - [x] occupant 'tasks' - wandering, standing walking
-    - [ ] subtasks too - e.g wandering subtasks: standing, walking to another subtile, etc
-- [ ] display current occupant task in inspect mode
+- [ ] center blueprint tile to cursor
+  - [ ] I could refactor/reuse room.GetInspectTargetOrigin for this
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 6 subtiles per tile
   - [ ] 'FindRandomTile/SubtileInRoom'
-  - [ ] place new residents randomly
+  - [ ] place new residents randomly within room, instead of all on one tile
   - [ ] once no more subtiles are free, room is "full"
   - [ ] the more occupant per tile the more 'cramped' (ultimately)
-- [ ] residents should use first available subtile along route
+  - [ ] residents should use first available subtile along route
+    - [ ] or random?
 - [ ] 'wander' task
 
 ## next:
 
+- [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
+      you will not be able to give it any further commands.
+  - [ ] a 'cancel task' function & a 'task queue' will be the solution to this
+- [ ] inspect camera should move with the resident as it's moving
+- [ ] BUG: changing speeds while resident is moving messes walking/movement transitions up
 - [ ] should be able to move camera in inspect mode
-- [ ] center blueprint tile to cursor
-  - [ ] I could refactor/reuse room.GetInspectTargetOrigin for this
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] time
 - [ ] schedules for residents
@@ -73,6 +74,14 @@
 
 # Done
 
+- [x] routing for occupants
+  - [x] ability to tell a occupant to go here or there
+  - [x] occupant 'tasks' - wandering, standing walking
+    - [ ] subtasks too - e.g wandering subtasks: standing, walking to another subtile, etc
+      - these can probably just be IOccupantTasks, I can't think of why they would need to be seperate right now
+  - [x] display current occupant task in inspect mode
+  - [x] move occupant along path, 1 tile per tick
+  - [x] animate transition between tiles
 - [x] add ability to change windows etc of rooms to inspect tool
 - [x] Resizable rooms
   - [x] It can just be rooms merge when rooms of the same type are placed next to each other for now

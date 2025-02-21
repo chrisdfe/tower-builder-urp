@@ -12,5 +12,7 @@ namespace TowerBuilder
         {
             this.path = path;
         }
+
+        public OccupantRouteNode GetLastNode() => path[path.Count - 1];
     }
 }
