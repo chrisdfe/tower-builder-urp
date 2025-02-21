@@ -25,20 +25,11 @@ namespace TowerBuilder
             Building building,
             Tile currentTile,
             Tile destinationTile,
+            List<OccupantRouteNode> path,
             HashSet<Room> visitedRooms,
             List<OccupantRouteAttempt> allAttempts
         )
         {
-            Debug.Log(
-                "Creating route attempt.\n" +
-                $"Building: {building}\n" +
-                $"current tile: {currentTile}\n" +
-                $"current room: {currentRoom}\n" +
-                $"destination tile: {destinationTile}\n" +
-                $"destination room: {destinationRoom}\n" +
-                $"visited rooms: {visitedRooms.Count}"
-            );
-
             this.building = building;
             this.currentTile = currentTile;
             currentRoom = building.FindRoomAtTile(currentTile);
@@ -47,6 +38,8 @@ namespace TowerBuilder
             this.destinationTile = destinationTile;
             destinationRoom = building.FindRoomAtTile(destinationTile);
             Assert.IsNotNull(destinationRoom);
+
+            this.path = path;
 
             this.visitedRooms = visitedRooms;
 
@@ -69,7 +62,6 @@ namespace TowerBuilder
                 {
                     // route is complete!
                     hasReachedDestination = true;
-                    Debug.Log("I made it.");
                 }
                 else
                 {
@@ -93,8 +85,6 @@ namespace TowerBuilder
                     !visitedRooms.Contains(room)
                 );
 
-                Debug.Log($"unvisitedTransportationRoomsOnFloor: {unvisitedTransportationRoomsOnFloor.Count}");
-
                 var unvisitedTransportationRoomGroups = unvisitedTransportationRoomsOnFloor
                     .Aggregate(new HashSet<RoomGroup>(), (result, room) =>
                     {
@@ -102,19 +92,14 @@ namespace TowerBuilder
                         return result;
                     }).ToList();
 
-                Debug.Log($"unvisitedTransportationRoomGroups: {unvisitedTransportationRoomGroups.Count}");
-
                 foreach (var transportationRoomGroup in unvisitedTransportationRoomGroups)
                 {
-                    Debug.Log($"creating branch for transportation room group {transportationRoomGroup}");
                     var branch = CreateBranch();
 
                     var bottomLeftTile = transportationRoomGroup.GetBottomLeftTile();
                     branch.GoToTile(new Tile(bottomLeftTile.x, currentTile.y));
-                    Debug.Log($"bottomLeftTile: {bottomLeftTile}");
 
                     var unvisitedFloors = transportationRoomGroup.GetFloors().FindAll(floor => floor != currentTile.y);
-                    Debug.Log($"unvisitedFloors: {unvisitedFloors.Aggregate("", (result, floor) => result + $"{floor}, ")}");
 
                     // Go to each floor this transportation item services
                     // create a new branch for each floor
@@ -123,7 +108,7 @@ namespace TowerBuilder
                         var branchForFloor = branch.CreateBranch();
 
                         //
-                        branch.GoToTileAndContinue(new Tile(branch.currentTile.x, floor));
+                        branchForFloor.GoToTileAndContinue(new Tile(branch.currentTile.x, floor));
                     }
                 }
             }
@@ -134,14 +119,13 @@ namespace TowerBuilder
                 building,
                 currentTile,
                 destinationTile,
+                new(path),
                 new(visitedRooms),
                 allAttempts
             );
 
         void GoToTile(Tile tile)
         {
-            Debug.Log($"going to tile {tile}");
-
             path.Add(new() { tile = tile });
             currentTile = tile;
             currentRoom = building.FindRoomAtTile(currentTile);

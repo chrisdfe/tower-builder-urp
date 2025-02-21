@@ -81,12 +81,8 @@ namespace TowerBuilder
 
         public void SetDestination(Building building, Tile destinationTile)
         {
-            Debug.Log($"time to go to tile {destinationTile}. I am at {tile}");
-
             routeFinder = new OccupantRouteFinder(building, tile, destinationTile);
             routeFinder.Run();
-
-            Debug.Log("done.");
         }
 
         //

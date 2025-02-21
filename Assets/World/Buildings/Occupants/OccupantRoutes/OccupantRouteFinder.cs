@@ -25,27 +25,41 @@ namespace TowerBuilder
         {
             attempts = new();
 
-            var firstAttempt = new OccupantRouteAttempt(building, startTile, destinationTile, new(), attempts);
+            var firstAttempt = new OccupantRouteAttempt(
+                building,
+                startTile,
+                destinationTile,
+                new(),
+                new(),
+                attempts
+            );
+
             firstAttempt.Start();
         }
 
+        public List<OccupantRouteAttempt> GetSuccessfulAttempts() => attempts.FindAll(attempt => attempt.hasReachedDestination);
+
+        public List<OccupantRouteAttempt> GetUnsuccessfulAttempts() => attempts.FindAll(attempt => !attempt.hasReachedDestination);
+
         public void DebugDrawPaths()
         {
+            var successfulAttempts = GetSuccessfulAttempts();
+            var unsuccessfulAttempts = GetUnsuccessfulAttempts();
 
-            var successfulAttempts = attempts.FindAll(attempt => attempt.hasReachedDestination);
-            var unsuccessfullAttempts = attempts.FindAll(attempt => !attempt.hasReachedDestination);
-
+            int pathIdx = 0;
             foreach (var attempt in successfulAttempts)
             {
-                DrawPath(attempt.path, Color.green);
+                DrawPath(attempt.path, pathIdx, Color.green);
+                pathIdx++;
             }
 
-            foreach (var attempt in unsuccessfullAttempts)
+            foreach (var attempt in unsuccessfulAttempts)
             {
-                DrawPath(attempt.path, Color.red);
+                DrawPath(attempt.path, pathIdx, Color.red);
+                pathIdx++;
             }
 
-            void DrawPath(List<OccupantRouteNode> path, Color color)
+            void DrawPath(List<OccupantRouteNode> path, int pathIdx, Color color)
             {
                 int idx = 0;
                 // draw the line
@@ -55,11 +69,22 @@ namespace TowerBuilder
                     if (nextIdx < path.Count)
                     {
                         var nextNode = path[nextIdx];
-                        Debug.DrawLine(node.tile.ToWorldPosition(), nextNode.tile.ToWorldPosition(), color);
+                        Debug.DrawLine(
+                            GetPositionWithOffset(node.tile.ToWorldPosition()),
+                            GetPositionWithOffset(nextNode.tile.ToWorldPosition()),
+                            color
+                        );
                     }
 
                     idx++;
                 }
+
+                Vector3 GetPositionWithOffset(Vector3 position) =>
+                    new Vector3(
+                        position.x + (pathIdx * 0.05f),
+                        position.y + (pathIdx * 0.05f),
+                        position.z
+                    );
             }
         }
     }
