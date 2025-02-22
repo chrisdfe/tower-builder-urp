@@ -127,7 +127,7 @@ namespace TowerBuilder
                 return;
             }
 
-            var tile = worldController.mousePositionToTile();
+            var tile = worldController.GetMousePositionToTile();
 
             AddRoomAtTile(worldController.toolsController.buildTool.selectedRoomDefinition.current, tile);
 
@@ -306,7 +306,7 @@ namespace TowerBuilder
 
                 var occupant = CreateOccupant();
 
-                // TODO - this will update the position twice. not a huge deal
+                // TODO - pick random 'TileAddress' 
                 occupant.SetTile(room.tiles[0]);
                 occupant.SetSubTileOffset(subTileOffset * 0.3f);
                 room.residents.Add(occupant);

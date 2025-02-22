@@ -25,6 +25,8 @@ namespace TowerBuilder
 
         public void Setup()
         {
+            SetExtraMouseOffset();
+
             // avoid creating duplicate blueprint rooms
             // a blueprint room will be created when the cursor leaves the UI so don't do it here
             if (!worldController.cursorIsOverUI.current)
@@ -35,6 +37,8 @@ namespace TowerBuilder
 
         public void Teardown()
         {
+            worldController.mousePositionExtraOffset = Vector2.zero;
+
             //
             // blueprintRoom will be null when the player hovers over the UI
             if (blueprintRoom != null)
@@ -82,6 +86,8 @@ namespace TowerBuilder
             // update blueprint to use new room definition - just delete/create a new one for now
             if (selectedRoomDefinition.HasChanged())
             {
+                SetExtraMouseOffset();
+
                 if (!worldController.cursorIsOverUI.current)
                 {
                     RemoveBlueprintRoom();
@@ -114,7 +120,7 @@ namespace TowerBuilder
 
         Room CreateBlueprintRoom()
         {
-            var tile = worldController.mousePositionToTile();
+            var tile = worldController.GetMousePositionToTile();
             var position = tile.ToWorldPosition();
 
             var roomGameObject = GameObject.Instantiate(worldController.roomPrefab, position, Quaternion.identity, worldController.transform);
@@ -133,6 +139,11 @@ namespace TowerBuilder
         {
             GameObject.Destroy(blueprintRoom.gameObject);
             blueprintRoom = null;
+        }
+
+        void SetExtraMouseOffset()
+        {
+            worldController.mousePositionExtraOffset = -1 * TileList.GetRelativeCenterPoint(selectedRoomDefinition.current.shape);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 ## currently:
 
-- [ ] center blueprint tile to cursor
-  - [ ] I could refactor/reuse room.GetInspectTargetOrigin for this
+- [ ] BUG: I broke Room.GetInspectFocalPoint
 - [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 6 subtiles per tile
+  - [ ] 'TileAddress' - tile + subtile
   - [ ] 'FindRandomTile/SubtileInRoom'
   - [ ] place new residents randomly within room, instead of all on one tile
   - [ ] once no more subtiles are free, room is "full"
@@ -74,6 +74,8 @@
 
 # Done
 
+- [x] center blueprint tile to cursor
+  - [x] I could refactor/reuse room.GetInspectTargetOrigin for this
 - [x] routing for occupants
   - [x] ability to tell a occupant to go here or there
   - [x] occupant 'tasks' - wandering, standing walking

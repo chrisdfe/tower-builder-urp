@@ -8,10 +8,7 @@ namespace TowerBuilder
 
         public bool isComplete => true;
 
-        public void Setup()
-        {
-            Debug.Log("starting idle task");
-        }
+        public void Setup() { }
 
         public void Teardown() { }
 

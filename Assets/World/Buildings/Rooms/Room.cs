@@ -207,7 +207,6 @@ namespace TowerBuilder
             UpdateColor();
         }
 
-
         public bool ContainsTile(Tile tile)
         {
             foreach (Tile t in tiles)
@@ -237,46 +236,18 @@ namespace TowerBuilder
             return false;
         }
 
-        public Vector2 GetInspectFocalPoint()
+        public Vector2 GetInspectFocalPoint() => GetCenterPoint();
+
+        public Vector2 GetCenterPoint()
         {
-            var lowestX = float.PositiveInfinity;
-            var highestX = float.NegativeInfinity;
-
-            foreach (var roomTile in roomTiles)
-            {
-                if (roomTile.transform.position.x < lowestX)
-                {
-                    lowestX = roomTile.transform.position.x;
-                }
-
-                if (roomTile.transform.position.x > highestX)
-                {
-                    highestX = roomTile.transform.position.x;
-                }
-            }
+            var ((highestX, lowestX), (highestY, lowestY)) = TileList.GetHighestAndLowestValues(tiles);
 
             var x = lowestX + (highestX - lowestX);
-
-            var lowestY = float.PositiveInfinity;
-            var highestY = float.NegativeInfinity;
-
-            foreach (var roomTile in roomTiles)
-            {
-                if (roomTile.transform.position.y < lowestY)
-                {
-                    lowestY = roomTile.transform.position.y;
-                }
-
-                if (roomTile.transform.position.y > highestY)
-                {
-                    highestY = roomTile.transform.position.y;
-                }
-            }
-
             var y = lowestY + (highestY - lowestY);
 
-            var result = new Vector2(x, y);
-            return result;
+            var resultTile = new Tile(x, y);
+            var resultVector3 = resultTile.ToWorldPosition();
+            return new Vector2(resultVector3.x, resultVector3.y);
         }
 
         public List<Tile> GetAdjacentTiles()

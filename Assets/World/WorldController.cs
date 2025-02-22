@@ -20,7 +20,13 @@ public class WorldController : MonoBehaviour
     public Material blueprintInvalidRoomTileMaterial;
 
     // State
+
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.zero, Tile.Matches);
+
+    // affects the mouse position used to determine hoveredTile
+    // used for centering blueprint room etc
+    // TODO - could have a better name
+    public Vector2 mousePositionExtraOffset = Vector2.zero;
 
     public ToolsController toolsController { get; private set; }
     public BuildingsController buildingsController { get; private set; }
@@ -154,7 +160,6 @@ public class WorldController : MonoBehaviour
             {
                 if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget is Room)
                 {
-                    // var tiles = (toolsController.inspectTool.inspectTarget as Room).GetAdjacentTiles();
                     var roomInspectTarget = toolsController.inspectTool.inspectTarget as Room;
                     var building = buildingsController.FindBuildingByRoom(roomInspectTarget);
                     var roomGroup = building.FindRoomGroupByRoom(roomInspectTarget);
@@ -188,7 +193,7 @@ public class WorldController : MonoBehaviour
 
     void UpdateCurrentTilePosition()
     {
-        var tile = mousePositionToTile();
+        var tile = GetMousePositionToTile();
         hoveredTile.Set(tile);
     }
 
@@ -225,13 +230,18 @@ public class WorldController : MonoBehaviour
         notifications.Add(new Notification(message));
     }
 
-    public Tile mousePositionToTile()
+    public Tile GetMousePositionToTile()
     {
         var mousePosition = Input.mousePosition;
         var screenPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        var screenPositionWithExtraOffset = new Vector2(
+            screenPosition.x + mousePositionExtraOffset.x,
+            screenPosition.y + mousePositionExtraOffset.y
+        );
+
         var tile = new Tile(
-            (int)(Mathf.Round(screenPosition.x) / TILE_SIZE * TILE_SIZE),
-            (int)(Mathf.Round(screenPosition.y) / TILE_SIZE * TILE_SIZE)
+            (int)(Mathf.Round(screenPositionWithExtraOffset.x) / TILE_SIZE * TILE_SIZE),
+            (int)(Mathf.Round(screenPositionWithExtraOffset.y) / TILE_SIZE * TILE_SIZE)
         );
 
         return tile;
