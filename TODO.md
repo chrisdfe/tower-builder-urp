@@ -11,17 +11,19 @@
 
 ## next:
 
+- [ ] in traveling task, make sure occupant.currentRoom gets updated as well
+- [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] occupants should arrive via entrance/exit
 - [ ] build/destroy mode should pause time
 - [ ] BUG: occupants poke through walls at extreme subTileOffsets
 - [ ] refactor occupants to exist primarily on buildingsController
+  - right now they belong to rooms.residents, which doesn't account
 - [ ] "travelers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
 - [ ] BUG: changing speeds while resident is moving messes walking/movement transitions up
 - [ ] should be able to move camera in inspect mode
-- [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] time
 - [ ] schedules for residents
   - [ ] sleep time
