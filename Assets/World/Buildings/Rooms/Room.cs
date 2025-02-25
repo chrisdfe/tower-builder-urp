@@ -354,11 +354,25 @@ namespace TowerBuilder
             return result;
         }
 
-        public Tile GetRandomTile()
+        public Tile GetRandomTile(List<Tile> excludedTiles)
         {
-            var index = Random.Range(0, tiles.Count);
-            return tiles[index];
+            var tilesToSelectFrom = new List<Tile>();
+
+            foreach (var tile in tiles)
+            {
+                var excludedTile = excludedTiles.Find(excludedTile => excludedTile.Matches(tile));
+
+                if (excludedTile == null)
+                {
+                    tilesToSelectFrom.Add(tile);
+                }
+            }
+
+            var index = Random.Range(0, tilesToSelectFrom.Count);
+            return tilesToSelectFrom[index];
         }
+
+        public Tile GetRandomTile() => GetRandomTile(new());
 
         //
         // Private interface

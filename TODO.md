@@ -2,27 +2,30 @@
 
 ## currently:
 
-- [ ] ability to cancel tasks - e.g interupting wander task with 'travel to destination' task
-- [ ] make sure random tile selected in 'wander' task isn't the tile the occupant is currently on
-- [x] 'wander' task
+- [ ] ability to cancel tasks
+  - e.g interupting wander task with 'travel to destination' task
+  - e.g when a room is destroyed
+  - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
+        you will not be able to give it any further commands.
 - [ ] BUG: I broke Room.GetInspectFocalPoint
 
 ## next:
 
+- [ ] inspect camera should move with the resident as it's moving
+- [ ] occupants should arrive via entrance/exit
+- [ ] build/destroy mode should pause time
+- [ ] BUG: occupants poke through walls at extreme subTileOffsets
 - [ ] refactor occupants to exist primarily on buildingsController
 - [ ] "travelers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
-- [ ] occupants should arrive via entrance/exit
-- [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
-      you will not be able to give it any further commands.
-  - [ ] a 'cancel task' function & a 'task queue' will be the solution to this
-- [ ] inspect camera should move with the resident as it's moving
 - [ ] BUG: changing speeds while resident is moving messes walking/movement transitions up
 - [ ] should be able to move camera in inspect mode
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] time
 - [ ] schedules for residents
+  - [ ] sleep time
+  - [ ] work time
 - [ ] segment variant improvements:
   - [ ] apply segment variant to entire room group as well
   - [ ] apply segment variant to entire building as well
@@ -32,8 +35,6 @@
 - [ ] BUG: fix building-adding code - right now it's hard coded as max 1 building
 - [ ] ability to fix how stairs still room group even if not aligned vertically
   - [ ] maybe just a validator that prevents you from placing them right next to each other or askew
-- [ ] destroy rooms on a per-block basis
-  - [ ] maybe the room group situation is already a solution for this
 - [ ] BUG: the UI scales weirdly when I resize the window
 - [ ] transportation items
   - [ ] maybe just rooms
@@ -73,6 +74,10 @@
 
 # Done
 
+- [x] destroy rooms on a per-block basis
+  - [x] maybe the room group situation is already a solution for this
+- [x] make sure random tile selected in 'wander' task isn't the tile the occupant is currently on
+- [x] 'wander' task
 - [x] randomize occupants' position on tile slightly -0.5f-0.5f
 - [x] place new residents randomly within room, instead of all on one tile
 - [x] center blueprint tile to cursor

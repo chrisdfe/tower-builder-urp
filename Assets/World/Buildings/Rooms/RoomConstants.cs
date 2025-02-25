@@ -70,8 +70,7 @@ namespace TowerBuilder
                 },
                 type = RoomType.Occupantial,
 
-                // residentCapacity = 12,
-                residentCapacity = 1,
+                residentCapacity = 12,
             },
 
             new RoomDefinition() {
