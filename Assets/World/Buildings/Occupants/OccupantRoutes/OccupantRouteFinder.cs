@@ -27,7 +27,7 @@ namespace TowerBuilder
             this.destinationTile = destinationTile;
         }
 
-        public void Run()
+        public OccupantRoute FindRoute()
         {
             attempts = new();
 
@@ -61,7 +61,10 @@ namespace TowerBuilder
             if (successfulAttempts.Count > 0)
             {
                 route = new OccupantRoute(CreateFullRouteFromSuccessfulAttempt(successfulAttempts[0]));
+                return route;
             }
+
+            return null;
         }
 
         List<OccupantRouteNode> CreateFullRouteFromSuccessfulAttempt(OccupantRouteAttempt attempt)

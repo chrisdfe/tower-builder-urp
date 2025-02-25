@@ -13,7 +13,7 @@ namespace TowerBuilder
         public RoomGroupCategory groupCategory = RoomGroupCategory.None;
 
         // How many occupants can live in this room
-        public uint occupantialCapacity = 0;
+        public uint residentCapacity = 0;
 
         // How many occupants can work in this room
         public uint workerCapacity = 0;

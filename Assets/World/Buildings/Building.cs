@@ -22,14 +22,15 @@ namespace TowerBuilder
             var room = roomGameObject.GetComponent<Room>();
 
             // Initialize room
+            room.building = this;
             room.definition = roomDefinition;
+            room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
+            roomGameObject.name = room.title;
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
             room.UpdateColor();
             room.SetZPosition();
 
             rooms.Add(room);
-            room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
-            roomGameObject.name = room.title;
 
             // Add to roomGroup if room is groupable
             if (room.definition.groupCategory != RoomGroupCategory.None)
@@ -198,7 +199,7 @@ namespace TowerBuilder
             //
             foreach (var room in rooms)
             {
-                if (room.residents.Count < room.definition.occupantialCapacity)
+                if (room.residents.Count < room.definition.residentCapacity)
                 {
                     result.Add(room);
                 }

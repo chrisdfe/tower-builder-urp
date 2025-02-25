@@ -2,17 +2,18 @@
 
 ## currently:
 
-- [ ] place new residents randomly within room, instead of all on one tile
+- [ ] ability to cancel tasks - e.g interupting wander task with 'travel to destination' task
+- [ ] make sure random tile selected in 'wander' task isn't the tile the occupant is currently on
+- [x] 'wander' task
 - [ ] BUG: I broke Room.GetInspectFocalPoint
-- [ ] randomize occupants' position on tile slightly -0.5f-0.5f
-- [ ] 'wander' task
 
 ## next:
 
-- [ ] refactor occupants to exist outside of buildingsController - maybe worldController
+- [ ] refactor occupants to exist primarily on buildingsController
 - [ ] "travelers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
+- [ ] occupants should arrive via entrance/exit
 - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
       you will not be able to give it any further commands.
   - [ ] a 'cancel task' function & a 'task queue' will be the solution to this
@@ -72,6 +73,8 @@
 
 # Done
 
+- [x] randomize occupants' position on tile slightly -0.5f-0.5f
+- [x] place new residents randomly within room, instead of all on one tile
 - [x] center blueprint tile to cursor
   - [x] I could refactor/reuse room.GetInspectTargetOrigin for this
 - [x] routing for occupants

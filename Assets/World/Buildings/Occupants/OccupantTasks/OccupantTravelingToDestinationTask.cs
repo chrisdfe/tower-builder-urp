@@ -37,9 +37,6 @@ namespace TowerBuilder
             if (GetNextIdx() == -1)
             {
                 _isComplete = true;
-
-                // for now, manually set occupant's new state
-                occupant.TransitionToTask(new OccupantIdleTask());
             }
             else
             {

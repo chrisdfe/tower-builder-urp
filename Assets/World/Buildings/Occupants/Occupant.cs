@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -24,8 +25,15 @@ namespace TowerBuilder
 
         public string title { get; set; } = "Occupant";
         public Tile tile { get; private set; }
+
+        // where this occupant works
         public Room office { get; set; }
+
+        // where this occupant lives
         public Room residence { get; set; }
+
+        // where this occupant currently is
+        public Room currentRoom { get; set; }
 
         // player is hovering over the room with the inspect tool
         public bool isInspectionHovered { get; private set; } = false;
@@ -57,6 +65,13 @@ namespace TowerBuilder
         public void OnTick()
         {
             currentTask.OnTick();
+
+            if (currentTask.isComplete)
+            {
+                // TODO - next task in queue
+                //        for now, just transition to idle
+                TransitionToTask(new OccupantIdleTask());
+            }
         }
 
         public void FixedUpdate()
@@ -116,7 +131,7 @@ namespace TowerBuilder
             {
                 currentTask.Teardown();
 
-                // This seems a bit messy in the long run but fine for now
+                // TODO - I probably don't need to keep the routefinder around for now
                 if (currentTask is OccupantTravelingToDestinationTask)
                 {
                     routeFinder = null;
@@ -124,15 +139,15 @@ namespace TowerBuilder
             }
 
             currentTask = task;
-            task.Setup();
+            currentTask.Setup();
         }
 
-        public void SetDestination(Building building, Tile destinationTile)
+        public void StartTravelToDestinationTask(Building building, Tile destinationTile)
         {
             routeFinder = new OccupantRouteFinder(building, tile, destinationTile);
-            routeFinder.Run();
+            var route = routeFinder.FindRoute();
 
-            if (routeFinder.route != null)
+            if (route != null)
             {
                 TransitionToTask(new OccupantTravelingToDestinationTask(this, routeFinder.route));
             }
@@ -146,7 +161,7 @@ namespace TowerBuilder
             var tilePosition = tile.ToWorldPosition();
 
             transform.position = new Vector3(
-                tilePosition.x + subTileOffset.z,
+                tilePosition.x + subTileOffset.x,
                 tilePosition.y,
                 -OCCUPANT_Z_OFFSET + subTileOffset.z
             );

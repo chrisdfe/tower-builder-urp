@@ -273,6 +273,10 @@ namespace TowerBuilder
         //
         // Private interface
         //
+
+        //
+        // Buildings
+        // 
         Building CreateBuilding()
         {
             var buildingGameObject = GameObject.Instantiate(
@@ -288,6 +292,10 @@ namespace TowerBuilder
             return building;
         }
 
+
+        //
+        // Occupants
+        // 
         Occupant CreateOccupant()
         {
             var occupantPrefab = worldController.occupantPrefab;
@@ -304,16 +312,19 @@ namespace TowerBuilder
 
             foreach (var room in availableResidenceRooms)
             {
-                var subTileOffset = room.residents.Count;
-
                 var occupant = CreateOccupant();
+
+                occupant.title = $"{building.title} Occupant {building.ResidentCount()}";
+                occupant.gameObject.name = occupant.title;
 
                 occupant.SetTile(room.GetRandomTile());
                 occupant.SetRandomSubTileOffset();
+                occupant.currentRoom = room;
+
                 room.residents.Add(occupant);
                 occupant.residence = room;
-                occupant.title = $"{building.title} Occupant {building.ResidentCount()}";
-                occupant.gameObject.name = occupant.title;
+
+                occupant.TransitionToTask(new OccupantWanderingTask(occupant));
 
                 worldController.notifications.Add(new Notification(occupant.title + " has moved into " + room.title));
             }

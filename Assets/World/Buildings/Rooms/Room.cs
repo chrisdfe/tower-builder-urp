@@ -13,6 +13,9 @@ namespace TowerBuilder
 
         public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.zero };
 
+        // The building this room belongs to
+        public Building building;
+
         // Occupants that live in this room
         public List<Occupant> residents { get; private set; } = new List<Occupant>();
 

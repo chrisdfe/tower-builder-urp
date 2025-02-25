@@ -69,7 +69,9 @@ namespace TowerBuilder
                     new(4, 0),
                 },
                 type = RoomType.Occupantial,
-                occupantialCapacity = 12,
+
+                // residentCapacity = 12,
+                residentCapacity = 1,
             },
 
             new RoomDefinition() {
@@ -82,7 +84,7 @@ namespace TowerBuilder
                     new(1, 1),
                 },
                 type = RoomType.Occupantial,
-                occupantialCapacity = 3,
+                residentCapacity = 3,
             },
 
             new RoomDefinition() {
