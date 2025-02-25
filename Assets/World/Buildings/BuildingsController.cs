@@ -8,6 +8,8 @@ namespace TowerBuilder
     {
         public List<Building> buildings { get; private set; } = new();
 
+
+
         WorldController worldController;
 
         Transform buildingsContainer;
@@ -306,9 +308,8 @@ namespace TowerBuilder
 
                 var occupant = CreateOccupant();
 
-                // TODO - pick random 'TileAddress' 
-                occupant.SetTile(room.tiles[0]);
-                occupant.SetSubTileOffset(subTileOffset * 0.3f);
+                occupant.SetTile(room.GetRandomTile());
+                occupant.SetRandomSubTileOffset();
                 room.residents.Add(occupant);
                 occupant.residence = room;
                 occupant.title = $"{building.title} Occupant {building.ResidentCount()}";

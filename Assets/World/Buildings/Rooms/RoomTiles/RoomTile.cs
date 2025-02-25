@@ -108,5 +108,14 @@ public class RoomTile : MonoBehaviour
 
         segmentTransformWrappers = result;
     }
+
+    //
+    // Static interface
+    //
+    public static RoomTile GetRoomTileFromCollider(Transform colliderTransform)
+    {
+        // collider is attached to a child of the main room tile gameobject
+        return colliderTransform.parent.GetComponent<RoomTile>();
+    }
 }
 

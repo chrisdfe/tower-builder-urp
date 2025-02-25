@@ -6,6 +6,20 @@ namespace TowerBuilder
 {
     public class Occupant : MonoBehaviour, IInspectTarget
     {
+        public class SubtileOffset
+        {
+            public float x = 0f;
+            public float z = 0f;
+
+            public SubtileOffset() { }
+
+            public SubtileOffset(float x, float z)
+            {
+                this.x = x;
+                this.z = z;
+            }
+        }
+
         public static float OCCUPANT_Z_OFFSET = 0.1f;
 
         public string title { get; set; } = "Occupant";
@@ -20,8 +34,7 @@ namespace TowerBuilder
         public bool isInspected { get; private set; } = false;
 
         // Positioning
-        // TODO - subtile should be the main thing, subtileOffset is derived from that
-        public float subTileOffset = 0f;
+        public SubtileOffset subTileOffset = new SubtileOffset();
 
         Color originalColor;
         public Transform movementAnimationWrapper { get; private set; }
@@ -78,10 +91,15 @@ namespace TowerBuilder
             UpdatePosition();
         }
 
-        public void SetSubTileOffset(float subTileOffset)
+        public void SetSubTileOffset(SubtileOffset subTileOffset)
         {
             this.subTileOffset = subTileOffset;
             UpdatePosition();
+        }
+
+        public void SetRandomSubTileOffset()
+        {
+            SetSubTileOffset(GetRandomSubtileOffset());
         }
 
         public Vector2 GetInspectFocalPoint()
@@ -128,9 +146,9 @@ namespace TowerBuilder
             var tilePosition = tile.ToWorldPosition();
 
             transform.position = new Vector3(
-                tilePosition.x + subTileOffset,
+                tilePosition.x + subTileOffset.z,
                 tilePosition.y,
-                -OCCUPANT_Z_OFFSET
+                -OCCUPANT_Z_OFFSET + subTileOffset.z
             );
         }
 
@@ -151,6 +169,16 @@ namespace TowerBuilder
             }
 
             bod.GetComponent<MeshRenderer>().material.color = color;
+        }
+
+        //
+        // Static interface
+        // 
+        static SubtileOffset GetRandomSubtileOffset()
+        {
+            var x = Random.Range(-0.8f, 0.8f);
+            var z = Random.Range(0f, 0.4f);
+            return new SubtileOffset(x, z);
         }
     }
 }

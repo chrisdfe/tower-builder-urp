@@ -2,19 +2,17 @@
 
 ## currently:
 
+- [ ] place new residents randomly within room, instead of all on one tile
 - [ ] BUG: I broke Room.GetInspectFocalPoint
-- [ ] divide tiles up into 'subtiles' for occupants to stand on. maybe 6 subtiles per tile
-  - [ ] 'TileAddress' - tile + subtile
-  - [ ] 'FindRandomTile/SubtileInRoom'
-  - [ ] place new residents randomly within room, instead of all on one tile
-  - [ ] once no more subtiles are free, room is "full"
-  - [ ] the more occupant per tile the more 'cramped' (ultimately)
-  - [ ] residents should use first available subtile along route
-    - [ ] or random?
+- [ ] randomize occupants' position on tile slightly -0.5f-0.5f
 - [ ] 'wander' task
 
 ## next:
 
+- [ ] refactor occupants to exist outside of buildingsController - maybe worldController
+- [ ] "travelers"
+  - [ ] create room for this ("hotel room" or "overnight cabin" or something)
+  - [ ] periodically travelers arrive, stay, and then get off
 - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
       you will not be able to give it any further commands.
   - [ ] a 'cancel task' function & a 'task queue' will be the solution to this

@@ -144,7 +144,7 @@ namespace TowerBuilder
                         }
                     case "RoomTile":
                         {
-                            var roomTile = hit.transform.GetComponent<RoomTile>();
+                            var roomTile = RoomTile.GetRoomTileFromCollider(hit.transform);
                             var room = roomTile.room;
 
                             // Blueprint rooms aren't inspectable

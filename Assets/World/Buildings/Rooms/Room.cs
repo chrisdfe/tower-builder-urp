@@ -45,6 +45,10 @@ namespace TowerBuilder
         // Public interface
         //
 
+        //
+        // Write methods
+        //
+
         // TODO - this isn't going to work for resizable rooms
         // TODO - make the originTile the center tile instead of bottom left
         public void CalculateAndInstantiateTilesFromOriginTile(Tile originTile)
@@ -207,6 +211,17 @@ namespace TowerBuilder
             UpdateColor();
         }
 
+        public void SetRoomTileSegmentVariant(RoomTileSegment roomTileSegment, string variant)
+        {
+            foreach (var roomTile in roomTiles)
+            {
+                roomTile.SetSegmentVariant(roomTileSegment, variant);
+            }
+        }
+
+        //
+        // Read methods
+        // 
         public bool ContainsTile(Tile tile)
         {
             foreach (Tile t in tiles)
@@ -336,12 +351,10 @@ namespace TowerBuilder
             return result;
         }
 
-        public void SetRoomTileSegmentVariant(RoomTileSegment roomTileSegment, string variant)
+        public Tile GetRandomTile()
         {
-            foreach (var roomTile in roomTiles)
-            {
-                roomTile.SetSegmentVariant(roomTileSegment, variant);
-            }
+            var index = Random.Range(0, tiles.Count);
+            return tiles[index];
         }
 
         //
