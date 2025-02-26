@@ -14,6 +14,9 @@ namespace TowerBuilder
         OccupantRoute route;
         int currentIdx = 0;
 
+        // TODO - this doesn't seem great
+        WorldController worldController;
+
         public OccupantTravelingToDestinationTask(Occupant occupant, OccupantRoute route)
         {
             this.occupant = occupant;
@@ -30,6 +33,7 @@ namespace TowerBuilder
             var currentNode = GetCurrentNode();
 
             occupant.SetTile(currentNode.tile);
+            occupant.currentRoom = worldController.buildingsController.FindFrontmostRoomAtTile(currentNode.tile);
             occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
 
             // set random subtile offset too?

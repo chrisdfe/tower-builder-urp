@@ -2,8 +2,6 @@
 
 ## currently:
 
-- [ ] sky that responds to time of day
-- [ ] in traveling task, make sure occupant.currentRoom gets updated as well
 - [ ] schedules for occupants
   - [ ] sleep time
   - [ ] work time
@@ -16,6 +14,8 @@
 
 ## next:
 
+- [ ] TileAddress - tile, room, building
+- [ ] sky that responds to time of day
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] occupants should arrive via entrance/exit
@@ -76,6 +76,7 @@
 
 # Done
 
+- [x] in traveling task, make sure occupant.currentRoom gets updated as well
 - [x] time
 - [x] destroy rooms on a per-block basis
   - [x] maybe the room group situation is already a solution for this
