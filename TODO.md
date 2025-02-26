@@ -14,6 +14,7 @@
 
 ## next:
 
+- [ ] try a linear step for occupant movement animation (for style)
 - [ ] TileAddress - tile, room, building
 - [ ] sky that responds to time of day
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer

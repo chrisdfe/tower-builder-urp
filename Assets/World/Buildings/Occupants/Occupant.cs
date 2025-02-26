@@ -48,6 +48,8 @@ namespace TowerBuilder
         public Transform movementAnimationWrapper { get; private set; }
         Transform bod;
 
+        // Schedules/Tasks
+        public OccupantSchedule schedule { get; private set; }
         public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
         OccupantRouteFinder routeFinder;
 
@@ -60,10 +62,14 @@ namespace TowerBuilder
             bod = movementAnimationWrapper.Find("Bod");
             var bodMaterial = bod.GetComponent<MeshRenderer>().material;
             originalColor = bodMaterial.color;
+
+            schedule = new OccupantSchedule(this);
         }
 
         public void OnTick()
         {
+            schedule.OnTick();
+
             currentTask.OnTick();
 
             if (currentTask.isComplete)

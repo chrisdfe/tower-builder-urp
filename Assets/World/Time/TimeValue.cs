@@ -207,6 +207,12 @@ namespace TowerBuilder
             return new TimeValue(newMinutes);
         }
 
+        public static TimeValue AddMinutes(TimeValue timeValue, int minutes)
+        {
+            int timeAsMinutes = timeValue.AsMinutes();
+            return new TimeValue(timeAsMinutes + minutes);
+        }
+
         // TODO - make sure time doesn't go below 0
         public static TimeValue Subtract(TimeValue timeValue, Input timeInput)
         {

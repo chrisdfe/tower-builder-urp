@@ -21,6 +21,8 @@ namespace TowerBuilder
         {
             this.occupant = occupant;
             this.route = route;
+
+            worldController = WorldController.Get();
         }
 
         public void Setup() { }
