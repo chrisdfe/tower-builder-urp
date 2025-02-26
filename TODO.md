@@ -10,12 +10,14 @@
   - e.g when a room is destroyed
   - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
         you will not be able to give it any further commands.
-- [ ] BUG: I broke Room.GetInspectFocalPoint
+- [ ] BUG: I think I broke Room.GetInspectFocalPoint
 
 ## next:
 
 - [ ] try a linear step for occupant movement animation (for style)
+- [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents to go sleep or all workers leave
 - [ ] TileAddress - tile, room, building
+  - might help with all the WorldController.Get() happening all over
 - [ ] sky that responds to time of day
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] inspect camera should move with the resident as it's moving
@@ -30,6 +32,7 @@
 - [ ] BUG: changing speeds while resident is moving messes walking/movement transitions up
 - [ ] should be able to move camera in inspect mode
 - [ ] segment variant improvements:
+  - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
   - [ ] apply segment variant to entire room group as well
   - [ ] apply segment variant to entire building as well
   - [ ] save/reuse last used segment variant? Settings for building?
