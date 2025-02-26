@@ -1,6 +1,6 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace TowerBuilder
 {
@@ -47,31 +47,7 @@ namespace TowerBuilder
 
         void UpdateHoursMinutesText()
         {
-            var time = worldController.timeController.timeValue;
-            int hour = time.hour + 1;
-            int minute = time.minute;
-
-            string amPm = "am";
-
-            if (hour > 12)
-            {
-                amPm = "pm";
-                hour -= 12;
-            }
-
-            string hourAsString = hour.ToString();
-            if (hour < 11)
-            {
-                hourAsString = "0" + hour.ToString();
-            }
-
-            string minuteAsString = minute.ToString();
-            if (minute < 11)
-            {
-                minuteAsString = "0" + minute.ToString();
-            }
-
-            hoursMinutesText.text = hourAsString + ":" + minuteAsString + amPm;
+            hoursMinutesText.text = worldController.timeController.timeValue.ToString();
         }
 
         void UpdateWeeksSeasonsText()

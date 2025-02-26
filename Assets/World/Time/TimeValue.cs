@@ -42,8 +42,33 @@ namespace TowerBuilder
             SetFromMinutes(minutes);
         }
 
-        public override string ToString() =>
-            $"{hour}:{minute}, day: {day}, week: {week}, season: {season}, year: {year}";
+        public override string ToString()
+        {
+            int hour = this.hour + 1;
+            int minute = this.minute;
+
+            string amPm = "am";
+
+            if (hour > 12)
+            {
+                amPm = "pm";
+                hour -= 12;
+            }
+
+            string hourAsString = hour.ToString();
+            // if (hourAsString.Length == 1)
+            // {
+            //     hourAsString = "0" + hourAsString;
+            // }
+
+            string minuteAsString = minute.ToString();
+            if (minuteAsString.Length == 1)
+            {
+                minuteAsString = "0" + minuteAsString;
+            }
+
+            return hourAsString + ":" + minuteAsString + amPm;
+        }
 
         public int GetTimeOfDayIndex()
         {
@@ -87,15 +112,11 @@ namespace TowerBuilder
             return index;
         }
 
-        public TimeOfDay GetPreviousTimeOfDay()
-        {
-            return TimeConstants.TIMES_OF_DAY[GetPreviousTimeOfDayIndex()];
-        }
+        public TimeOfDay GetPreviousTimeOfDay() =>
+            TimeConstants.TIMES_OF_DAY[GetPreviousTimeOfDayIndex()];
 
-        public TimeOfDay GetNextTimeOfDay()
-        {
-            return TimeConstants.TIMES_OF_DAY[GetNextTimeOfDayIndex()];
-        }
+        public TimeOfDay GetNextTimeOfDay() =>
+            TimeConstants.TIMES_OF_DAY[GetNextTimeOfDayIndex()];
 
         public TimeValue(TimeValue timeValue)
         {
@@ -160,19 +181,14 @@ namespace TowerBuilder
             minute = leftover;
         }
 
-        public TimeValue ToRelative()
-        {
-            return TimeValue.ToRelative(this);
-        }
+        public TimeValue ToRelative() => TimeValue.ToRelative(this);
 
-        /* 
-            Static Interface
-        */
-        public static TimeValue Zero()
-        {
-            return new TimeValue()
+        // 
+        //  Static Interface
+        //
+        public static TimeValue Zero() =>
+            new TimeValue()
             {
-
                 minute = 0,
                 hour = 0,
                 day = 0,
@@ -180,7 +196,6 @@ namespace TowerBuilder
                 season = 0,
                 year = 0,
             };
-        }
 
         public static TimeValue Add(TimeValue timeValue, Input timeInput)
         {

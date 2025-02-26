@@ -2,6 +2,11 @@
 
 ## currently:
 
+- [ ] sky that responds to time of day
+- [ ] in traveling task, make sure occupant.currentRoom gets updated as well
+- [ ] schedules for occupants
+  - [ ] sleep time
+  - [ ] work time
 - [ ] ability to cancel tasks
   - e.g interupting wander task with 'travel to destination' task
   - e.g when a room is destroyed
@@ -11,7 +16,6 @@
 
 ## next:
 
-- [ ] in traveling task, make sure occupant.currentRoom gets updated as well
 - [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] occupants should arrive via entrance/exit
@@ -24,10 +28,6 @@
   - [ ] periodically travelers arrive, stay, and then get off
 - [ ] BUG: changing speeds while resident is moving messes walking/movement transitions up
 - [ ] should be able to move camera in inspect mode
-- [ ] time
-- [ ] schedules for residents
-  - [ ] sleep time
-  - [ ] work time
 - [ ] segment variant improvements:
   - [ ] apply segment variant to entire room group as well
   - [ ] apply segment variant to entire building as well
@@ -76,6 +76,7 @@
 
 # Done
 
+- [x] time
 - [x] destroy rooms on a per-block basis
   - [x] maybe the room group situation is already a solution for this
 - [x] make sure random tile selected in 'wander' task isn't the tile the occupant is currently on
