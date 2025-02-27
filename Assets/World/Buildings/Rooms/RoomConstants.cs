@@ -6,13 +6,8 @@ namespace TowerBuilder
     // Global place for hardcoded room data
     public static class RoomConstants
     {
-        // Z-offsets
-        public static Dictionary<RoomLayer, float> ROOM_LAYER_Z_OFFSETS = new() {
-            { RoomLayer.Default, 0 },
-            { RoomLayer.TransportationItem, 0.5f },
-        };
-
-        public static float BLUEPRINT_Z_OFFSET = 2f;
+        public static float NORMAL_ROOM_Z_OFFSET = 2f;
+        public static float BLUEPRINT_ROOM_Z_OFFSET = 2f;
 
         // Colors
         public static Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {

@@ -7,7 +7,6 @@ namespace TowerBuilder
     {
         public string title;
         public List<Tile> shape;
-        public RoomLayer layer = RoomLayer.Default;
         public RoomType type = RoomType.CommonArea;
 
         public RoomGroupCategory groupCategory = RoomGroupCategory.None;

@@ -60,7 +60,7 @@ namespace TowerBuilder
             if (inspectTarget != null && inspectTarget is Occupant)
             {
                 var tile = worldController.hoveredTile.current;
-                var room = worldController.buildingsController.FindFrontmostRoomAtTile(tile);
+                var room = worldController.buildingsController.FindRoomAtTile(tile);
                 if (room != null)
                 {
                     var building = worldController.buildingsController.FindBuildingByRoom(room);

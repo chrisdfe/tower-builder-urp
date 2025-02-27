@@ -29,7 +29,7 @@ namespace TowerBuilder
 
             public RoomValidationError Validate(Room room, WorldController worldController)
             {
-                if (worldController.buildingsController.ContainsRoomsAtTiles(room.tiles, room.definition.layer))
+                if (worldController.buildingsController.ContainsRoomsAtTiles(room.tiles))
                 {
                     return error;
                 }
@@ -47,7 +47,7 @@ namespace TowerBuilder
             {
                 var roomAdjacentTiles = room.GetAdjacentTiles();
 
-                if (!worldController.buildingsController.ContainsRoomsAtTiles(roomAdjacentTiles, room.definition.layer))
+                if (!worldController.buildingsController.ContainsRoomsAtTiles(roomAdjacentTiles))
                 {
                     // 
                     return error;

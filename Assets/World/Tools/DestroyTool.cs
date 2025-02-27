@@ -20,13 +20,13 @@ namespace TowerBuilder
         public void Setup()
         {
             // TODO - have a local state for this like the inspect tool
-            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+            var room = worldController.buildingsController.FindRoomAtTile(worldController.hoveredTile.current);
             room?.SetMarkedForDeletionState(true);
         }
 
         public void Teardown()
         {
-            var room = worldController.buildingsController.FindFrontmostRoomAtTile(worldController.hoveredTile.current);
+            var room = worldController.buildingsController.FindRoomAtTile(worldController.hoveredTile.current);
             room?.SetMarkedForDeletionState(false);
         }
 
@@ -39,13 +39,13 @@ namespace TowerBuilder
                 if (hoveredTile.prev != null)
                 {
                     // un-mark for deletion previous room
-                    var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.prev);
+                    var room = worldController.buildingsController.FindRoomAtTile(hoveredTile.prev);
                     room?.SetMarkedForDeletionState(false);
                 }
 
                 if (hoveredTile.current != null)
                 {
-                    var room = worldController.buildingsController.FindFrontmostRoomAtTile(hoveredTile.current);
+                    var room = worldController.buildingsController.FindRoomAtTile(hoveredTile.current);
                     room?.SetMarkedForDeletionState(true);
                 }
             }

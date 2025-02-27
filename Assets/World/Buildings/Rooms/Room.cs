@@ -147,15 +147,9 @@ namespace TowerBuilder
 
         public void SetZPosition()
         {
-            float z;
-            if (isBlueprint)
-            {
-                z = -RoomConstants.BLUEPRINT_Z_OFFSET;
-            }
-            else
-            {
-                z = RoomConstants.ROOM_LAYER_Z_OFFSETS[definition.layer] * -1;
-            }
+            var z = isBlueprint
+                ? -RoomConstants.BLUEPRINT_ROOM_Z_OFFSET
+                : RoomConstants.NORMAL_ROOM_Z_OFFSET;
 
             foreach (var tile in roomTiles)
             {

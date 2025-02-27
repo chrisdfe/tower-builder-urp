@@ -2,7 +2,6 @@
 
 ## currently:
 
-- [ ] get rid of room layers (I'm not using them and they're causing problems/confusion with routing)
 - [ ] ability to pause game with ` key
 - [x] schedules for occupants
   - [x] sleep time
@@ -82,6 +81,7 @@
 
 # Done
 
+- [x] get rid of room layers (I'm not using them and they're causing problems/confusion with routing)
 - [x] BUG: occupants poke through walls at extreme subTileOffsets
 - [x] in traveling task, make sure occupant.currentRoom gets updated as well
 - [x] time

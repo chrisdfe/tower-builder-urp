@@ -139,7 +139,7 @@ namespace TowerBuilder
 
         public void RemoveFrontmostRoomAtCurrentTile()
         {
-            var room = FindFrontmostRoomAtTile(WorldController.Get().hoveredTile.current);
+            var room = FindRoomAtTile(worldController.hoveredTile.current);
 
             if (room != null)
             {
@@ -165,36 +165,14 @@ namespace TowerBuilder
             GameObject.Destroy(building.gameObject);
         }
 
-        public Room FindFrontmostRoomAtTile(Tile tile)
+        public bool ContainsRoomAtTile(Tile tile)
         {
-            var rooms = FindRoomsAtTile(tile);
-            if (rooms.Count > 0)
-            {
-                // TODO - order by z-offset 
-                return rooms[0];
-            }
-
-            return null;
-        }
-
-        public bool ContainsRoomsAtTile(Tile tile)
-        {
-            return FindRoomsAtTile(tile) != null;
-        }
-
-        public bool ContainsRoomAtTile(Tile tile, RoomLayer roomLayer)
-        {
-            return FindRoomAtTile(tile, roomLayer) != null;
+            return FindRoomAtTile(tile) != null;
         }
 
         public bool ContainsRoomsAtTiles(List<Tile> tiles)
         {
             return FindRoomsAtTiles(tiles).Count > 0;
-        }
-
-        public bool ContainsRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer)
-        {
-            return FindRoomsAtTiles(tiles, roomLayer).Count > 0;
         }
 
         public List<Room> FindRoomsAtTiles(List<Tile> tiles)
@@ -212,49 +190,19 @@ namespace TowerBuilder
             return new();
         }
 
-        public List<Room> FindRoomsAtTile(Tile tile)
+        public Room FindRoomAtTile(Tile tile)
         {
             foreach (var building in buildings)
             {
                 // Buildings can't overlap so we don't need to account for that
-                var rooms = building.FindRoomsAtTile(tile);
-                if (rooms.Count > 0)
-                {
-                    return rooms;
-                }
-            }
-
-            return new();
-        }
-
-        public Room FindRoomAtTile(Tile tile, RoomLayer roomLayer)
-        {
-            foreach (var building in buildings)
-            {
-                // Buildings can't overlap so we don't need to account for that
-                var room = building.FindRoomAtTile(tile, roomLayer);
+                var room = building.FindRoomAtTile(tile);
                 if (room != null)
                 {
                     return room;
                 }
             }
 
-            return new();
-        }
-
-        public List<Room> FindRoomsAtTiles(List<Tile> tiles, RoomLayer roomLayer)
-        {
-            foreach (var building in buildings)
-            {
-                // Buildings can't overlap so we don't need to account for that
-                var rooms = building.FindRoomsAtTiles(tiles, roomLayer);
-                if (rooms.Count > 0)
-                {
-                    return rooms;
-                }
-            }
-
-            return new();
+            return null;
         }
 
         public Building FindBuildingByRoom(Room room)

@@ -43,7 +43,7 @@ namespace TowerBuilder
                 var currentNode = GetCurrentNode();
 
                 occupant.SetTile(currentNode.tile);
-                occupant.currentRoom = worldController.buildingsController.FindFrontmostRoomAtTile(currentNode.tile);
+                occupant.currentRoom = worldController.buildingsController.FindRoomAtTile(currentNode.tile);
                 Debug.Log($"currentRoom: {occupant.currentRoom}");
                 occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
 
