@@ -59,7 +59,7 @@ namespace TowerBuilder
             }
         }
 
-        float GetTickInterval()
+        public float GetTickInterval()
         {
             return TimeConstants.TIME_SPEED_TICK_INTERVALS[speed.current];
         }

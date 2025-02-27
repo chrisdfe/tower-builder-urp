@@ -3,7 +3,7 @@
 ## currently:
 
 - [ ] animation (or just rotate the occupant 90deg) when occupant is sleeping
-  - pull animation stuff into OccupantAnimationWrapper class
+  - [x] pull animation stuff into OccupantAnimationWrapper class
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] ability to pause game with ` key
 - [ ] build/destroy mode should pause time
@@ -24,7 +24,6 @@
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
-- [ ] BUG: changing speeds while resident is moving messes walking/movement animations up
 - [ ] should be able to move camera around in inspect mode
 - [ ] segment variant improvements:
   - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
@@ -73,6 +72,7 @@
 
 # Done
 
+- [x] BUG: changing speeds while resident is moving messes walking/movement animations up
 - [x] schedules for occupants
   - [x] sleep time
   - [x] work time

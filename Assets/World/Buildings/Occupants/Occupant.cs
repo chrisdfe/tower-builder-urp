@@ -44,9 +44,10 @@ namespace TowerBuilder
         // Positioning
         public SubtileOffset subTileOffset = new SubtileOffset();
 
+        public OccupantAnimationWrapper animationWrapper { get; private set; }
         Color originalColor;
-        public Transform movementAnimationWrapper { get; private set; }
         Transform bod;
+
 
         // Schedules/Tasks
         public OccupantSchedule schedule { get; private set; }
@@ -54,13 +55,15 @@ namespace TowerBuilder
         public Queue<IOccupantTask> taskQueue { get; private set; } = new();
         OccupantRouteFinder routeFinder;
 
+
+
         //
         // Lifecycle
         //
         void Awake()
         {
-            movementAnimationWrapper = transform.Find("MovementAnimationWrapper");
-            bod = movementAnimationWrapper.Find("Bod");
+            animationWrapper = OccupantAnimationWrapper.FindFor(this);
+            bod = animationWrapper.transform.Find("Bod");
             var bodMaterial = bod.GetComponent<MeshRenderer>().material;
             originalColor = bodMaterial.color;
 

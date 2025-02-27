@@ -92,8 +92,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4410749279527475713}
+  - component: {fileID: 2688639903563005132}
   m_Layer: 3
-  m_Name: MovementAnimationWrapper
+  m_Name: OccupantAnimationWrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,6 +116,18 @@ Transform:
   m_Father: {fileID: 9120661264622955524}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2688639903563005132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2622049835465592868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874716fdf447eb34c88ec8508c079425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3962829658512368055
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a88b8b83d344be47b24fde4b469c3b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subTileOffset: 0
 --- !u!65 &4206785522992846428
 BoxCollider:
   m_ObjectHideFlags: 0

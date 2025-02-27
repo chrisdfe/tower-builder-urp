@@ -44,7 +44,7 @@ namespace TowerBuilder
 
                 occupant.SetTile(currentNode.tile);
                 occupant.currentRoom = worldController.buildingsController.FindRoomAtTile(currentNode.tile);
-                occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
+                occupant.animationWrapper.ResetPosition();
 
                 // set random subtile offset too?
 
@@ -54,7 +54,7 @@ namespace TowerBuilder
                 }
                 else
                 {
-                    // StartAnimatingTransitionBetweenTiles();
+                    StartAnimatingTransitionBetweenTiles();
                     currentIdx++;
                 }
             }
@@ -62,33 +62,10 @@ namespace TowerBuilder
 
         void StartAnimatingTransitionBetweenTiles()
         {
-            occupant.StartCoroutine(Run());
+            var startNode = GetCurrentNode();
+            var nextNode = GetNextNode();
 
-            IEnumerator Run()
-            {
-                const float TRANSITION_LENGTH = TimeConstants.TICK_LENGTH_S;
-
-                var startNode = GetCurrentNode();
-                var nextNode = GetNextNode();
-
-                // TODO - this causes a null reference exception on the final tile
-                var tileDiff = nextNode.tile.Subtract(startNode.tile);
-                var startPosition = Vector3.zero;
-                var endPosition = tileDiff.ToWorldPosition();
-
-                var timer = 0f;
-                while (timer < TRANSITION_LENGTH)
-                {
-                    timer += Time.deltaTime;
-                    var normalizedProgress = timer / TRANSITION_LENGTH;
-                    var currentPostion = Vector3.Lerp(startPosition, endPosition, normalizedProgress);
-                    occupant.movementAnimationWrapper.transform.localPosition = currentPostion;
-
-                    yield return null;
-                }
-
-                occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
-            }
+            occupant.animationWrapper.StartAnimatingTransitionBetweenTiles(startNode.tile, nextNode.tile);
         }
 
         public void Cancel()
