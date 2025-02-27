@@ -2,8 +2,6 @@
 
 ## currently:
 
-- [ ] animation (or just rotate the occupant 90deg) when occupant is sleeping
-  - [x] pull animation stuff into OccupantAnimationWrapper class
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] ability to pause game with ` key
 - [ ] build/destroy mode should pause time
@@ -72,6 +70,8 @@
 
 # Done
 
+- [x] animation (or just rotate the occupant 90deg) when occupant is sleeping
+  - [x] pull animation stuff into OccupantAnimationWrapper class
 - [x] BUG: changing speeds while resident is moving messes walking/movement animations up
 - [x] schedules for occupants
   - [x] sleep time

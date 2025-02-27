@@ -30,6 +30,20 @@ namespace TowerBuilder
             transform.localPosition = Vector3.zero;
         }
 
+        public void SetIsLyingDown(bool isLyingDown)
+        {
+            if (isLyingDown)
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 90);
+                transform.localPosition = new Vector3(0, -0.2f, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+                transform.localPosition = new Vector3(0, 0, 0);
+            }
+        }
+
         public void StartAnimatingTransitionBetweenTiles(Tile startTile, Tile destinationTile)
         {
             if (animationCoroutine != null)

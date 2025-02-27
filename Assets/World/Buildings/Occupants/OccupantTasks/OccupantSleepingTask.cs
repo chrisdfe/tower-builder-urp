@@ -18,9 +18,15 @@ namespace TowerBuilder
 
         public void OnTick() { }
 
-        public void Setup() { }
+        public void Setup()
+        {
+            occupant.animationWrapper.SetIsLyingDown(true);
+        }
 
-        public void Teardown() { }
+        public void Teardown()
+        {
+            occupant.animationWrapper.SetIsLyingDown(false);
+        }
 
         public void Cancel()
         {
