@@ -5,13 +5,14 @@
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] ability to pause game with ` key
 - [ ] build/destroy mode should pause time
+- [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
 
 ## next:
 
+- [ ] floor should be slightly taller + ceiling should be smaller
 - [ ] occupants should arrive via entrance/exit
 - [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
-- [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
 - [ ] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
 - [ ] TileAddress - tile, room, building

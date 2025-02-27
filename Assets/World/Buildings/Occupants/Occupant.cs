@@ -239,7 +239,7 @@ namespace TowerBuilder
         // 
         static SubtileOffset GetRandomSubtileOffset()
         {
-            var x = Random.Range(-0.4f, 0.4f);
+            var x = Random.Range(-0.2f, 0.2f);
             var z = Random.Range(0f, 0.4f);
             return new SubtileOffset(x, z);
         }
