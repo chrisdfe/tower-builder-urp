@@ -44,22 +44,21 @@ namespace TowerBuilder
 
         public override string ToString()
         {
-            int hour = this.hour + 1;
+            int hour = this.hour;
             int minute = this.minute;
 
-            string amPm = "am";
-
-            if (hour > 12)
+            var amPm = "am";
+            if (hour >= 12)
             {
                 amPm = "pm";
-                hour -= 12;
+
+                if (hour > 12)
+                {
+                    hour -= 12;
+                }
             }
 
             string hourAsString = hour.ToString();
-            // if (hourAsString.Length == 1)
-            // {
-            //     hourAsString = "0" + hourAsString;
-            // }
 
             string minuteAsString = minute.ToString();
             if (minuteAsString.Length == 1)
@@ -67,7 +66,7 @@ namespace TowerBuilder
                 minuteAsString = "0" + minuteAsString;
             }
 
-            return hourAsString + ":" + minuteAsString + amPm;
+            return $"{hourAsString}:{minuteAsString}{amPm}";
         }
 
         public int GetTimeOfDayIndex()
@@ -183,7 +182,11 @@ namespace TowerBuilder
 
         public TimeValue ToRelative() => TimeValue.ToRelative(this);
 
-        public DayTimeValue ToDayTimeValue() => new DayTimeValue(hour, minute);
+        public DayTimeValue ToDayTimeValue() =>
+            new DayTimeValue(
+                hour % 24,
+                minute % 60
+            );
 
         // 
         //  Static Interface

@@ -162,8 +162,6 @@ namespace TowerBuilder
 
         public void TransitionToTask(IOccupantTask task)
         {
-            Debug.Log($"transitioning from task {currentTask} to task {task}");
-
             if (currentTask != null)
             {
                 currentTask.Teardown();
@@ -197,7 +195,6 @@ namespace TowerBuilder
 
         public void CancelCurrentTask()
         {
-            Debug.Log("cancelling occupant's current task: " + currentTask);
             currentTask.Cancel();
         }
 

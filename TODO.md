@@ -5,7 +5,7 @@
 - [x] schedules for occupants
   - [x] sleep time
   - [x] work time
-  - [ ] BUG: the first occupant schedule item (sleeping) never gets selected, and occupants transition to 'idle' at midnight
+  - [x] BUG: the first occupant schedule item (sleeping) never gets selected, and occupants transition to 'idle' at midnight
 - [x] ability to cancel tasks
   - e.g interupting wander task with 'travel to destination' task
   - e.g when a room is destroyed
@@ -17,9 +17,7 @@
 ## next:
 
 - [ ] Make inspect hover color a 50% white
-- [ ] Priority levels for tasks - when I tell an occupant to go somewhere it is more important than their scheduled stuff
-- [ ] try a linear step for occupant movement animation (for style)
-- [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents to go sleep or all workers leave
+- [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
 - [ ] TileAddress - tile, room, building
   - might help with all the WorldController.Get() happening all over
 - [ ] sky that responds to time of day

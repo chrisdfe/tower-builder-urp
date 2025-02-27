@@ -66,7 +66,11 @@ namespace TowerBuilder
             if (occupant.currentRoom == occupant.office)
             {
                 // Wander about the office
-                nextTask = new OccupantWanderingTask(occupant);
+                var wanderingTask = new OccupantWanderingTask(occupant);
+                // Give a better sense of business
+                wanderingTask.minWaitTime = 0.4f;
+                wanderingTask.maxWaitTime = 2f;
+                nextTask = wanderingTask;
             }
             else
             {

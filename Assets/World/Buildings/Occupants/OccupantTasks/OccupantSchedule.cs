@@ -37,10 +37,8 @@ namespace TowerBuilder
 
             var activity = GetActivityForTime(time);
 
-
             if (activity != currentActivity)
             {
-                Debug.Log($"current: {currentActivity} next: {activity}");
                 TransitionToNewActivity(activity);
             }
 
@@ -63,7 +61,6 @@ namespace TowerBuilder
                 // time to wake up
                 (
                     Activity.BeingAtHome,
-                    // 7:30am
                     new DayTimeValue(6, 30)
                 )
             };
@@ -73,14 +70,12 @@ namespace TowerBuilder
             {
                 scheduleTimes.Add((
                     Activity.Working,
-                    // 9am
                     new DayTimeValue(8)
                 ));
 
                 // time to go home
                 scheduleTimes.Add((
                     Activity.BeingAtHome,
-                    // 4:30pm
                     new DayTimeValue(15, 30)
                 ));
             }
@@ -88,7 +83,6 @@ namespace TowerBuilder
             // time to go to sleep
             scheduleTimes.Add((
                 Activity.Sleeping,
-                // 10:30pm 
                 new DayTimeValue(21, 30)
             ));
 
@@ -103,7 +97,7 @@ namespace TowerBuilder
             var dayTimeAsMinutes = currentTime.ToDayTimeValue().AsMinutes();
 
             // Note - iterating in reverse
-            for (var i = scheduleTimes.Count - 1; i > 0; i--)
+            for (var i = scheduleTimes.Count - 1; i >= 0; i--)
             {
                 var (activity, timeForActivity) = scheduleTimes[i];
 
@@ -121,11 +115,10 @@ namespace TowerBuilder
             occupant.CancelCurrentTask();
 
             IOccupantTask nextTask;
-            // TODO - cancel current activity
+
             switch (activity)
             {
                 case Activity.BeingAtHome:
-                    // TODO - different task
                     nextTask = new OccupantBeingAtHomeTask(occupant);
                     break;
                 case Activity.Sleeping:

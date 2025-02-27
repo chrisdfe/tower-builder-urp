@@ -37,6 +37,9 @@ namespace TowerBuilder
 
         WanderingState currentState = WanderingState.Waiting;
 
+        public float minWaitTime = 1f;
+        public float maxWaitTime = 5f;
+
         public OccupantWanderingTask(Occupant occupant)
         {
             this.occupant = occupant;
@@ -106,7 +109,7 @@ namespace TowerBuilder
         void StartWaiting()
         {
             currentState = WanderingState.Waiting;
-            currentSubTask = new OccupantWaitingTask(occupant, Random.Range(1f, 5f));
+            currentSubTask = new OccupantWaitingTask(occupant, Random.Range(minWaitTime, maxWaitTime));
             currentSubTask.Setup();
         }
 

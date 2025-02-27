@@ -44,6 +44,7 @@ namespace TowerBuilder
 
                 occupant.SetTile(currentNode.tile);
                 occupant.currentRoom = worldController.buildingsController.FindFrontmostRoomAtTile(currentNode.tile);
+                Debug.Log($"currentRoom: {occupant.currentRoom}");
                 occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
 
                 // set random subtile offset too?

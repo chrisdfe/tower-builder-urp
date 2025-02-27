@@ -57,7 +57,7 @@ public class DebugPanel : MonoBehaviour
         allText.text += "\nSelected tool: " + worldController.toolsController.toolHandle.current;
 
         allText.text += "\nTotal residents: " + worldController.buildingsController.ResidentCount();
-        allText.text += "\nTotal wokers: " + worldController.buildingsController.WorkerCount();
+        allText.text += "\nTotal workers: " + worldController.buildingsController.WorkerCount();
 
         // blueprint
         var blueprintRoom = worldController.toolsController.buildTool.blueprintRoom;
