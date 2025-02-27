@@ -26,7 +26,8 @@ namespace TowerBuilder
         // TODO - lock camera to a certain tile, and store that tile here
         // The position to return to when inspect mode is exited
         Vector3 originalInspectPosition = Vector3.zero;
-        bool isInInspectMode = false;
+        IInspectTarget inspectTarget;
+        bool isAnimatingInspectZoom = false;
 
         // This never changes
         float _cameraZ = float.NegativeInfinity;
@@ -66,7 +67,12 @@ namespace TowerBuilder
 
         void Update()
         {
-            if (!isInInspectMode)
+            if (inspectTarget != null && !isAnimatingInspectZoom)
+            {
+                var focalPoint = inspectTarget.GetInspectFocalPoint();
+                Camera.main.transform.position = new Vector3(focalPoint.x, focalPoint.y, cameraZ);
+            }
+            else
             {
                 HandleInput();
             }
@@ -75,7 +81,7 @@ namespace TowerBuilder
         void HandleInput()
         {
             // User input is ignored in inspect mode, for now
-            if (isInInspectMode) return;
+            if (inspectTarget != null) return;
 
             // Input
             if (Input.GetKeyDown(KeyCode.W))
@@ -156,8 +162,7 @@ namespace TowerBuilder
                 {
                     targetPosition = originalInspectPosition;
                     targetZoomLevel = defaultZoomLevel;
-
-                    isInInspectMode = false;
+                    this.inspectTarget = null;
                 }
                 else
                 {
@@ -167,11 +172,12 @@ namespace TowerBuilder
                     var focalPoint = inspectTarget.GetInspectFocalPoint();
                     targetPosition = new Vector3(focalPoint.x, focalPoint.y, cameraZ);
                     targetZoomLevel = inspectZoomLevel;
-
-                    isInInspectMode = true;
+                    this.inspectTarget = inspectTarget;
                 }
 
                 var timer = 0f;
+                isAnimatingInspectZoom = true;
+
                 while (timer < INSPECT_ZOOM_LENGTH_S)
                 {
                     var normalizedProgress = timer / INSPECT_ZOOM_LENGTH_S;
@@ -184,6 +190,8 @@ namespace TowerBuilder
 
                     yield return null;
                 }
+
+                isAnimatingInspectZoom = false;
             }
         }
 

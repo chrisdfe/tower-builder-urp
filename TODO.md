@@ -2,13 +2,13 @@
 
 ## currently:
 
-- [ ] inspect camera should move with the resident as it's moving
 - [ ] ability to pause game with ` key
 - [ ] build/destroy mode should pause time
 - [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
 
 ## next:
 
+- [ ] cache GetInspectFocalPoint
 - [ ] floor should be slightly taller + ceiling should be smaller
 - [ ] occupants should arrive via entrance/exit
 - [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
@@ -71,6 +71,7 @@
 
 # Done
 
+- [x] inspect camera should move with the resident as it's moving
 - [x] animation (or just rotate the occupant 90deg) when occupant is sleeping
   - [x] pull animation stuff into OccupantAnimationWrapper class
 - [x] BUG: changing speeds while resident is moving messes walking/movement animations up
