@@ -4,7 +4,6 @@ namespace TowerBuilder
 {
     public class OccupantSleepingTask : IOccupantTask
     {
-        // TODO - if traveling still, then "traveling to work"
         public string name => "Sleeping";
 
         bool _isComplete = false;

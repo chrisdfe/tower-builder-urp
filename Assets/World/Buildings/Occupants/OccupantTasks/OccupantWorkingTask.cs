@@ -62,7 +62,7 @@ namespace TowerBuilder
                 return;
             }
 
-            IOccupantTask nextTask;
+            IOccupantTask nextSubTask;
             if (occupant.currentRoom == occupant.office)
             {
                 // Wander about the office
@@ -70,7 +70,7 @@ namespace TowerBuilder
                 // Give a better sense of business
                 wanderingTask.minWaitTime = 0.4f;
                 wanderingTask.maxWaitTime = 2f;
-                nextTask = wanderingTask;
+                nextSubTask = wanderingTask;
             }
             else
             {
@@ -87,7 +87,7 @@ namespace TowerBuilder
                     return;
                 }
 
-                nextTask = new OccupantTravelingToDestinationTask(occupant, route);
+                nextSubTask = new OccupantTravelingToDestinationTask(occupant, route);
             }
 
             if (currentSubTask != null)
@@ -95,7 +95,9 @@ namespace TowerBuilder
                 currentSubTask.Teardown();
             }
 
-            currentSubTask = nextTask;
+            Debug.Log("next subtask: " + nextSubTask);
+
+            currentSubTask = nextSubTask;
             currentSubTask.Setup();
         }
     }

@@ -2,6 +2,8 @@
 
 ## currently:
 
+- [ ] get rid of room layers (I'm not using them and they're causing problems/confusion with routing)
+- [ ] ability to pause game with ` key
 - [x] schedules for occupants
   - [x] sleep time
   - [x] work time
@@ -12,34 +14,33 @@
   - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
         you will not be able to give it any further commands.
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
-- [ ] ability to pause game with ` key
 
 ## next:
 
+- [ ] inspect camera should move with the resident as it's moving
+- [ ] build/destroy mode should pause time
+- [ ] occupants should arrive via entrance/exit
+- [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
+- [ ] animation (or just rotate the occupant 90deg) when occupant is sleeping
 - [ ] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
 - [ ] TileAddress - tile, room, building
   - might help with all the WorldController.Get() happening all over
 - [ ] sky that responds to time of day
-- [ ] get rid of room layers? if transportation rooms (stairs elevators) are all going to be on the same layer
-- [ ] inspect camera should move with the resident as it's moving
-- [ ] occupants should arrive via entrance/exit
-- [ ] build/destroy mode should pause time
-- [ ] BUG: occupants poke through walls at extreme subTileOffsets
 - [ ] refactor occupants to exist primarily on buildingsController
-  - right now they belong to rooms.residents, which doesn't account
-- [ ] "travelers"
+  - right now they belong to rooms.residents, which doesn't account for non-resident occupants, occupants in other buildings, etc
+- [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
-- [ ] BUG: changing speeds while resident is moving messes walking/movement transitions up
-- [ ] should be able to move camera in inspect mode
+- [ ] BUG: changing speeds while resident is moving messes walking/movement animations up
+- [ ] should be able to move camera around in inspect mode
 - [ ] segment variant improvements:
   - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
   - [ ] apply segment variant to entire room group as well
   - [ ] apply segment variant to entire building as well
   - [ ] save/reuse last used segment variant? Settings for building?
   - [ ] large window that spans multiple tiles/tile position aware
-- [ ] BUG: figure out why when I de-focus then re-focus the unity editor while the game is running I get a bunch of errors. Probably an Awake() thing
+- [ ] BUG: figure out why when I de-focus then re-focus the unity editor while the game is running I get a bunch of errors. It seems like worldController references is null
 - [ ] BUG: fix building-adding code - right now it's hard coded as max 1 building
 - [ ] ability to fix how stairs still room group even if not aligned vertically
   - [ ] maybe just a validator that prevents you from placing them right next to each other or askew
@@ -47,11 +48,9 @@
 - [ ] transportation items
   - [ ] maybe just rooms
   - [ ] each should have 1+ 'entrance' and 'exit'
-- [ ] More specific info in inspect view
 - [ ] 'undeletable' rooms (starting entrance/exit)
   - [ ] could do this with a destroy validator that always returns false
-- [ ] tooltip
-  - [ ] tooltip for resident name etc
+- [ ] tooltip for resident name when you hover over them
 - [ ] cleanup: think about just calling cameraController._ or tooltipController._ directly instead of using delegates
 - [ ] sfx/music system (controller)
 - [ ] room validator: stairs must be fully on top of other rooms
@@ -82,6 +81,7 @@
 
 # Done
 
+- [x] BUG: occupants poke through walls at extreme subTileOffsets
 - [x] in traveling task, make sure occupant.currentRoom gets updated as well
 - [x] time
 - [x] destroy rooms on a per-block basis
