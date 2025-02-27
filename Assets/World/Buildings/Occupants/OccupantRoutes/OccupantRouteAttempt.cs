@@ -96,8 +96,8 @@ namespace TowerBuilder
                 {
                     var branch = CreateBranch();
 
-                    var bottomLeftTile = transportationRoomGroup.GetBottomLeftTile();
-                    branch.GoToTile(new Tile(bottomLeftTile.x, currentTile.y));
+                    var bottomLeftTile = transportationRoomGroup.GetLowestXTileOnFloor(currentTile.y);
+                    branch.GoToTile(bottomLeftTile);
 
                     var unvisitedFloors = transportationRoomGroup.GetFloors().FindAll(floor => floor != currentTile.y);
 

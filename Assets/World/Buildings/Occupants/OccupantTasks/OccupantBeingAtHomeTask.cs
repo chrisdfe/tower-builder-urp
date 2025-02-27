@@ -4,7 +4,18 @@ namespace TowerBuilder
 {
     public class OccupantBeingAtHomeTask : IOccupantTask
     {
-        public string name => "Being at home";
+        public string name
+        {
+            get
+            {
+                if (currentSubTask is OccupantTravelingToDestinationTask)
+                {
+                    return "Going home";
+                }
+
+                return "Being at home";
+            }
+        }
 
         bool _isComplete = false;
         public bool isComplete => _isComplete;

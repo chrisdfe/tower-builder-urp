@@ -50,22 +50,21 @@ namespace TowerBuilder
             return result.ToList();
         }
 
-        public Tile GetBottomLeftTile()
+        public Tile GetLowestXTileOnFloor(int floor)
         {
-            var result = new Tile(int.MaxValue, int.MaxValue);
+            Tile result = null;
 
             foreach (var room in rooms)
             {
-                var roomBottomLeft = room.GetBottomLeftTile();
-
-                if (roomBottomLeft.x < result.x)
+                foreach (var tile in room.tiles)
                 {
-                    result.x = roomBottomLeft.x;
-                }
-
-                if (roomBottomLeft.y < result.y)
-                {
-                    result.y = roomBottomLeft.y;
+                    if (
+                        tile.y == floor &&
+                        (result == null || tile.x < result.x)
+                    )
+                    {
+                        result = tile;
+                    }
                 }
             }
 

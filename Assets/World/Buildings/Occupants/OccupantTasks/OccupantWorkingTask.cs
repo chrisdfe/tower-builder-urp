@@ -5,7 +5,18 @@ namespace TowerBuilder
     public class OccupantWorkingTask : IOccupantTask
     {
         // TODO - if traveling still, then "traveling to work"
-        public string name => "Working";
+        public string name
+        {
+            get
+            {
+                if (currentSubTask is OccupantTravelingToDestinationTask)
+                {
+                    return "Traveling to Work";
+                }
+
+                return "Working";
+            }
+        }
 
         bool _isComplete = false;
         public bool isComplete => _isComplete;
@@ -94,8 +105,6 @@ namespace TowerBuilder
             {
                 currentSubTask.Teardown();
             }
-
-            Debug.Log("next subtask: " + nextSubTask);
 
             currentSubTask = nextSubTask;
             currentSubTask.Setup();

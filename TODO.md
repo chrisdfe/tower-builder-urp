@@ -2,25 +2,17 @@
 
 ## currently:
 
-- [ ] ability to pause game with ` key
-- [x] schedules for occupants
-  - [x] sleep time
-  - [x] work time
-  - [x] BUG: the first occupant schedule item (sleeping) never gets selected, and occupants transition to 'idle' at midnight
-- [x] ability to cancel tasks
-  - e.g interupting wander task with 'travel to destination' task
-  - e.g when a room is destroyed
-  - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
-        you will not be able to give it any further commands.
-- [ ] BUG: I think I broke Room.GetInspectFocalPoint
-
-## next:
-
 - [ ] animation (or just rotate the occupant 90deg) when occupant is sleeping
   - pull animation stuff into OccupantAnimationWrapper class
 - [ ] inspect camera should move with the resident as it's moving
+- [ ] ability to pause game with ` key
 - [ ] build/destroy mode should pause time
+
+## next:
+
 - [ ] occupants should arrive via entrance/exit
+- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
+- [ ] BUG: I think I broke Room.GetInspectFocalPoint
 - [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
 - [ ] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
@@ -81,6 +73,15 @@
 
 # Done
 
+- [x] schedules for occupants
+  - [x] sleep time
+  - [x] work time
+  - [x] BUG: the first occupant schedule item (sleeping) never gets selected, and occupants transition to 'idle' at midnight
+- [x] ability to cancel tasks
+  - e.g interupting wander task with 'travel to destination' task
+  - e.g when a room is destroyed
+  - [x] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
+        you will not be able to give it any further commands.
 - [x] get rid of room layers (I'm not using them and they're causing problems/confusion with routing)
 - [x] BUG: occupants poke through walls at extreme subTileOffsets
 - [x] in traveling task, make sure occupant.currentRoom gets updated as well
