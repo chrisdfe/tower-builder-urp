@@ -27,7 +27,7 @@ namespace TowerBuilder
 
         public void Teardown()
         {
-            worldController.timeController.Pause();
+            worldController.timeController.UnPause();
             var room = worldController.buildingsController.FindRoomAtTile(worldController.hoveredTile.current);
             room?.SetMarkedForDeletionState(false);
         }
