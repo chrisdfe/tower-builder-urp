@@ -67,7 +67,7 @@ namespace TowerBuilder
             {
                 // Wander about the office
                 var wanderingTask = new OccupantWanderingTask(occupant);
-                // Give a better sense of business
+                // Give a better sense of activity/busy-ness
                 wanderingTask.minWaitTime = 0.4f;
                 wanderingTask.maxWaitTime = 2f;
                 nextSubTask = wanderingTask;

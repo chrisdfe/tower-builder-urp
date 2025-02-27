@@ -17,11 +17,12 @@
 
 ## next:
 
+- [ ] animation (or just rotate the occupant 90deg) when occupant is sleeping
+  - pull animation stuff into OccupantAnimationWrapper class
 - [ ] inspect camera should move with the resident as it's moving
 - [ ] build/destroy mode should pause time
 - [ ] occupants should arrive via entrance/exit
 - [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
-- [ ] animation (or just rotate the occupant 90deg) when occupant is sleeping
 - [ ] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
 - [ ] TileAddress - tile, room, building
