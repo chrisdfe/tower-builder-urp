@@ -189,6 +189,17 @@ public class WorldController : MonoBehaviour
                 DestroyDebugTiles();
             }
         }
+
+        // DEBUG
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget is Occupant)
+            {
+                var occupantInspectTarget = toolsController.inspectTool.inspectTarget as Occupant;
+
+                occupantInspectTarget.CancelCurrentTask();
+            }
+        }
     }
 
     void UpdateCurrentTilePosition()

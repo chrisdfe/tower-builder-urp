@@ -6,7 +6,8 @@ namespace TowerBuilder
     {
         public string name => "Idle";
 
-        public bool isComplete => true;
+        bool _isComplete = false;
+        public bool isComplete => _isComplete;
 
         public void Setup() { }
 
@@ -15,6 +16,11 @@ namespace TowerBuilder
         public void OnTick()
         {
             // Nothing for now
+        }
+
+        public void Cancel()
+        {
+            _isComplete = true;
         }
     }
 }

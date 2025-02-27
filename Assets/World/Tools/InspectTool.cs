@@ -67,7 +67,7 @@ namespace TowerBuilder
 
                     if (building != null)
                     {
-                        (inspectTarget as Occupant).StartTravelToDestinationTask(building, tile);
+                        (inspectTarget as Occupant).SendToTile(building, tile);
                     }
                 }
             }

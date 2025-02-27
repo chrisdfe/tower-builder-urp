@@ -322,7 +322,7 @@ namespace TowerBuilder
                 occupant.currentRoom = room;
 
                 room.residents.Add(occupant);
-                occupant.residence = room;
+                occupant.SetResidence(room);
 
                 occupant.TransitionToTask(new OccupantWanderingTask(occupant));
 
@@ -340,7 +340,7 @@ namespace TowerBuilder
                 {
                     foreach (var occupant in unemployedOccupants)
                     {
-                        occupant.office = room;
+                        occupant.SetOffice(room);
                         room.workers.Add(occupant);
                         worldController.notifications.Add(new Notification(occupant.title + " has been assigned work at " + room.title));
                     }

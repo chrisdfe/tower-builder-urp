@@ -5,10 +5,12 @@ namespace TowerBuilder
 {
     public class OccupantWaitingTask : IOccupantTask
     {
-        public string name => $"Waiting";
+        public string name => "Waiting";
 
         bool _isComplete = false;
         public bool isComplete => _isComplete;
+
+        bool isCancelled = false;
 
         Occupant occupant;
         Coroutine waitCoroutine;
@@ -30,6 +32,11 @@ namespace TowerBuilder
 
         public void OnTick() { }
 
+        public void Cancel()
+        {
+            isCancelled = true;
+        }
+
         void StartWaitTimer()
         {
             waitCoroutine = occupant.StartCoroutine(Run());
@@ -38,7 +45,7 @@ namespace TowerBuilder
             {
                 var timer = 0f;
 
-                while (timer < waitTime)
+                while (timer < waitTime && !isCancelled)
                 {
                     timer += Time.deltaTime;
                     yield return null;

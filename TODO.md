@@ -2,18 +2,22 @@
 
 ## currently:
 
-- [ ] schedules for occupants
-  - [ ] sleep time
-  - [ ] work time
-- [ ] ability to cancel tasks
+- [x] schedules for occupants
+  - [x] sleep time
+  - [x] work time
+  - [ ] BUG: the first occupant schedule item (sleeping) never gets selected, and occupants transition to 'idle' at midnight
+- [x] ability to cancel tasks
   - e.g interupting wander task with 'travel to destination' task
   - e.g when a room is destroyed
   - [ ] BUG: if you interrupt an occupant while it's traveling to a tile by telling it to go to another tile, it will do so but
         you will not be able to give it any further commands.
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
+- [ ] ability to pause game with ` key
 
 ## next:
 
+- [ ] Make inspect hover color a 50% white
+- [ ] Priority levels for tasks - when I tell an occupant to go somewhere it is more important than their scheduled stuff
 - [ ] try a linear step for occupant movement animation (for style)
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents to go sleep or all workers leave
 - [ ] TileAddress - tile, room, building

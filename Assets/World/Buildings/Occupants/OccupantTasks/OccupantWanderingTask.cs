@@ -28,6 +28,8 @@ namespace TowerBuilder
         bool _isComplete = false;
         public bool isComplete => _isComplete;
 
+        bool isCancelled = false;
+
         Occupant occupant;
 
         public IOccupantTask currentSubTask;
@@ -62,13 +64,32 @@ namespace TowerBuilder
                 if (currentSubTask.isComplete)
                 {
                     currentSubTask.Teardown();
-                    TransitionToNextState();
+
+                    if (isCancelled)
+                    {
+                        _isComplete = true;
+                    }
+                    else
+                    {
+                        TransitionToNextState();
+                    }
                 }
 
                 currentSubTask.OnTick();
             }
         }
 
+        public void Cancel()
+        {
+            isCancelled = true;
+
+            if (currentSubTask != null)
+            {
+                currentSubTask.Cancel();
+            }
+        }
+
+        //
         void TransitionToNextState()
         {
             switch (currentState)

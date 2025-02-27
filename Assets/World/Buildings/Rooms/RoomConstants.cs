@@ -60,7 +60,7 @@ namespace TowerBuilder
 
             new RoomDefinition() {
                 //
-                title = "Barracks",
+                title = "Condo",
                 shape = new List<Tile>() {
                     new(0, 0),
                     new(1, 0),
@@ -70,7 +70,8 @@ namespace TowerBuilder
                 },
                 type = RoomType.Occupantial,
 
-                residentCapacity = 12,
+                // residentCapacity = 12,
+                residentCapacity = 1,
             },
 
             new RoomDefinition() {

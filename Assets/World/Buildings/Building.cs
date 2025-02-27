@@ -103,7 +103,7 @@ namespace TowerBuilder
             // Don't delete workers, just unassign their place of work
             foreach (var worker in room.workers)
             {
-                worker.office = null;
+                worker.SetOffice(null);
             }
 
             // Remove room from all room groups

@@ -27,10 +27,10 @@ namespace TowerBuilder
         public Tile tile { get; private set; }
 
         // where this occupant works
-        public Room office { get; set; }
+        public Room office { get; private set; }
 
         // where this occupant lives
-        public Room residence { get; set; }
+        public Room residence { get; private set; }
 
         // where this occupant currently is
         public Room currentRoom { get; set; }
@@ -51,6 +51,7 @@ namespace TowerBuilder
         // Schedules/Tasks
         public OccupantSchedule schedule { get; private set; }
         public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
+        public Queue<IOccupantTask> taskQueue { get; private set; } = new();
         OccupantRouteFinder routeFinder;
 
         //
@@ -74,9 +75,17 @@ namespace TowerBuilder
 
             if (currentTask.isComplete)
             {
-                // TODO - next task in queue
-                //        for now, just transition to idle
-                TransitionToTask(new OccupantIdleTask());
+                IOccupantTask nextTask;
+                taskQueue.TryDequeue(out nextTask);
+
+                if (nextTask != null)
+                {
+                    TransitionToTask(nextTask);
+                }
+                else
+                {
+                    TransitionToTask(new OccupantIdleTask());
+                }
             }
         }
 
@@ -94,6 +103,26 @@ namespace TowerBuilder
         //
         // Public interface
         //
+        public void SetResidence(Room room)
+        {
+            // TODO - this doesn't seem great
+            var worldController = WorldController.Get();
+
+            residence = room;
+            // TODO - this might cause some weirdness since we're re-randomizing the schedule?
+            schedule.RegenerateScheduleTimeValues(worldController.timeController.timeValue);
+        }
+
+        public void SetOffice(Room room)
+        {
+            // TODO - this doesn't seem great
+            var worldController = WorldController.Get();
+
+            office = room;
+            // TODO - this might cause some weirdness since we're re-randomizing the schedule?
+            schedule.RegenerateScheduleTimeValues(worldController.timeController.timeValue);
+        }
+
         public void SetInspectionHoveredState(bool isInspectionHovered)
         {
             this.isInspectionHovered = isInspectionHovered;
@@ -133,11 +162,13 @@ namespace TowerBuilder
 
         public void TransitionToTask(IOccupantTask task)
         {
+            Debug.Log($"transitioning from task {currentTask} to task {task}");
+
             if (currentTask != null)
             {
                 currentTask.Teardown();
 
-                // TODO - I probably don't need to keep the routefinder around for now
+                // TODO - routeFinder should be a field on OccupantTravelingToDestinationTask
                 if (currentTask is OccupantTravelingToDestinationTask)
                 {
                     routeFinder = null;
@@ -148,7 +179,7 @@ namespace TowerBuilder
             currentTask.Setup();
         }
 
-        public void StartTravelToDestinationTask(Building building, Tile destinationTile)
+        public void SendToTile(Building building, Tile destinationTile)
         {
             routeFinder = new OccupantRouteFinder(building, tile, destinationTile);
             var route = routeFinder.FindRoute();
@@ -157,6 +188,17 @@ namespace TowerBuilder
             {
                 TransitionToTask(new OccupantTravelingToDestinationTask(this, routeFinder.route));
             }
+        }
+
+        public void EnqueueTask(IOccupantTask task)
+        {
+            taskQueue.Enqueue(task);
+        }
+
+        public void CancelCurrentTask()
+        {
+            Debug.Log("cancelling occupant's current task: " + currentTask);
+            currentTask.Cancel();
         }
 
         //
@@ -197,7 +239,7 @@ namespace TowerBuilder
         // 
         static SubtileOffset GetRandomSubtileOffset()
         {
-            var x = Random.Range(-0.7f, 0.7f);
+            var x = Random.Range(-0.4f, 0.4f);
             var z = Random.Range(0f, 0.4f);
             return new SubtileOffset(x, z);
         }

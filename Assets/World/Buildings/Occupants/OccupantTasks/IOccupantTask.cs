@@ -8,5 +8,6 @@ namespace TowerBuilder
         public void Setup();
         public void Teardown();
         public void OnTick();
+        public void Cancel();
     }
 }

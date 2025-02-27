@@ -10,6 +10,8 @@ namespace TowerBuilder
         bool _isComplete = false;
         public bool isComplete => _isComplete;
 
+        bool isCancelled = false;
+
         Occupant occupant;
         OccupantRoute route;
         int currentIdx = 0;
@@ -31,23 +33,30 @@ namespace TowerBuilder
 
         public void OnTick()
         {
-            // Walk to destination until we have reached the destination
-            var currentNode = GetCurrentNode();
-
-            occupant.SetTile(currentNode.tile);
-            occupant.currentRoom = worldController.buildingsController.FindFrontmostRoomAtTile(currentNode.tile);
-            occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
-
-            // set random subtile offset too?
-
-            if (GetNextIdx() == -1)
+            if (isCancelled)
             {
                 _isComplete = true;
             }
             else
             {
-                StartAnimatingTransitionBetweenTiles();
-                currentIdx++;
+                // Walk to destination until we have reached the destination
+                var currentNode = GetCurrentNode();
+
+                occupant.SetTile(currentNode.tile);
+                occupant.currentRoom = worldController.buildingsController.FindFrontmostRoomAtTile(currentNode.tile);
+                occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
+
+                // set random subtile offset too?
+
+                if (GetNextIdx() == -1)
+                {
+                    _isComplete = true;
+                }
+                else
+                {
+                    // StartAnimatingTransitionBetweenTiles();
+                    currentIdx++;
+                }
             }
         }
 
@@ -80,6 +89,11 @@ namespace TowerBuilder
 
                 occupant.movementAnimationWrapper.transform.localPosition = Vector3.zero;
             }
+        }
+
+        public void Cancel()
+        {
+            isCancelled = true;
         }
 
         OccupantRouteNode GetCurrentNode() => route.path[currentIdx];

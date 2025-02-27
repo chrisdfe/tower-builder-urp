@@ -183,6 +183,8 @@ namespace TowerBuilder
 
         public TimeValue ToRelative() => TimeValue.ToRelative(this);
 
+        public DayTimeValue ToDayTimeValue() => new DayTimeValue(hour, minute);
+
         // 
         //  Static Interface
         //
