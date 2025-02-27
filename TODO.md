@@ -3,17 +3,18 @@
 ## currently:
 
 - [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
+- [ ] floor should be slightly taller + ceiling should be smaller
+- [ ] Make inspect hover color a 50% white
+- [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
 
 ## next:
 
+- [ ] recreation time for occupants
 - [ ] pause/play speed buttons
 - [ ] cache GetInspectFocalPoint since I'm using it every frame
-- [ ] floor should be slightly taller + ceiling should be smaller
 - [ ] occupants should arrive via entrance/exit
 - [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
-- [ ] Make inspect hover color a 50% white
-- [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
 - [ ] TileAddress - tile, room, building
   - might help with all the WorldController.Get() happening all over
 - [ ] sky that responds to time of day
