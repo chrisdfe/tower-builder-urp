@@ -25,6 +25,7 @@ namespace TowerBuilder
 
         public void Setup()
         {
+            worldController.timeController.Pause();
             SetExtraMouseOffset();
 
             // avoid creating duplicate blueprint rooms
@@ -37,9 +38,9 @@ namespace TowerBuilder
 
         public void Teardown()
         {
+            worldController.timeController.UnPause();
             worldController.mousePositionExtraOffset = Vector2.zero;
 
-            //
             // blueprintRoom will be null when the player hovers over the UI
             if (blueprintRoom != null)
             {

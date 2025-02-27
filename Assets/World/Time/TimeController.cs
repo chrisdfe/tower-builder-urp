@@ -11,6 +11,7 @@ namespace TowerBuilder
 
         public TimeValue timeValue { get; private set; } = TimeValue.Zero();
         public PrevAndCurrent<TimeSpeed> speed { get; private set; } = new(TimeSpeed.Normal);
+        TimeSpeed speedBeforePause = TimeSpeed.Normal;
 
         WorldController worldController;
 
@@ -21,7 +22,12 @@ namespace TowerBuilder
 
         public void OnUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.BackQuote))
+            {
+                speed.Set(TimeSpeed.Pause);
+                tickTimerElapsed = float.PositiveInfinity;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 speed.Set(TimeSpeed.Normal);
                 tickTimerElapsed = float.PositiveInfinity;
@@ -57,6 +63,19 @@ namespace TowerBuilder
                 // required for PrevAndCurrent.HasChanged() to actually work
                 tick.Set(tick.current);
             }
+        }
+
+        public void Pause()
+        {
+            if (speed.current == TimeSpeed.Pause) return;
+
+            speedBeforePause = speed.current;
+            speed.Set(TimeSpeed.Pause);
+        }
+
+        public void UnPause()
+        {
+            speed.Set(speedBeforePause);
         }
 
         public float GetTickInterval()

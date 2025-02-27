@@ -19,6 +19,7 @@ namespace TowerBuilder
 
         public void Setup()
         {
+            worldController.timeController.Pause();
             // TODO - have a local state for this like the inspect tool
             var room = worldController.buildingsController.FindRoomAtTile(worldController.hoveredTile.current);
             room?.SetMarkedForDeletionState(true);
@@ -26,6 +27,7 @@ namespace TowerBuilder
 
         public void Teardown()
         {
+            worldController.timeController.Pause();
             var room = worldController.buildingsController.FindRoomAtTile(worldController.hoveredTile.current);
             room?.SetMarkedForDeletionState(false);
         }
