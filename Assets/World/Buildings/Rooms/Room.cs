@@ -100,48 +100,49 @@ namespace TowerBuilder
 
         public void UpdateColor()
         {
+            var highlightIntensity = 0f;
+            var validBlueprintAmount = 0f;
+            var invalidBlueprintAmount = 0f;
+            var markedForDeletionAmount = 0f;
+
             if (isBlueprint)
             {
-                Material blueprintMaterial;
                 if (isValid)
                 {
-                    blueprintMaterial = WorldController.Get().blueprintValidRoomTileMaterial;
+                    validBlueprintAmount = 1f;
                 }
                 else
                 {
-                    blueprintMaterial = WorldController.Get().blueprintInvalidRoomTileMaterial;
-                }
-
-                foreach (var roomTile in roomTiles)
-                {
-                    roomTile.SetMaterial(blueprintMaterial);
+                    invalidBlueprintAmount = 1f;
                 }
             }
             else
             {
-                Color color;
                 if (isMarkedForDeletion)
                 {
-                    color = RoomConstants.ROOM_MARKED_FOR_DELETION_COLOR;
+                    markedForDeletionAmount = 1f;
                 }
                 else if (isInspected)
                 {
-                    color = RoomConstants.ROOM_INSPECTED_COLOR;
+                    highlightIntensity = 1f;
                 }
                 else if (isInspectionHovered)
                 {
-                    color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
+                    highlightIntensity = 0.5f;
                 }
                 else
                 {
-                    // Default to room definition color
-                    color = RoomConstants.ROOM_TYPE_COLORS[definition.type];
+                    highlightIntensity = 0f;
                 }
+            }
 
-                foreach (var roomTile in roomTiles)
-                {
-                    roomTile.SetColor(color);
-                }
+            foreach (var roomTile in roomTiles)
+            {
+                roomTile.SetHighlightIntensity(highlightIntensity);
+                roomTile.SetValidBlueprintAmount(validBlueprintAmount);
+                roomTile.SetInvalidBlueprintAmount(invalidBlueprintAmount);
+                roomTile.SetMarkedForDeletionColorAmount(markedForDeletionAmount);
+                roomTile.SetWallColor(RoomConstants.ROOM_TYPE_COLORS[definition.type]);
             }
         }
 

@@ -2,13 +2,22 @@
 
 ## currently:
 
-- [ ] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
-- [ ] floor should be slightly taller + ceiling should be smaller
-- [ ] Make inspect hover color a 50% white
+- [x] convert occupants/rooms to custom material/shaders
+- [ ] CLEANUP: refactor room tile shader valid/invalidblueprint/markedfordeletion colors to use a "overlay color" with a color ramp
+- [x] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
+- [x] floor should be slightly taller + ceiling should be smaller
+- [x] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
+- [ ] segment variant improvements:
+  - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
+  - [ ] apply segment variant to entire room group as well
+  - [ ] apply segment variant to entire building as well
+  - [ ] save/reuse last used segment variant? Settings for building?
+  - [ ] large window that spans multiple tiles/tile position aware
 
 ## next:
 
+- [ ] 'title plural' for rooms that defaults to title + "s" (I can't remember why right now)
 - [ ] recreation time for occupants
 - [ ] pause/play speed buttons
 - [ ] cache GetInspectFocalPoint since I'm using it every frame
@@ -24,12 +33,6 @@
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
 - [ ] should be able to move camera around in inspect mode
-- [ ] segment variant improvements:
-  - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
-  - [ ] apply segment variant to entire room group as well
-  - [ ] apply segment variant to entire building as well
-  - [ ] save/reuse last used segment variant? Settings for building?
-  - [ ] large window that spans multiple tiles/tile position aware
 - [ ] BUG: figure out why when I de-focus then re-focus the unity editor while the game is running I get a bunch of errors. It seems like worldController references is null
 - [ ] BUG: fix building-adding code - right now it's hard coded as max 1 building
 - [ ] ability to fix how stairs still room group even if not aligned vertically

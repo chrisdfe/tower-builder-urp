@@ -16,9 +16,6 @@ public class WorldController : MonoBehaviour
     public GameObject occupantPrefab;
     public GameObject debugTileSquarePrefab;
 
-    public Material blueprintValidRoomTileMaterial;
-    public Material blueprintInvalidRoomTileMaterial;
-
     // State
 
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.zero, Tile.Matches);

@@ -219,7 +219,7 @@ namespace TowerBuilder
                 BackWall,
                 new() {
                     rootNodeName = "BackWall",
-                    variants = new string[] { "Blank", "Window", "Porthole", "LargeFlexibleWindow" },
+                    variants = new string[] { "Blank", "Window", "Porthole" },
                     defaultVariant = "Blank",
                 }
             },

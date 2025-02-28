@@ -39,9 +39,29 @@ namespace TowerBuilder
                 // TODO - recurse
                 if (meshRenderer != null)
                 {
-                    meshRenderer.material.color = color;
+                    meshRenderer.material.SetColor("_BaseColor", color);
                 }
             }
+        }
+
+        public void SetHighlightIntensity(float intensity)
+        {
+            SetMaterialFloatValue("_HighlightColor", intensity);
+        }
+
+        public void SetValidBlueprintAmount(float amount)
+        {
+            SetMaterialFloatValue("_ValidBlueprintColorAmount", amount);
+        }
+
+        public void SetInvalidBlueprintAmount(float amount)
+        {
+            SetMaterialFloatValue("_InvalidBlueprintColorAmount", amount);
+        }
+
+        public void SetMarkedForDeletionColorAmount(float amount)
+        {
+            SetMaterialFloatValue("_MarkedForDeletionColorAmount", amount);
         }
 
         public void SetMaterial(Material material)
@@ -78,6 +98,20 @@ namespace TowerBuilder
         //
         // private interface
         //
+        void SetMaterialFloatValue(string inputName, float value)
+        {
+            foreach (var go in variantMap.Values)
+            {
+                var meshRenderer = go.GetComponent<MeshRenderer>();
+
+                // TODO - recurse
+                if (meshRenderer != null)
+                {
+                    meshRenderer.material.SetFloat(inputName, value);
+                }
+            }
+        }
+
         Dictionary<string, GameObject> CreateSegmentVariantMap()
         {
             var result = new Dictionary<string, GameObject>();

@@ -6,11 +6,11 @@ namespace TowerBuilder
     // Global place for hardcoded room data
     public static class RoomConstants
     {
-        public static float NORMAL_ROOM_Z_OFFSET = 2f;
-        public static float BLUEPRINT_ROOM_Z_OFFSET = 2f;
+        public const float NORMAL_ROOM_Z_OFFSET = 2f;
+        public const float BLUEPRINT_ROOM_Z_OFFSET = 2f;
 
         // Colors
-        public static Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
+        public static readonly Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
             { RoomType.CommonArea, Color.gray },
             { RoomType.Occupantial, Color.green },
             // { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) },
@@ -19,12 +19,12 @@ namespace TowerBuilder
         };
 
         // TODO - these should ultimately be materials or all part of the same shader or something
-        public static Color ROOM_MARKED_FOR_DELETION_COLOR = Color.red;
-        public static Color ROOM_INSPECTION_HOVERED_COLOR = Color.yellow;
-        public static Color ROOM_INSPECTED_COLOR = Color.white;
+        public static readonly Color ROOM_MARKED_FOR_DELETION_COLOR = Color.red;
+        public static readonly Color ROOM_INSPECTION_HOVERED_COLOR = Color.yellow;
+        public static readonly Color ROOM_INSPECTED_COLOR = Color.white;
 
         // Room definitions
-        public static RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[] {
+        public static readonly RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[] {
             new RoomDefinition() {
                 //
                 title = "Lobby",
@@ -83,7 +83,6 @@ namespace TowerBuilder
             },
 
             new RoomDefinition() {
-                //
                 title = "Office",
                 shape = new List<Tile>() {
                     new(0, 0),
@@ -96,7 +95,6 @@ namespace TowerBuilder
             },
 
             new RoomDefinition() {
-                //
                 title = "Stairs",
 
                 groupCategory = RoomGroupCategory.CommonArea,
@@ -108,9 +106,6 @@ namespace TowerBuilder
                     new(1, 1),
                 },
                 type = RoomType.TransportationItem,
-
-                // TODO - stairs validators
-                // buildValidators = new()
             },
         };
     }

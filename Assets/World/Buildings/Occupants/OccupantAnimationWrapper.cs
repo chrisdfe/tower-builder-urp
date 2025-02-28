@@ -11,15 +11,13 @@ namespace TowerBuilder
 
         WorldController worldController;
 
+        float originalY;
+
         void Awake()
         {
             // TODO - this doesn't seem great.
             worldController = WorldController.Get();
-        }
-
-        public OccupantAnimationWrapper(Occupant occupant)
-        {
-            this.occupant = occupant;
+            originalY = transform.localPosition.y;
         }
 
         //
@@ -35,12 +33,12 @@ namespace TowerBuilder
             if (isLyingDown)
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 90);
-                transform.localPosition = new Vector3(0, -0.2f, 0);
+                transform.localPosition = new Vector3(0, originalY - 0.2f, 0);
             }
             else
             {
                 transform.localRotation = Quaternion.Euler(0, 0, 0);
-                transform.localPosition = new Vector3(0, 0, 0);
+                transform.localPosition = new Vector3(0, originalY, 0);
             }
         }
 

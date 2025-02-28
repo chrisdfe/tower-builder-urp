@@ -9,7 +9,7 @@ public class RoomTile : MonoBehaviour
 {
     Transform meshRoot;
 
-    List<RoomTileSegmentTransformWrapper> segmentTransformWrappers;
+    Dictionary<RoomTileSegment, RoomTileSegmentTransformWrapper> segmentTransformWrapperMap;
 
     [HideInInspector]
     public Room room;
@@ -40,25 +40,63 @@ public class RoomTile : MonoBehaviour
 
     public void SetMaterial(Material material)
     {
-        foreach (var segmentTransformWrapper in segmentTransformWrappers)
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
         {
             segmentTransformWrapper.SetMaterial(material);
         }
     }
 
+    public void SetHighlightIntensity(float intensity)
+    {
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
+        {
+            segmentTransformWrapper.SetHighlightIntensity(intensity);
+        }
+    }
+
+    public void SetValidBlueprintAmount(float amount)
+    {
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
+        {
+            segmentTransformWrapper.SetValidBlueprintAmount(amount);
+        }
+    }
+
+    public void SetInvalidBlueprintAmount(float amount)
+    {
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
+        {
+            segmentTransformWrapper.SetInvalidBlueprintAmount(amount);
+        }
+    }
+
+    public void SetMarkedForDeletionColorAmount(float amount)
+    {
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
+        {
+            segmentTransformWrapper.SetMarkedForDeletionColorAmount(amount);
+        }
+    }
+
     public void SetColor(Color color)
     {
-        foreach (var segmentTransformWrapper in segmentTransformWrappers)
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
         {
             segmentTransformWrapper.SetColor(color);
         }
+    }
+
+    public void SetWallColor(Color color)
+    {
+        var backWallWrapper = segmentTransformWrapperMap[RoomTileSegment.BackWall];
+        backWallWrapper.SetColor(color);
     }
 
     public void ToggleSegmentsForTilePosition()
     {
         var currentSegments = RoomTileConstants.SEGMENTS_FOR_TILE_POSITION[tile.orthogonalPosition];
 
-        foreach (var segmentTransformWrapper in segmentTransformWrappers)
+        foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
         {
             var segment = segmentTransformWrapper.segment;
 
@@ -76,7 +114,7 @@ public class RoomTile : MonoBehaviour
 
     public void SetSegmentVariant(RoomTileSegment segment, string variant)
     {
-        var transformWrapper = segmentTransformWrappers.Find(wrapper => wrapper.segment == segment);
+        var transformWrapper = segmentTransformWrapperMap[segment];
         transformWrapper.SetActiveVariant(variant);
     }
 
@@ -98,15 +136,15 @@ public class RoomTile : MonoBehaviour
 
     void BuildSegmentTransformDataMap()
     {
-        var result = new List<RoomTileSegmentTransformWrapper>();
+        var result = new Dictionary<RoomTileSegment, RoomTileSegmentTransformWrapper>();
 
         foreach (var segment in RoomTileConstants.SEGMENT_DEFINITIONS.Keys)
         {
             var segmentTransformData = new RoomTileSegmentTransformWrapper(segment, meshRoot);
-            result.Add(segmentTransformData);
+            result.Add(segment, segmentTransformData);
         }
 
-        segmentTransformWrappers = result;
+        segmentTransformWrapperMap = result;
     }
 
     //

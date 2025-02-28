@@ -21,7 +21,8 @@ namespace TowerBuilder
             }
         }
 
-        public static float OCCUPANT_Z_OFFSET = 0.1f;
+        // public static float OCCUPANT_Z_OFFSET = 0.1f;
+        public static float OCCUPANT_Z_OFFSET = -1f;
 
         public string title { get; set; } = "Occupant";
         public Tile tile { get; private set; }
@@ -45,17 +46,13 @@ namespace TowerBuilder
         public SubtileOffset subTileOffset = new SubtileOffset();
 
         public OccupantAnimationWrapper animationWrapper { get; private set; }
-        Color originalColor;
         Transform bod;
-
 
         // Schedules/Tasks
         public OccupantSchedule schedule { get; private set; }
         public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
         public Queue<IOccupantTask> taskQueue { get; private set; } = new();
         OccupantRouteFinder routeFinder;
-
-
 
         //
         // Lifecycle
@@ -64,9 +61,6 @@ namespace TowerBuilder
         {
             animationWrapper = OccupantAnimationWrapper.FindFor(this);
             bod = animationWrapper.transform.Find("Bod");
-            var bodMaterial = bod.GetComponent<MeshRenderer>().material;
-            originalColor = bodMaterial.color;
-
             schedule = new OccupantSchedule(this);
         }
 
@@ -217,21 +211,23 @@ namespace TowerBuilder
 
         void UpdateColor()
         {
-            Color color;
             if (isInspected)
             {
-                color = RoomConstants.ROOM_INSPECTED_COLOR;
+                SetHighlightIntensity(1f);
             }
             else if (isInspectionHovered)
             {
-                color = RoomConstants.ROOM_INSPECTION_HOVERED_COLOR;
+                SetHighlightIntensity(0.5f);
             }
             else
             {
-                color = originalColor;
+                SetHighlightIntensity(0f);
             }
+        }
 
-            bod.GetComponent<MeshRenderer>().material.color = color;
+        void SetHighlightIntensity(float intensity)
+        {
+            bod.GetComponent<MeshRenderer>().material.SetFloat("_HighlightIntensity", intensity);
         }
 
         //
