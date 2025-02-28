@@ -8,24 +8,27 @@
 - [x] floor should be slightly taller + ceiling should be smaller
 - [x] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
-- [ ] segment variant improvements:
-  - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
-  - [ ] apply segment variant to entire room group as well
-  - [ ] apply segment variant to entire building as well
-  - [ ] save/reuse last used segment variant? Settings for building?
-  - [ ] large window that spans multiple tiles/tile position aware
+  - [ ] lights affect Occupants too
+- [ ] occupants should arrive via entrance/exit
+- [ ] recreation time/rooms for occupants
 
 ## next:
 
+- [ ] elevator
 - [ ] 'title plural' for rooms that defaults to title + "s" (I can't remember why right now)
-- [ ] recreation time for occupants
 - [ ] pause/play speed buttons
-- [ ] cache GetInspectFocalPoint since I'm using it every frame
-- [ ] occupants should arrive via entrance/exit
+- [ ] CLEANUP: cache GetInspectFocalPoint since I'm using it every frame
 - [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
 - [ ] TileAddress - tile, room, building
   - might help with all the WorldController.Get() happening all over
+- [ ] segment variant improvements:
+  - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
+  - [ ] button to apply segment variant to entire room group as well
+  - [ ] buttoun apply segment variant to entire building as well
+  - [ ] button/checkbox to set current segment variant as default
+  - [ ] save/reuse last used segment variant? Settings for building?
+  - [ ] large window that spans multiple tiles/tile position aware
 - [ ] sky that responds to time of day
 - [ ] refactor occupants to exist primarily on buildingsController
   - right now they belong to rooms.residents, which doesn't account for non-resident occupants, occupants in other buildings, etc
