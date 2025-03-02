@@ -2,11 +2,6 @@
 
 ## currently:
 
-- [x] convert occupants/rooms to custom material/shaders
-- [ ] CLEANUP: refactor room tile shader valid/invalidblueprint/markedfordeletion colors to use a "overlay color" with a color ramp
-- [x] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
-- [x] floor should be slightly taller + ceiling should be smaller
-- [x] Make inspect hover color a 50% white
 - [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
   - [ ] lights affect Occupants too
 - [ ] occupants should arrive via entrance/exit
@@ -14,6 +9,7 @@
 
 ## next:
 
+- [ ] CLEANUP: refactor room tile shader valid/invalidblueprint/markedfordeletion colors to use a "overlay color" with a color ramp
 - [ ] elevator
 - [ ] 'title plural' for rooms that defaults to title + "s" (I can't remember why right now)
 - [ ] pause/play speed buttons
@@ -77,6 +73,10 @@
 
 # Done
 
+- [x] convert occupants/rooms to custom material/shaders
+- [x] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
+- [x] floor should be slightly taller + ceiling should be smaller
+- [x] Make inspect hover color a 50% white
 - [x] build/destroy mode should pause time
 - [x] ability to pause game with ` key
 - [x] inspect camera should move with the resident as it's moving
