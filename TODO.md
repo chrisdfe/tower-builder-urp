@@ -12,7 +12,6 @@
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
 - [ ] BUG: change how changing time speed resets stars
-- [ ] BUG: fix how everything in the UI collapses at smaller screen sizes
 - [ ] elevator
 - [ ] notifications improvements
   - [ ] individual component/panel for each notification
@@ -80,6 +79,7 @@
 
 # Done
 
+- [x] BUG: fix how everything in the UI collapses at smaller screen sizes
 - [x] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
   - [x] lights affect Occupants too
 - [x] refactor occupants to exist primarily on buildingsController
