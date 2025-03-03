@@ -11,16 +11,19 @@ namespace TowerBuilder
         public RoomDefinition definition;
         public string title { get; set; } = "Room";
 
-        public List<Tile> tiles { get; private set; } = new List<Tile>() { Tile.zero };
+        public List<Tile> tiles { get; private set; } = new() { Tile.zero };
 
         // The building this room belongs to
         public Building building;
 
         // Occupants that live in this room
-        public List<Occupant> residents { get; private set; } = new List<Occupant>();
+        public List<Occupant> residents { get; private set; } = new();
 
         // Occupants that work in this room
-        public List<Occupant> workers { get; private set; } = new List<Occupant>();
+        public List<Occupant> workers { get; private set; } = new();
+
+        // Occupants currently in this room
+        public HashSet<Occupant> currentOccupants { get; private set; } = new();
 
         // TODO - should be a list of validation errors
         public bool isValid { get; private set; } = true;
@@ -143,6 +146,9 @@ namespace TowerBuilder
                 roomTile.SetInvalidBlueprintAmount(invalidBlueprintAmount);
                 roomTile.SetMarkedForDeletionColorAmount(markedForDeletionAmount);
                 roomTile.SetWallColor(RoomConstants.ROOM_TYPE_COLORS[definition.type]);
+
+                //
+                roomTile.SetLightsOn(true);
             }
         }
 

@@ -6,9 +6,9 @@ namespace TowerBuilder
 {
     public class BuildingsController
     {
+        // TODO - HashSet might make more sense here
         public List<Building> buildings { get; private set; } = new();
-
-
+        public HashSet<Occupant> occupants { get; private set; }
 
         WorldController worldController;
 
@@ -28,7 +28,7 @@ namespace TowerBuilder
         }
 
         //
-        // Public interface
+        // Lifecycle
         //
         public void OnTick()
         {
@@ -39,55 +39,13 @@ namespace TowerBuilder
             }
         }
 
-        // TODO - cache this number
-        public int ResidentCount()
-        {
-            var result = 0;
+        //
+        // Public interface
+        //
 
-            foreach (var building in buildings)
-            {
-                result += building.ResidentCount();
-            }
-
-            return result;
-        }
-
-        // TODO - cache this number
-        public int WorkerCount()
-        {
-            var result = 0;
-
-            foreach (var building in buildings)
-            {
-                result += building.WorkerCount();
-            }
-
-            return result;
-        }
-
-        public int RoomsCount()
-        {
-            int result = 0;
-
-            foreach (var building in buildings)
-            {
-                result += building.rooms.Count;
-            }
-
-            return result;
-        }
-
-        public int RoomGroupCount()
-        {
-            int result = 0;
-
-            foreach (var building in buildings)
-            {
-                result += building.roomGroups.Count;
-            }
-
-            return result;
-        }
+        //
+        // Write methods
+        //
 
         // Warning - doesn't do any validation
         public void AddRoomAtTile(RoomDefinition roomDefinition, Tile tile)
@@ -164,6 +122,61 @@ namespace TowerBuilder
             buildings.Remove(building);
             GameObject.Destroy(building.gameObject);
         }
+
+        //
+        // Read methods
+        //
+        // TODO - cache this number
+        public int ResidentCount()
+        {
+            var result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.ResidentCount();
+            }
+
+            return result;
+        }
+
+        // TODO - cache this number
+        public int WorkerCount()
+        {
+            var result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.WorkerCount();
+            }
+
+            return result;
+        }
+
+        public int RoomsCount()
+        {
+            int result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.rooms.Count;
+            }
+
+            return result;
+        }
+
+        public int RoomGroupCount()
+        {
+            int result = 0;
+
+            foreach (var building in buildings)
+            {
+                result += building.roomGroups.Count;
+            }
+
+            return result;
+        }
+
+
 
         public bool ContainsRoomAtTile(Tile tile)
         {

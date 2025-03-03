@@ -64,6 +64,11 @@ namespace TowerBuilder
             SetMaterialFloatValue("_MarkedForDeletionColorAmount", amount);
         }
 
+        public void SetInteriorLightsIntensity(float amount)
+        {
+            SetMaterialFloatValue("_InteriorLightsIntensity", amount);
+        }
+
         public void SetMaterial(Material material)
         {
             foreach (var go in variantMap.Values)

@@ -92,6 +92,12 @@ public class RoomTile : MonoBehaviour
         backWallWrapper.SetColor(color);
     }
 
+    public void SetLightsOn(bool lightsAreOn)
+    {
+        var backWallWrapper = segmentTransformWrapperMap[RoomTileSegment.BackWall];
+        backWallWrapper.SetInteriorLightsIntensity(lightsAreOn ? 1f : 0f);
+    }
+
     public void ToggleSegmentsForTilePosition()
     {
         var currentSegments = RoomTileConstants.SEGMENTS_FOR_TILE_POSITION[tile.orthogonalPosition];

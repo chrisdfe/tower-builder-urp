@@ -13,6 +13,10 @@ namespace TowerBuilder
         public List<RoomGroup> roomGroups { get; private set; } = new();
         public List<Room> rooms { get; private set; } = new();
 
+        //
+        // Public interface -
+        // Write methods
+        //
         public Room AddRoom(Tile originTile, RoomDefinition roomDefinition)
         {
             var roomPrefab = WorldController.Get().roomPrefab;
@@ -106,6 +110,14 @@ namespace TowerBuilder
                 worker.SetOffice(null);
             }
 
+            // TODO - decide what to do here!!!!!! move to a room at an adjacent tile probably.
+            // write a GetAdjacentRooms() function
+            // for now just set currentRoom to null
+            foreach (var occupant in room.currentOccupants)
+            {
+                occupant.currentRoom = null;
+            }
+
             // Remove room from all room groups
             foreach (var roomGroup in roomGroups)
             {
@@ -129,6 +141,10 @@ namespace TowerBuilder
             }
         }
 
+        //
+        // Public interface -
+        // Read methods
+        //
         public bool ContainsRoom(Room room) =>
             rooms.Find(otherRoom => otherRoom == room) != null;
 
