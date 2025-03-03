@@ -123,19 +123,19 @@ namespace TowerBuilder
         public void UpdateColor()
         {
             var highlightIntensity = 0f;
-            var validBlueprintAmount = 0f;
-            var invalidBlueprintAmount = 0f;
+            var validBlueprintColorAmount = 0f;
+            var invalidBlueprintColorAmount = 0f;
             var markedForDeletionAmount = 0f;
 
             if (isBlueprint)
             {
                 if (isValid)
                 {
-                    validBlueprintAmount = 1f;
+                    validBlueprintColorAmount = 1f;
                 }
                 else
                 {
-                    invalidBlueprintAmount = 1f;
+                    invalidBlueprintColorAmount = 1f;
                 }
             }
             else
@@ -161,8 +161,8 @@ namespace TowerBuilder
             foreach (var roomTile in roomTiles)
             {
                 roomTile.SetHighlightIntensity(highlightIntensity);
-                roomTile.SetValidBlueprintAmount(validBlueprintAmount);
-                roomTile.SetInvalidBlueprintAmount(invalidBlueprintAmount);
+                roomTile.SetValidBlueprintColorAmount(validBlueprintColorAmount);
+                roomTile.SetInvalidBlueprintColorAmount(invalidBlueprintColorAmount);
                 roomTile.SetMarkedForDeletionColorAmount(markedForDeletionAmount);
                 roomTile.SetWallColor(RoomTypeColorMap.GetForType(definition.type));
 
@@ -393,6 +393,8 @@ namespace TowerBuilder
         }
 
         public Tile GetRandomTile() => GetRandomTile(new());
+
+        public Color GetInteriorLightsColor() => RoomTypeColorMap.GetForType(definition.type);
 
         //
         // Private interface

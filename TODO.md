@@ -2,23 +2,28 @@
 
 ## currently:
 
-- [x] refactor occupants to exist primarily on buildingsController
-- [x] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
-  - [ ] lights affect Occupants too
-- [ ] occupants should arrive via entrance/exit
+- [ ] fix notifications overflowing panel UI issue
+- [ ] occupants should arrive via entrance/exit at regular intervals
 - [ ] recreation time/rooms for occupants
 
 ## next:
 
-- [ ] PROCESS: write a "TODO aggregator" script to help with all these TODOs everywhere
-- [ ] sky that responds to time of day
-  - right now they belong to rooms.residents, which doesn't account for non-resident occupants, occupants in other buildings, etc
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
+- [ ] BUG: change how changing time speed resets stars
+- [ ] BUG: fix how everything in the UI collapses at smaller screen sizes
+- [ ] elevator
+- [ ] notifications improvements
+  - [ ] individual component/panel for each notification
+  - [ ] notification component animates in
+  - [ ] 'primary' notification that shows in top middle of the screen for important stuff
+- [ ] rename 'controller' stuff to 'manager' to prevent unity naming conflicts?
+- [ ] occupant room transitions should happen half way through their animation from the previous tile to the first one in the room
+- [ ] PROCESS: write a "TODO aggregator" script to help with all these TODOs everywhere
+- [ ] sky that responds to time of day
 - [ ] save/load system
 - [ ] CLEANUP: refactor room tile shader valid/invalidblueprint/markedfordeletion colors to use a "overlay color" with a color ramp
-- [ ] elevator
 - [ ] 'title plural' for rooms that defaults to title + "s" (I can't remember why right now)
 - [ ] pause/play speed buttons
 - [ ] CLEANUP: cache GetInspectFocalPoint since I'm using it every frame
@@ -75,6 +80,11 @@
 
 # Done
 
+- [x] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
+  - [x] lights affect Occupants too
+- [x] refactor occupants to exist primarily on buildingsController
+  - right now they belong to rooms.residents, which doesn't account for non-resident occupants, occupants in other buildings, etc
+- [x] BUG: blueprint invalid color doesn't work
 - [x] convert occupants/rooms to custom material/shaders
 - [x] floor/ceiling/walls of rooms can probably all stay the same color - the backWall is the main thing that changes
 - [x] floor should be slightly taller + ceiling should be smaller

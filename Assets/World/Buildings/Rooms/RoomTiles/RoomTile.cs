@@ -54,19 +54,19 @@ public class RoomTile : MonoBehaviour
         }
     }
 
-    public void SetValidBlueprintAmount(float amount)
+    public void SetValidBlueprintColorAmount(float amount)
     {
         foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
         {
-            segmentTransformWrapper.SetValidBlueprintAmount(amount);
+            segmentTransformWrapper.SetValidBlueprintColorAmount(amount);
         }
     }
 
-    public void SetInvalidBlueprintAmount(float amount)
+    public void SetInvalidBlueprintColorAmount(float amount)
     {
         foreach (var segmentTransformWrapper in segmentTransformWrapperMap.Values)
         {
-            segmentTransformWrapper.SetInvalidBlueprintAmount(amount);
+            segmentTransformWrapper.SetInvalidBlueprintColorAmount(amount);
         }
     }
 

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -34,7 +32,7 @@ namespace TowerBuilder
         public Room residence { get; private set; }
 
         // where this occupant currently is
-        public Room currentRoom { get; set; }
+        public Room currentRoom { get; private set; }
 
         // player is hovering over the room with the inspect tool
         public bool isInspectionHovered { get; private set; } = false;
@@ -46,13 +44,16 @@ namespace TowerBuilder
         public SubtileOffset subTileOffset = new SubtileOffset();
 
         public OccupantAnimationWrapper animationWrapper { get; private set; }
-        Transform bod;
 
         // Schedules/Tasks
         public OccupantSchedule schedule { get; private set; }
         public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
         public Queue<IOccupantTask> taskQueue { get; private set; } = new();
         OccupantRouteFinder routeFinder;
+
+        // GameWorld stuff references
+        Transform bod;
+        Material bodMaterial;
 
         //
         // Lifecycle
@@ -61,7 +62,20 @@ namespace TowerBuilder
         {
             animationWrapper = OccupantAnimationWrapper.FindFor(this);
             bod = animationWrapper.transform.Find("Bod");
+            bodMaterial = bod.GetComponent<MeshRenderer>().material;
+
             schedule = new OccupantSchedule(this);
+        }
+
+        public void FixedUpdate()
+        {
+            if (isInspected)
+            {
+                if (routeFinder != null)
+                {
+                    routeFinder.DebugDrawPaths();
+                }
+            }
         }
 
         public void OnTick()
@@ -86,20 +100,23 @@ namespace TowerBuilder
             }
         }
 
-        public void FixedUpdate()
-        {
-            if (isInspected)
-            {
-                if (routeFinder != null)
-                {
-                    routeFinder.DebugDrawPaths();
-                }
-            }
-        }
-
         //
         // Public interface
         //
+        public void SetCurrentRoom(Room room)
+        {
+            currentRoom = room;
+
+            if (currentRoom != null)
+            {
+                SetInteriorLightColor(currentRoom.GetInteriorLightsColor());
+            }
+            else
+            {
+                SetInteriorLightColor(Color.black);
+            }
+        }
+
         public void SetResidence(Room room)
         {
             // TODO - this doesn't seem great
@@ -227,7 +244,12 @@ namespace TowerBuilder
 
         void SetHighlightIntensity(float intensity)
         {
-            bod.GetComponent<MeshRenderer>().material.SetFloat("_HighlightIntensity", intensity);
+            bodMaterial.SetFloat("_HighlightIntensity", intensity);
+        }
+
+        void SetInteriorLightColor(Color color)
+        {
+            bodMaterial.SetColor("_InteriorLightColor", color);
         }
 
         //

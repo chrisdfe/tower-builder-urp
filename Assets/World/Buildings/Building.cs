@@ -14,6 +14,20 @@ namespace TowerBuilder
         public List<Room> rooms { get; private set; } = new();
 
         //
+        // Lifecycle
+        //
+        public void OnTick()
+        {
+            foreach (var room in rooms)
+            {
+                foreach (var resident in room.residents)
+                {
+                    resident.OnTick();
+                }
+            }
+        }
+
+        //
         // Public interface -
         // Write methods
         //
@@ -114,7 +128,7 @@ namespace TowerBuilder
             // for now just set currentRoom to null
             foreach (var occupant in room.currentOccupants)
             {
-                occupant.currentRoom = null;
+                occupant.SetCurrentRoom(null);
             }
 
             // Remove room from all room groups
@@ -127,17 +141,6 @@ namespace TowerBuilder
             }
 
             Destroy(room.gameObject);
-        }
-
-        public void OnTick()
-        {
-            foreach (var room in rooms)
-            {
-                foreach (var resident in room.residents)
-                {
-                    resident.OnTick();
-                }
-            }
         }
 
         //

@@ -49,12 +49,12 @@ namespace TowerBuilder
             SetMaterialFloatValue("_HighlightColor", intensity);
         }
 
-        public void SetValidBlueprintAmount(float amount)
+        public void SetValidBlueprintColorAmount(float amount)
         {
             SetMaterialFloatValue("_ValidBlueprintColorAmount", amount);
         }
 
-        public void SetInvalidBlueprintAmount(float amount)
+        public void SetInvalidBlueprintColorAmount(float amount)
         {
             SetMaterialFloatValue("_InvalidBlueprintColorAmount", amount);
         }

@@ -283,9 +283,9 @@ namespace TowerBuilder
 
                 occupant.SetTile(room.GetRandomTile());
                 occupant.SetRandomSubTileOffset();
-                occupant.currentRoom = room;
-                room.AddCurrentOccupant(occupant);
+                occupant.SetCurrentRoom(room);
 
+                room.AddCurrentOccupant(occupant);
                 room.residents.Add(occupant);
                 occupant.SetResidence(room);
 

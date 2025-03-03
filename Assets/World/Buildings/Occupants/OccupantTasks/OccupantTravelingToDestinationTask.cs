@@ -56,7 +56,7 @@ namespace TowerBuilder
                     newRoom.UpdateColor();
                 }
 
-                occupant.currentRoom = newRoom;
+                occupant.SetCurrentRoom(newRoom);
 
                 // animation
                 occupant.animationWrapper.ResetPosition();

@@ -545,6 +545,7 @@ GameObject:
   - component: {fileID: 274308239}
   - component: {fileID: 274308238}
   - component: {fileID: 274308237}
+  - component: {fileID: 274308240}
   m_Layer: 0
   m_Name: Sky
   m_TagString: Untagged
@@ -617,6 +618,18 @@ Transform:
   m_Father: {fileID: 695771125}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &274308240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274308235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5db166b6d20db448f6ec70596aa1ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &279492053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,14 +1196,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
-  m_LocalRotation: {x: 0.12607859, y: -0.2566048, z: 0.03378265, w: 0.9576622}
+  m_LocalRotation: {x: 0.043246232, y: -0.13040201, z: 0.0056934766, w: 0.9905012}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 15, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 5, y: -15, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1267,10 +1280,10 @@ MonoBehaviour:
   debugTileSquarePrefab: {fileID: 671748170559781018, guid: a23338886ffec79429a931ad55485d02,
     type: 3}
   roomTypeColorMap:
-    commonAreaColor: {r: 0.5900106, g: 0.6981132, b: 0.5641984, a: 0}
-    officeAreaColor: {r: 0.58256197, g: 0.68525606, b: 0.6886792, a: 0}
-    residentialAreaColor: {r: 0.735849, g: 0.5808116, b: 0.5808116, a: 0}
-    transportationItemColor: {r: 0.8207547, g: 0.7054705, b: 0.64782834, a: 1}
+    commonAreaColor: {r: 0.7871296, g: 0.8490566, b: 0.67817724, a: 0}
+    officeAreaColor: {r: 0.3299513, g: 0.7662387, b: 0.7830189, a: 0}
+    residentialAreaColor: {r: 0.84313726, g: 0.50463474, b: 0.46666667, a: 0}
+    transportationItemColor: {r: 0.3901744, g: 0.9056604, b: 0.5491887, a: 1}
     defaultColor: {r: 0.6076302, g: 0.7264151, b: 0.6967189, a: 0}
   mousePositionExtraOffset: {x: 0, y: 0}
   debugTileSquares: []
