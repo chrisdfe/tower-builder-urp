@@ -2,15 +2,17 @@
 
 ## currently:
 
-- [ ] fix notifications overflowing panel UI issue
 - [ ] occupants should arrive via entrance/exit at regular intervals
 - [ ] recreation time/rooms for occupants
-
-## next:
-
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
+
+## next:
+
+- [ ] rooms shouldn't be 100% dark when occupants aren't in them
+- [ ] rooms should also turn out its lights when all occupants inside are asleep
+- [ ] box around the edge of the screen or something when game is paused
 - [ ] BUG: change how changing time speed resets stars
 - [ ] elevator
 - [ ] notifications improvements
@@ -79,6 +81,7 @@
 
 # Done
 
+- [x] fix notifications overflowing panel UI issue
 - [x] BUG: fix how everything in the UI collapses at smaller screen sizes
 - [x] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
   - [x] lights affect Occupants too
