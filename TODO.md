@@ -2,14 +2,15 @@
 
 ## currently:
 
-- [ ] occupants should arrive via entrance/exit at regular intervals
 - [ ] recreation time/rooms for occupants
+- [ ] occupants should arrive via entrance/exit at regular intervals
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
 
 ## next:
 
+- [ ] room furniture
 - [ ] rooms shouldn't be 100% dark when occupants aren't in them
 - [ ] rooms should also turn out its lights when all occupants inside are asleep
 - [ ] box around the edge of the screen or something when game is paused

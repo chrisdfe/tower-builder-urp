@@ -278,8 +278,7 @@ namespace TowerBuilder
             {
                 var occupant = CreateOccupant();
 
-                occupant.title = $"{building.title} Occupant {building.ResidentCount()}";
-                occupant.gameObject.name = occupant.title;
+                occupant.SetTitle($"{building.title} Occupant {building.ResidentCount()}");
 
                 occupant.SetTile(room.GetRandomTile());
                 occupant.SetRandomSubTileOffset();
@@ -294,7 +293,7 @@ namespace TowerBuilder
                 worldController.notifications.Add(new Notification(occupant.title + " has moved into " + room.title));
             }
 
-            // give occupants jobs if they are unemployed and there is work available
+            // give occupants jobs if they are unemployed and there are workplaces available
             var unemployedOccupants = building.GetUnemployedOccupants();
 
             if (unemployedOccupants.Count > 0)

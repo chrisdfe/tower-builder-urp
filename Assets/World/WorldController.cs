@@ -236,7 +236,6 @@ public class WorldController : MonoBehaviour
         }
 
         debugTileSquares = new();
-
     }
 
     //

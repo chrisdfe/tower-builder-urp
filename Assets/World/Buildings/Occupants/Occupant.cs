@@ -22,7 +22,7 @@ namespace TowerBuilder
         // public static float OCCUPANT_Z_OFFSET = 0.1f;
         public static float OCCUPANT_Z_OFFSET = -1f;
 
-        public string title { get; set; } = "Occupant";
+        public string title { get; private set; } = "Occupant";
         public Tile tile { get; private set; }
 
         // where this occupant works
@@ -103,6 +103,12 @@ namespace TowerBuilder
         //
         // Public interface
         //
+        public void SetTitle(string title)
+        {
+            this.title = title;
+            gameObject.name = title;
+        }
+
         public void SetCurrentRoom(Room room)
         {
             currentRoom = room;
