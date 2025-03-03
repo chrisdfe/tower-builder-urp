@@ -1258,8 +1258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7afae63674b4cb547b6b04dd64d73ce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomTilePlaceholderPrefab: {fileID: 8254457192939473836, guid: 142b1714d5eefb844a977e85daf6d3aa,
-    type: 3}
   buildingPrefab: {fileID: 2921535401554368361, guid: a1e0913ec147f714fa3e4ddb49c586ce,
     type: 3}
   roomPrefab: {fileID: 4681847931022313429, guid: 91ffe9a927425c64799f7988fd5ed7b0,
@@ -1268,6 +1266,12 @@ MonoBehaviour:
     type: 3}
   debugTileSquarePrefab: {fileID: 671748170559781018, guid: a23338886ffec79429a931ad55485d02,
     type: 3}
+  roomTypeColorMap:
+    commonAreaColor: {r: 0.5900106, g: 0.6981132, b: 0.5641984, a: 0}
+    officeAreaColor: {r: 0.58256197, g: 0.68525606, b: 0.6886792, a: 0}
+    residentialAreaColor: {r: 0.735849, g: 0.5808116, b: 0.5808116, a: 0}
+    transportationItemColor: {r: 0.8207547, g: 0.7054705, b: 0.64782834, a: 1}
+    defaultColor: {r: 0.6076302, g: 0.7264151, b: 0.6967189, a: 0}
   mousePositionExtraOffset: {x: 0, y: 0}
   debugTileSquares: []
 --- !u!1 &784577628

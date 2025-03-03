@@ -9,15 +9,6 @@ namespace TowerBuilder
         public const float NORMAL_ROOM_Z_OFFSET = 2f;
         public const float BLUEPRINT_ROOM_Z_OFFSET = 2f;
 
-        // Colors
-        public static readonly Dictionary<RoomType, Color> ROOM_TYPE_COLORS = new() {
-            { RoomType.CommonArea, Color.gray },
-            { RoomType.Occupantial, Color.green },
-            // { RoomType.TransportationItem, new Color(1f, 1f, 1f, 0.5f) },
-            { RoomType.TransportationItem, new Color(0.992f, 0.811f, 0.721f) },
-            { RoomType.Office, Color.magenta }
-        };
-
         // TODO - these should ultimately be materials or all part of the same shader or something
         public static readonly Color ROOM_MARKED_FOR_DELETION_COLOR = Color.red;
         public static readonly Color ROOM_INSPECTION_HOVERED_COLOR = Color.yellow;
@@ -63,7 +54,7 @@ namespace TowerBuilder
                     new(3, 0),
                     new(4, 0),
                 },
-                type = RoomType.Occupantial,
+                type = RoomType.Residential,
 
                 // residentCapacity = 12,
                 residentCapacity = 3,
@@ -78,7 +69,7 @@ namespace TowerBuilder
                     new(0, 1),
                     new(1, 1),
                 },
-                type = RoomType.Occupantial,
+                type = RoomType.Residential,
                 residentCapacity = 3,
             },
 

@@ -4,7 +4,7 @@ namespace TowerBuilder
     {
         CommonArea,
         TransportationItem,
+        Residential,
         Office,
-        Occupantial
     }
 }

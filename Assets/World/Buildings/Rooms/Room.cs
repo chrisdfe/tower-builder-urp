@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -9,7 +10,7 @@ namespace TowerBuilder
     {
 
         public RoomDefinition definition;
-        public string title { get; set; } = "Room";
+        public string title { get; private set; } = "Room";
 
         public List<Tile> tiles { get; private set; } = new() { Tile.zero };
 
@@ -54,6 +55,12 @@ namespace TowerBuilder
         //
         // Write methods
         //
+
+        public void SetTitle(string title)
+        {
+            this.title = title;
+            gameObject.name = title;
+        }
 
         // TODO - this isn't going to work for resizable rooms
         // TODO - make the originTile the center tile instead of bottom left
@@ -101,6 +108,18 @@ namespace TowerBuilder
             }
         }
 
+        public void AddCurrentOccupant(Occupant occupant)
+        {
+            currentOccupants.Add(occupant);
+            UpdateColor();
+        }
+
+        public void RemoveCurrentOccupant(Occupant occupant)
+        {
+            currentOccupants.Remove(occupant);
+            UpdateColor();
+        }
+
         public void UpdateColor()
         {
             var highlightIntensity = 0f;
@@ -145,10 +164,10 @@ namespace TowerBuilder
                 roomTile.SetValidBlueprintAmount(validBlueprintAmount);
                 roomTile.SetInvalidBlueprintAmount(invalidBlueprintAmount);
                 roomTile.SetMarkedForDeletionColorAmount(markedForDeletionAmount);
-                roomTile.SetWallColor(RoomConstants.ROOM_TYPE_COLORS[definition.type]);
+                roomTile.SetWallColor(RoomTypeColorMap.GetForType(definition.type));
 
-                //
-                roomTile.SetLightsOn(true);
+                // TODO - also check if occupants are asleep
+                roomTile.SetLightsOn(currentOccupants.Count > 0);
             }
         }
 

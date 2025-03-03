@@ -43,8 +43,24 @@ namespace TowerBuilder
                 var currentNode = GetCurrentNode();
 
                 occupant.SetTile(currentNode.tile);
-                occupant.currentRoom = worldController.buildingsController.FindRoomAtTile(currentNode.tile);
+
+                // manage room transitions
+                var previousRoom = occupant.currentRoom;
+                var newRoom = worldController.buildingsController.FindRoomAtTile(currentNode.tile);
+
+                if (previousRoom != newRoom)
+                {
+                    previousRoom.currentOccupants.Remove(occupant);
+                    previousRoom.UpdateColor();
+                    newRoom.currentOccupants.Add(occupant);
+                    newRoom.UpdateColor();
+                }
+
+                occupant.currentRoom = newRoom;
+
+                // animation
                 occupant.animationWrapper.ResetPosition();
+
 
                 // set random subtile offset too?
 

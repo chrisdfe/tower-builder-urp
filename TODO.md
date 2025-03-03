@@ -2,8 +2,8 @@
 
 ## currently:
 
-- [ ] refactor occupants to exist primarily on buildingsController
-- [ ] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
+- [x] refactor occupants to exist primarily on buildingsController
+- [x] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
   - [ ] lights affect Occupants too
 - [ ] occupants should arrive via entrance/exit
 - [ ] recreation time/rooms for occupants

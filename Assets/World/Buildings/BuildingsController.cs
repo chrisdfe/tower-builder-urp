@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
+    // manages buildings AND occupants (for now)
     public class BuildingsController
     {
-        // TODO - HashSet might make more sense here
         public List<Building> buildings { get; private set; } = new();
-        public HashSet<Occupant> occupants { get; private set; }
+        public List<Occupant> occupants { get; private set; } = new();
 
         WorldController worldController;
 
@@ -105,6 +105,9 @@ namespace TowerBuilder
 
                 if (building != null)
                 {
+                    // residents of a room get destroyed when room is destroyed
+                    occupants.RemoveAll(occupant => room.residents.Contains(occupant));
+
                     building.RemoveRoom(room);
 
                     if (building.rooms.Count == 0)
@@ -246,6 +249,7 @@ namespace TowerBuilder
                 Quaternion.identity,
                 buildingsContainer
             );
+
             var building = buildingGameObject.GetComponent<Building>();
             buildings.Add(building);
             building.title = $"Building {buildings.Count}";
@@ -253,18 +257,17 @@ namespace TowerBuilder
             return building;
         }
 
+        Occupant CreateOccupant()
+        {
+            var occupantGameObject = GameObject.Instantiate(worldController.occupantPrefab, occupantsContainer);
+            var occupant = occupantGameObject.GetComponent<Occupant>();
+            occupants.Add(occupant);
+            return occupant;
+        }
 
         //
         // Occupants
         // 
-        Occupant CreateOccupant()
-        {
-            var occupantPrefab = worldController.occupantPrefab;
-            var occupantGameObject = GameObject.Instantiate(occupantPrefab, occupantsContainer);
-            var occupant = occupantGameObject.GetComponent<Occupant>();
-            return occupant;
-        }
-
         void HandleBuildingRoomVacancies(Building building)
         {
             // TODO - re-use the same occupants for residences/offices
@@ -281,6 +284,7 @@ namespace TowerBuilder
                 occupant.SetTile(room.GetRandomTile());
                 occupant.SetRandomSubTileOffset();
                 occupant.currentRoom = room;
+                room.AddCurrentOccupant(occupant);
 
                 room.residents.Add(occupant);
                 occupant.SetResidence(room);

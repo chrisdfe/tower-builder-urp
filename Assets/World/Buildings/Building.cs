@@ -28,8 +28,7 @@ namespace TowerBuilder
             // Initialize room
             room.building = this;
             room.definition = roomDefinition;
-            room.title = $"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count}";
-            roomGameObject.name = room.title;
+            room.SetTitle($"{title} {room.definition.title} {GetRoomsByType(room.definition.type).Count + 1}");
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
             room.UpdateColor();
             room.SetZPosition();

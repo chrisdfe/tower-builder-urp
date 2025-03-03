@@ -9,15 +9,22 @@ public class WorldController : MonoBehaviour
 {
     public static float TILE_SIZE { get; } = 1f;
 
+    //
     // Prefabs
-    public GameObject roomTilePlaceholderPrefab;
+    //
     public GameObject buildingPrefab;
     public GameObject roomPrefab;
     public GameObject occupantPrefab;
     public GameObject debugTileSquarePrefab;
 
-    // State
+    //
+    // Settings
+    //
+    public RoomTypeColorMap roomTypeColorMap;
 
+    //
+    // State
+    //
     public PrevAndCurrent<Tile> hoveredTile { get; private set; } = new PrevAndCurrent<Tile>(Tile.zero, Tile.Matches);
 
     // affects the mouse position used to determine hoveredTile
@@ -33,7 +40,9 @@ public class WorldController : MonoBehaviour
 
     public List<Notification> notifications { get; private set; } = new();
 
-    // Debug state
+    //
+    // Debug stuff
+    //
     public List<GameObject> debugTileSquares = new();
 
     // Other
