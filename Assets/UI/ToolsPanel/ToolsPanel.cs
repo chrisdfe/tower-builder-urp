@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TowerBuilder
@@ -9,6 +10,7 @@ namespace TowerBuilder
     public class ToolsPanel : MonoBehaviour
     {
         public GameObject toolButtonPrefab;
+        public GameObject roomDefinitionButtonPrefab;
 
         Transform toolButtonsWrapper;
         Transform toolOptionButtonsWrapper;
@@ -21,6 +23,12 @@ namespace TowerBuilder
         List<ToolButton> toolOptionButtons = new();
 
         WorldController worldController;
+
+        RoomDefinitionButton currentHoveredRoomDefinitionButton;
+        RoomDefinitionTooltip roomDefinitionTooltip;
+        Canvas canvas;
+        GraphicRaycaster graphicRaycaster;
+        EventSystem eventSystem;
 
         void Awake()
         {
@@ -45,6 +53,12 @@ namespace TowerBuilder
 
             worldController = WorldController.Get();
             worldController.toolsController.onToolChanged += OnToolChanged;
+
+            roomDefinitionTooltip = RoomDefinitionTooltip.Get();
+
+            canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
+            eventSystem = canvas.GetComponent<EventSystem>();
         }
 
         void Start()
@@ -52,9 +66,49 @@ namespace TowerBuilder
             HighlightToolButton(worldController.toolsController.toolHandle.current);
         }
 
+        void Update()
+        {
+            CheckForRoomDefinitionButtonMouseover();
+        }
+
+        //
+        // Private interface
+        //
+        void CheckForRoomDefinitionButtonMouseover()
+        {
+            var pointerEventData = new PointerEventData(eventSystem);
+            pointerEventData.position = Input.mousePosition;
+
+            var results = new List<RaycastResult>();
+
+            graphicRaycaster.Raycast(pointerEventData, results);
+
+            var isHovering = false;
+            foreach (var result in results)
+            {
+                if (result.gameObject.tag == "RoomDefinitionButton")
+                {
+                    var button = RoomDefinitionButton.FromRaycastHit(result.gameObject);
+                    isHovering = true;
+                    OnRoomDefinitionButtonMouseOver(button);
+                    break;
+                }
+                else if (result.gameObject.name == "ToolOptionsButtonsWrapper")
+                // Note - a bit fragile. Don't change the name of the game object!
+                // Avoid tooltip hiding/showing as player moves the cursor through the gap between buttons
+                {
+                    isHovering = true;
+                }
+            }
+
+            if (!isHovering)
+            {
+                OnRoomDefinitionButtonMouseOut();
+            }
+        }
+
         void OnToolChanged()
         {
-
             HighlightToolButton(worldController.toolsController.toolHandle.current);
             ClearToolOptionsButtons();
             CreateToolOptionButtonsForCurrentTool();
@@ -97,13 +151,15 @@ namespace TowerBuilder
                     //
                     foreach (var roomDefinition in RoomConstants.ALL_DEFINITIONS)
                     {
-                        var toolOptionButton = Instantiate(toolButtonPrefab, toolOptionButtonsWrapper);
-                        toolOptionButton.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = roomDefinition.title;
-                        toolOptionButton.GetComponent<Button>().onClick.AddListener(() =>
+                        var roomDefinitionButtonGameObject = Instantiate(roomDefinitionButtonPrefab, toolOptionButtonsWrapper);
+                        var roomDefinitionButton = roomDefinitionButtonGameObject.GetComponent<RoomDefinitionButton>();
+                        roomDefinitionButton.SetDefinition(roomDefinition);
+                        roomDefinitionButton.onClick += (RoomDefinition roomDefinition) =>
                         {
                             OnToolOptionButtonClick(roomDefinition.title);
-                        });
-                        toolOptionButtons.Add(toolOptionButton.GetComponent<ToolButton>());
+                        };
+
+                        toolOptionButtons.Add(roomDefinitionButton.GetComponent<ToolButton>());
                     }
 
                     HighlightActiveToolOptionButton();
@@ -147,6 +203,21 @@ namespace TowerBuilder
             }
 
             toolOptionButtons = new();
+        }
+
+        void OnRoomDefinitionButtonMouseOver(RoomDefinitionButton button)
+        {
+            if (button == currentHoveredRoomDefinitionButton) return;
+
+            currentHoveredRoomDefinitionButton = button;
+            roomDefinitionTooltip.Show();
+            roomDefinitionTooltip.SetRoomDefinition(button.roomDefinition);
+        }
+
+        void OnRoomDefinitionButtonMouseOut()
+        {
+            roomDefinitionTooltip.Hide();
+            currentHoveredRoomDefinitionButton = null;
         }
     }
 }

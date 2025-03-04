@@ -100,10 +100,9 @@ public class WorldController : MonoBehaviour
         pointerEventData = new PointerEventData(eventSystem);
         pointerEventData.position = Input.mousePosition;
 
-        List<RaycastResult> results = new();
+        var results = new List<RaycastResult>();
 
         graphicRaycaster.Raycast(pointerEventData, results);
-
 
         cursorIsOverUI.Set(results.Count > 0);
     }

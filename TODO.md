@@ -8,6 +8,11 @@
 
 ## next:
 
+- [ ] wallet/money
+  - [ ] offices increase money at the end of every day (a certain amount per worker)
+  - [ ] hotel room occupants increase money as they leave
+- [ ] make resizable rooms properly instead of using roomGroups for stairs
+  - [ ] after this, make entrance/exit & lobby the same
 - [ ] position-aware mesh for building perimeter tiles
 - [ ] BUG: route finder still having issues with more complex layouts
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
@@ -15,7 +20,6 @@
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
   - [ ] can probably just use a plane in front of room tiles
 - [ ] randomize schedule times slightly
-- [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] BUG: all lights in roomGroup should turn on when occupant is in one of the rooms
 - [ ] BUG: when you destroy a room room group walls don't adjust
 - [ ] fake cone/point lights that happen at a certain frequency within rooms
@@ -93,6 +97,8 @@
 
 # Done
 
+- [x] abbreviated room buttons + name & info when you hover over them (ultimately icons)
+  - [x] room descriptions
 - [x] building tile border
 - [x] BUG: route finder still has some issues with non-rectangular transportation room groups
   - Added stairs to a different roomGroupCategory for now

@@ -3,11 +3,13 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
+    using static RoomType;
     public class RoomDefinition
     {
-        public string title;
+        public string title = "No title";
+        public string description = "No description.";
         public List<Tile> shape;
-        public RoomType type = RoomType.CommonArea;
+        public RoomType type = CommonArea;
         public bool isEntrance = false;
 
         public RoomGroupCategory groupCategory = RoomGroupCategory.None;
@@ -23,5 +25,20 @@ namespace TowerBuilder
         // public uint workerCapacity = 0;
 
         public List<IRoomValidator> buildValidators = new(RoomBuildValidators.standardBuildValidators);
+
+        // A human-readable RoomType
+        public static string GetRoomTypeName(RoomType roomType)
+        {
+            switch (roomType)
+            {
+                case CommonArea: return "Common Area";
+                case TransportationItem: return "Transportation Item";
+                case Residential: return "Residential";
+                case Office: return "Office";
+                case Recreation: return "Recreation";
+            }
+
+            throw new System.Exception($"Can't get name for roomType: {roomType}");
+        }
     }
 }

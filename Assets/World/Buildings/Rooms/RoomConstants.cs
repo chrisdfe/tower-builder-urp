@@ -104,6 +104,10 @@ namespace TowerBuilder
                 //        right now the routefinding algorithm can't deal with non-rectangular rooms though
                 groupCategory = RoomGroupCategory.Stairs,
             },
+
+            new() {
+                title = "Cabin",
+            }
         };
     }
 }
