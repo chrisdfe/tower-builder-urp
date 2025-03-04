@@ -9,12 +9,16 @@
 
 ## next:
 
+- [ ] box around the edge of the screen or something when game is paused
+- [ ] overlays
+  - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
+  - [ ] can probably just use a plane in front of room tiles
+- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
+- [ ] BUG: inspect/inspect hover highlight isn't working
 - [ ] don't send occupants to recreation room if it is already at capacity
 - [ ] room lights should turn on when inspecting
 - [ ] room furniture
-- [ ] rooms shouldn't be 100% dark when occupants aren't in them
 - [ ] rooms should also turn out its lights when all occupants inside are asleep
-- [ ] box around the edge of the screen or something when game is paused
 - [ ] BUG: change how changing time speed resets stars
 - [ ] elevator
 - [ ] notifications improvements
@@ -30,7 +34,6 @@
 - [ ] 'title plural' for rooms that defaults to title + "s" (I can't remember why right now)
 - [ ] pause/play speed buttons
 - [ ] CLEANUP: cache GetInspectFocalPoint since I'm using it every frame
-- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
 - [ ] TileAddress - tile, room, building
   - might help with all the WorldController.Get() happening all over
@@ -62,8 +65,6 @@
 - [ ] inspect panel should list residents/workers in inspected room
 - [ ] resident entry point (to be replaced at some point)
 - [ ] wallet/money
-- [ ] overlays
-  - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
 - [ ] building exterior - like a 3rd of a tile of extra stuff on the outside
 - [ ] camera improvement: camera zoom with scroll wheel
 - [ ] camera imrovement: hold middle mouse down to move around
@@ -83,6 +84,7 @@
 
 # Done
 
+- [x] rooms shouldn't be 100% dark when occupants aren't in them
 - [x] recreation time/rooms for occupants
 - [x] fix notifications overflowing panel UI issue
 - [x] BUG: fix how everything in the UI collapses at smaller screen sizes
