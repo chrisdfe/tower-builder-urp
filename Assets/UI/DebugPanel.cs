@@ -7,41 +7,14 @@ public class DebugPanel : MonoBehaviour
     public GameObject bodyTextPrefab;
 
     TextMeshProUGUI allText;
-    TextMeshProUGUI tickText;
-    TextMeshProUGUI hoveredTileText;
-    TextMeshProUGUI buildingsText;
-    TextMeshProUGUI roomsText;
-    TextMeshProUGUI roomGroupsText;
-    TextMeshProUGUI selectedToolText;
-    TextMeshProUGUI blueprintDefinitionText;
-    TextMeshProUGUI inspectTargetText;
-    // I can't figure out how to get the panel to resize when inspect text wraps onto 2 lines
-    // so it's this for now
-    TextMeshProUGUI paddingText1;
-    TextMeshProUGUI paddingText2;
-    TextMeshProUGUI occupantsText;
-    TextMeshProUGUI workersText;
+
 
     WorldController worldController;
 
     void Awake()
     {
         allText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // tickText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // hoveredTileText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // buildingsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // roomsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // roomGroupsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // selectedToolText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // occupantsText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // workersText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
 
-        // blueprintDefinitionText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // inspectTargetText = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // paddingText1 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // paddingText1.text = "";
-        // paddingText2 = Instantiate(bodyTextPrefab, transform).GetComponent<TextMeshProUGUI>();
-        // paddingText2.text = "";
         worldController = WorldController.Get();
     }
 
@@ -87,8 +60,8 @@ public class DebugPanel : MonoBehaviour
                 var roomGroup = building.FindRoomGroupByRoom(inspectRoomTarget);
 
                 allText.text += "\nInspected room: " + (inspectTarget as Room).title;
-                allText.text += $"\nis in building: {building}";
-                allText.text += $"\nis in room group: {roomGroup}";
+                allText.text += $"\nis in building: {building.title}";
+                allText.text += $"\nis in room group: {roomGroup.title}";
             }
         }
         else

@@ -9,6 +9,7 @@
 
 ## next:
 
+- [ ] random schedule times
 - [ ] fake cone/point lights that happen at a certain frequency within rooms
 - [ ] notify player in BuildingRoomVacancyHandler when residences are inaccessible
   - keep a HashSet of inaccessible rooms on Building

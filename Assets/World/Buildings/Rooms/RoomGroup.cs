@@ -6,7 +6,7 @@ namespace TowerBuilder
 {
     public class RoomGroup : IEnumerable<Room>, IEnumerable
     {
-        public string name;
+        public string title;
 
         List<Room> rooms = new();
 

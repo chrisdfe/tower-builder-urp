@@ -84,7 +84,7 @@ namespace TowerBuilder
 
                     roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
 
-                    newRoomGroup.name = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
+                    newRoomGroup.title = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
 
                     roomGroups.Add(newRoomGroup);
 
