@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace TowerBuilder
 {
@@ -25,6 +23,9 @@ namespace TowerBuilder
 
         // Occupants currently in this room
         public HashSet<Occupant> currentOccupants { get; private set; } = new();
+
+        // Occupant currently sleeping in this room
+        public List<Occupant> asleepOccupants { get; private set; } = new();
 
         // TODO - should be a list of validation errors
         public bool isValid { get; private set; } = true;
@@ -162,8 +163,7 @@ namespace TowerBuilder
                 roomTile.SetMarkedForDeletionColorAmount(markedForDeletionAmount);
                 roomTile.SetWallColor(RoomTypeColorMap.GetForType(definition.type));
 
-                // TODO - also check if occupants are asleep
-                roomTile.SetLightsOn(currentOccupants.Count > 0);
+                roomTile.SetLightsOn(asleepOccupants.Count < currentOccupants.Count);
             }
         }
 
@@ -236,6 +236,18 @@ namespace TowerBuilder
             {
                 roomTile.SetSegmentVariant(roomTileSegment, variant);
             }
+        }
+
+        public void AddAsleepOccupant(Occupant occupant)
+        {
+            asleepOccupants.Add(occupant);
+            UpdateColor();
+        }
+
+        public void RemoveAsleepOccupant(Occupant occupant)
+        {
+            asleepOccupants.Remove(occupant);
+            UpdateColor();
         }
 
         //

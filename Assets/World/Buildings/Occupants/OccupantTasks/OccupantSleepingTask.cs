@@ -21,11 +21,13 @@ namespace TowerBuilder
         public void Setup()
         {
             occupant.animationWrapper.SetIsLyingDown(true);
+            occupant.currentRoom.AddAsleepOccupant(occupant);
         }
 
         public void Teardown()
         {
             occupant.animationWrapper.SetIsLyingDown(false);
+            occupant.currentRoom.RemoveAsleepOccupant(occupant);
         }
 
         public void Cancel()

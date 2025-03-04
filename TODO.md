@@ -9,6 +9,9 @@
 
 ## next:
 
+- [ ] fake cone/point lights that happen at a certain frequency within rooms
+- [ ] notify player in BuildingRoomVacancyHandler when residences are inaccessible
+  - keep a HashSet of inaccessible rooms on Building
 - [ ] task priority
   - currently when residents are moved in, if it is at night, then they fall asleep in the entrance
 - [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
@@ -16,10 +19,9 @@
 - [ ] overlays
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
   - [ ] can probably just use a plane in front of room tiles
-- [ ] don't send occupants to recreation room if it is already at capacity
+- [ ] BUG: don't send occupants to recreation room if it is already at capacity
 - [ ] room lights should turn on when inspecting
 - [ ] room furniture
-- [ ] rooms should also turn out its lights when all occupants inside are asleep
 - [ ] BUG: change how changing time speed resets stars
 - [ ] elevator
 - [ ] notifications improvements
@@ -85,6 +87,7 @@
 
 # Done
 
+- [x] rooms should also turn out its lights when all occupants inside are asleep
 - [x] occupants should arrive via entrance/exit at regular intervals
 - [x] BUG: inspect/inspect hover highlight isn't working
 - [x] rooms shouldn't be 100% dark when occupants aren't in them
