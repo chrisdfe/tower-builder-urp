@@ -30,6 +30,7 @@ namespace TowerBuilder
             new() {
                 //
                 title = "Entrance/Exit",
+                isEntrance = true,
                 shape = new() {
                     new(0, 0),
                 },

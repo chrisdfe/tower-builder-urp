@@ -1,0 +1,101 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Assertions;
+
+namespace TowerBuilder
+{
+    public class BuildingRoomVacancyHandler
+    {
+        WorldController worldController;
+
+        public BuildingRoomVacancyHandler()
+        {
+            worldController = WorldController.Get();
+        }
+
+        public void OnTick()
+        {
+            // check for vacancies every hour
+            if (worldController.timeController.timeValue.minute == 0)
+            {
+                foreach (var building in worldController.buildingsController.buildings)
+                {
+                    HandleResidentialVacancies(building);
+                    HandleOfficeVacancies(building);
+                }
+            }
+        }
+
+        void HandleResidentialVacancies(Building building)
+        {
+            var entrance = building.GetEntrance();
+            Assert.IsNotNull(entrance);
+
+            // TODO - re-use the same occupants for residences/offices
+            // create occupants for rooms that have residence slots available
+            var availableResidenceRooms = building.GetRoomsWithAvailableResidenceSlots();
+            var newOccupants = new List<Occupant>();
+
+            foreach (var room in availableResidenceRooms)
+            {
+                var entranceTile = entrance.GetRandomTile();
+                var roomTile = room.GetRandomTile();
+                var routeFinder = new OccupantRouteFinder(building, entranceTile, roomTile);
+                var route = routeFinder.FindRoute();
+                if (route == null)
+                {
+                    // No path found from entrance to residence
+                    continue;
+                }
+
+                var vacanciesCount = room.GetResidentialVacancies();
+                for (var i = 0; i < vacanciesCount; i++)
+                {
+                    var occupant = worldController.buildingsController.CreateOccupant();
+
+                    occupant.SetTitle($"{building.title} Occupant {building.ResidentCount()}");
+
+                    occupant.SetTile(entrance.GetRandomTile());
+                    occupant.SetCurrentRoom(entrance);
+                    entrance.AddCurrentOccupant(occupant);
+                    occupant.SetRandomSubTileOffset();
+
+                    room.residents.Add(occupant);
+                    occupant.SetResidence(room);
+
+                    // Immediately travel to new home
+                    occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, route));
+                    newOccupants.Add(occupant);
+                }
+            }
+
+            if (newOccupants.Count > 0)
+            {
+                worldController.notifications.Add(
+                    new Notification($"{newOccupants.Count} occupants have moved into {building.title}")
+                );
+            }
+        }
+
+        void HandleOfficeVacancies(Building building)
+        {
+            // give occupants jobs if they are unemployed and there are workplaces available
+            var unemployedOccupants = building.GetUnemployedOccupants();
+
+            if (unemployedOccupants.Count > 0)
+            {
+                var availableWorkerRooms = building.GetRoomsWithAvailableWorkerSlots();
+
+                foreach (var room in availableWorkerRooms)
+                {
+                    foreach (var occupant in unemployedOccupants)
+                    {
+                        occupant.SetOffice(room);
+                        room.workers.Add(occupant);
+                        worldController.notifications.Add(new Notification(occupant.title + " has been assigned work at " + room.title));
+                    }
+                }
+            }
+        }
+    }
+}

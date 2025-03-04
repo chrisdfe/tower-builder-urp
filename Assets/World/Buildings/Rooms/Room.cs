@@ -392,6 +392,20 @@ namespace TowerBuilder
 
         public Color GetInteriorLightsColor() => RoomTypeColorMap.GetForType(definition.type);
 
+        public int GetResidentialVacancies()
+        {
+            if (definition.type != RoomType.Residential)
+            {
+                return 0;
+            }
+
+            return (int)definition.capacity - residents.Count;
+        }
+
+        public bool HasResidentialVacancies() =>
+            definition.type == RoomType.Residential &&
+            residents.Count < definition.capacity;
+
         //
         // Private interface
         //

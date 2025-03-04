@@ -8,6 +8,7 @@ namespace TowerBuilder
         public string title;
         public List<Tile> shape;
         public RoomType type = RoomType.CommonArea;
+        public bool isEntrance = false;
 
         public RoomGroupCategory groupCategory = RoomGroupCategory.None;
 

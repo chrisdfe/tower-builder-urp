@@ -19,12 +19,16 @@ namespace TowerBuilder
         public BuildingEvent onRoomBuilt;
         public BuildingEvent onRoomDestroyed;
 
+        BuildingRoomVacancyHandler buildingRoomVacancyHandler;
+
         public BuildingsController(WorldController worldController)
         {
             this.worldController = worldController;
 
             buildingsContainer = GameObject.Find("BuildingsContainer").transform;
             occupantsContainer = GameObject.Find("OccupantsContainer").transform;
+
+            buildingRoomVacancyHandler = new();
         }
 
         //
@@ -32,10 +36,11 @@ namespace TowerBuilder
         //
         public void OnTick()
         {
+            buildingRoomVacancyHandler.OnTick();
+
             foreach (var building in buildings)
             {
                 building.OnTick();
-                HandleBuildingRoomVacancies(building);
             }
         }
 
@@ -50,10 +55,10 @@ namespace TowerBuilder
         // Warning - doesn't do any validation
         public void AddRoomAtTile(RoomDefinition roomDefinition, Tile tile)
         {
-            var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
 
             // Search for a building adjacent
             // TODO - combine buildings?
+            // var allAdjacentTiles = tile.GetAdjacentTilesIncludingSelf();
             // var building = buildings.Find(building => building.ContainsRoomAtTiles(allAdjacentTiles.ToList()));
 
             // if (building == null)
@@ -257,59 +262,15 @@ namespace TowerBuilder
             return building;
         }
 
-        Occupant CreateOccupant()
+        //
+        // Occupants
+        // 
+        public Occupant CreateOccupant()
         {
             var occupantGameObject = GameObject.Instantiate(worldController.occupantPrefab, occupantsContainer);
             var occupant = occupantGameObject.GetComponent<Occupant>();
             occupants.Add(occupant);
             return occupant;
-        }
-
-        //
-        // Occupants
-        // 
-        void HandleBuildingRoomVacancies(Building building)
-        {
-            // TODO - re-use the same occupants for residences/offices
-            // create occupants for rooms that have residence slots available
-            var availableResidenceRooms = building.GetRoomsWithAvailableResidenceSlots();
-
-            foreach (var room in availableResidenceRooms)
-            {
-                var occupant = CreateOccupant();
-
-                occupant.SetTitle($"{building.title} Occupant {building.ResidentCount()}");
-
-                occupant.SetTile(room.GetRandomTile());
-                occupant.SetRandomSubTileOffset();
-                occupant.SetCurrentRoom(room);
-
-                room.AddCurrentOccupant(occupant);
-                room.residents.Add(occupant);
-                occupant.SetResidence(room);
-
-                occupant.TransitionToTask(new OccupantWanderingTask(occupant));
-
-                worldController.notifications.Add(new Notification(occupant.title + " has moved into " + room.title));
-            }
-
-            // give occupants jobs if they are unemployed and there are workplaces available
-            var unemployedOccupants = building.GetUnemployedOccupants();
-
-            if (unemployedOccupants.Count > 0)
-            {
-                var availableWorkerRooms = building.GetRoomsWithAvailableWorkerSlots();
-
-                foreach (var room in availableWorkerRooms)
-                {
-                    foreach (var occupant in unemployedOccupants)
-                    {
-                        occupant.SetOffice(room);
-                        room.workers.Add(occupant);
-                        worldController.notifications.Add(new Notification(occupant.title + " has been assigned work at " + room.title));
-                    }
-                }
-            }
         }
     }
 }

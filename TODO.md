@@ -2,14 +2,16 @@
 
 ## currently:
 
-- [ ] occupants should arrive via entrance/exit at regular intervals
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
+- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 
 ## next:
 
-- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
+- [ ] task priority
+  - currently when residents are moved in, if it is at night, then they fall asleep in the entrance
+- [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
 - [ ] box around the edge of the screen or something when game is paused
 - [ ] overlays
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
@@ -83,6 +85,7 @@
 
 # Done
 
+- [x] occupants should arrive via entrance/exit at regular intervals
 - [x] BUG: inspect/inspect hover highlight isn't working
 - [x] rooms shouldn't be 100% dark when occupants aren't in them
 - [x] recreation time/rooms for occupants

@@ -58,6 +58,10 @@ namespace TowerBuilder
                 }
             }
 
+            if (hour == 0)
+            {
+                hour = 12;
+            }
             string hourAsString = hour.ToString();
 
             string minuteAsString = minute.ToString();

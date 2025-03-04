@@ -207,7 +207,7 @@ namespace TowerBuilder
             //
             foreach (var room in GetRoomsByType(RoomType.Residential))
             {
-                if (room.residents.Count < room.definition.capacity)
+                if (room.HasResidentialVacancies())
                 {
                     result.Add(room);
                 }
@@ -265,8 +265,11 @@ namespace TowerBuilder
             return result;
         }
 
+        public Room GetEntrance() =>
+            rooms.Find(room => room.definition.isEntrance);
+
         //
-        // static interface
+        // Static interface
         //
         public static List<Tile> GetAllTilesInRooms(List<Room> roomList)
         {
