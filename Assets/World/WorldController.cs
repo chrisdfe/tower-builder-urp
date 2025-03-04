@@ -36,6 +36,7 @@ public class WorldController : MonoBehaviour
     public ToolsController toolsController { get; private set; }
     public BuildingsController buildingsController { get; private set; }
     public TimeController timeController { get; private set; }
+    public WalletController walletController { get; private set; }
 
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
@@ -60,6 +61,7 @@ public class WorldController : MonoBehaviour
         toolsController = new ToolsController(this);
         buildingsController = new BuildingsController(this);
         timeController = new TimeController(this);
+        walletController = new WalletController(this);
 
         // Other
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
@@ -192,17 +194,6 @@ public class WorldController : MonoBehaviour
             }
         }
 
-        // DEBUG
-        // if (Input.GetKeyDown(KeyCode.L))
-        // {
-        //     if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget is Occupant)
-        //     {
-        //         var occupantInspectTarget = toolsController.inspectTool.inspectTarget as Occupant;
-
-        //         occupantInspectTarget.CancelCurrentTask();
-        //     }
-        // }
-
         if (Input.GetKeyDown(KeyCode.L))
         {
             if (debugTileSquares.Count == 0)
@@ -219,6 +210,16 @@ public class WorldController : MonoBehaviour
             {
                 DestroyDebugTiles();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            walletController.AddFunds(100000);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            walletController.ReduceFunds(100000);
         }
     }
 

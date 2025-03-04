@@ -23,6 +23,7 @@ public class DebugPanel : MonoBehaviour
     {
         allText.text = "";
         allText.text += "Tick: " + worldController.timeController.tick.current;
+        allText.text += $"\nMoney: {worldController.walletController.FormattedFunds()}";
         allText.text += $"\nHovered tile: ({worldController.hoveredTile.current.x},{worldController.hoveredTile.current.y})";
         allText.text += "\nBuildings: " + worldController.buildingsController.buildings.Count;
         allText.text += "\nTotal rooms: " + worldController.buildingsController.RoomsCount();

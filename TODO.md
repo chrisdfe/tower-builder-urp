@@ -2,15 +2,17 @@
 
 ## currently:
 
+- [ ] wallet/money
+  - [x] set up wallet controller
+  - [ ] rooms cost money/can't be built without enough money
+  - [ ] offices increase money at the end of every day (a certain amount per worker)
+  - [ ] hotel room occupants increase money as they leave
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
 
 ## next:
 
-- [ ] wallet/money
-  - [ ] offices increase money at the end of every day (a certain amount per worker)
-  - [ ] hotel room occupants increase money as they leave
 - [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] after this, make entrance/exit & lobby the same
 - [ ] position-aware mesh for building perimeter tiles
