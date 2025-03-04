@@ -9,15 +9,10 @@ namespace TowerBuilder
     {
         public GameObject bodyTextPrefab;
 
-        // Transform bodyTextWrapper;
         TextMeshProUGUI bodyText;
 
         void Awake()
         {
-            // bodyTextWrapper = transform.Find("Scroll View").Find("Viewport").Find("Content");
-            // Debug.Log(bodyTextWrapper);
-            // bodyText = Instantiate(bodyTextPrefab, bodyTextWrapper).GetComponent<TextMeshProUGUI>();
-            // bodyText = bodyTextWrapper.Find("Text").GetComponent<TextMeshProUGUI>();
             bodyText = transform.Find("Text").GetComponent<TextMeshProUGUI>();
         }
 

@@ -52,7 +52,6 @@ namespace TowerBuilder
 
         public void Setup()
         {
-            Debug.Log("starting recreation task");
             TransitionToNextSubTask();
         }
 

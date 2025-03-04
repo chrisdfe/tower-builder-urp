@@ -184,10 +184,6 @@ public class WorldController : MonoBehaviour
 
                         CreateDebugTiles(tiles);
                     }
-                    else
-                    {
-                        Debug.Log($"{roomInspectTarget} is not in a roomGroup");
-                    }
                 }
             }
             else
