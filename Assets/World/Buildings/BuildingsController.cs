@@ -184,8 +184,6 @@ namespace TowerBuilder
             return result;
         }
 
-
-
         public bool ContainsRoomAtTile(Tile tile)
         {
             return FindRoomAtTile(tile) != null;

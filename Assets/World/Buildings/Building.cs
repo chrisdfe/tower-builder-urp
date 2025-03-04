@@ -13,6 +13,8 @@ namespace TowerBuilder
         public List<RoomGroup> roomGroups { get; private set; } = new();
         public List<Room> rooms { get; private set; } = new();
 
+        List<GameObject> perimeterTiles = new();
+
         //
         // Lifecycle
         //
@@ -49,61 +51,70 @@ namespace TowerBuilder
 
             rooms.Add(room);
 
+
             // Add to roomGroup if room is groupable
-            if (room.definition.groupCategory != RoomGroupCategory.None)
-            {
-                // check if the room we just created is next to another room of the same time
-                var adjacentTiles = room.GetAdjacentTiles();
+            HandleGroupableRoom();
 
-                var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
-                var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
-                    otherRoom.definition.groupCategory == room.definition.groupCategory
-                )).ToList();
-
-                if (adjacentRoomsOfTheSameType.Count > 0)
-                {
-                    var newRoomGroup = new RoomGroup { room };
-
-                    List<RoomGroup> roomGroupsToDelete = new();
-
-                    // transfer rooms from adjacent room group into new group and 
-                    // and delete the original room groups
-                    foreach (var adjacentRoom in adjacentRoomsOfTheSameType)
-                    {
-                        var adjacentRoomGroup = FindRoomGroupByRoom(adjacentRoom);
-
-                        Assert.IsNotNull(adjacentRoomGroup);
-
-                        roomGroupsToDelete.Add(adjacentRoomGroup);
-
-                        foreach (var adjacentRoomGroupRoom in adjacentRoomGroup)
-                        {
-                            newRoomGroup.Add(adjacentRoomGroupRoom);
-                        }
-                    }
-
-                    roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
-
-                    newRoomGroup.title = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
-
-                    roomGroups.Add(newRoomGroup);
-
-                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.rooms);
-
-                    // Now re-calculate positions/toggle segments in each of these rooms
-                    foreach (var roomInNewRoomGroup in newRoomGroup)
-                    {
-                        roomInNewRoomGroup.CalculateSegmentsFromTileList(allTilesInRooms);
-                    }
-                }
-                else
-                {
-                    // Create a new roomGroup with only this room in it for now
-                    roomGroups.Add(new() { room });
-                }
-            }
+            // Update building perimeter
+            ResetPerimeterTiles();
 
             return room;
+
+            void HandleGroupableRoom()
+            {
+                if (room.definition.groupCategory != RoomGroupCategory.None)
+                {
+                    // check if the room we just created is next to another room of the same time
+                    var adjacentTiles = room.GetAdjacentTiles();
+
+                    var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
+                    var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
+                        otherRoom.definition.groupCategory == room.definition.groupCategory
+                    )).ToList();
+
+                    if (adjacentRoomsOfTheSameType.Count > 0)
+                    {
+                        var newRoomGroup = new RoomGroup { room };
+
+                        List<RoomGroup> roomGroupsToDelete = new();
+
+                        // transfer rooms from adjacent room group into new group and 
+                        // and delete the original room groups
+                        foreach (var adjacentRoom in adjacentRoomsOfTheSameType)
+                        {
+                            var adjacentRoomGroup = FindRoomGroupByRoom(adjacentRoom);
+
+                            Assert.IsNotNull(adjacentRoomGroup);
+
+                            roomGroupsToDelete.Add(adjacentRoomGroup);
+
+                            foreach (var adjacentRoomGroupRoom in adjacentRoomGroup)
+                            {
+                                newRoomGroup.Add(adjacentRoomGroupRoom);
+                            }
+                        }
+
+                        roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
+
+                        newRoomGroup.title = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
+
+                        roomGroups.Add(newRoomGroup);
+
+                        var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.rooms);
+
+                        // Now re-calculate positions/toggle segments in each of these rooms
+                        foreach (var roomInNewRoomGroup in newRoomGroup)
+                        {
+                            roomInNewRoomGroup.CalculateSegmentsFromTileList(allTilesInRooms);
+                        }
+                    }
+                    else
+                    {
+                        // Create a new roomGroup with only this room in it for now
+                        roomGroups.Add(new() { room });
+                    }
+                }
+            }
         }
 
         // TODO - 'destroy validation'
@@ -139,6 +150,9 @@ namespace TowerBuilder
                     roomGroup.Remove(room);
                 }
             }
+
+            // Update perimeter tiles
+            ResetPerimeterTiles();
 
             Destroy(room.gameObject);
         }
@@ -267,6 +281,60 @@ namespace TowerBuilder
 
         public Room GetEntrance() =>
             rooms.Find(room => room.definition.isEntrance);
+
+        // TODO - this will probably get expensive
+        public List<Tile> GetPerimeterTiles()
+        {
+            var result = new HashSet<(int, int)>();
+
+            foreach (var room in rooms)
+            {
+                foreach (var tile in room.tiles)
+                {
+                    var adjacentTiles = tile.GetAdjacentTiles();
+
+                    foreach (var adjacentTile in adjacentTiles)
+                    {
+                        if (!ContainsRoomAtTile(adjacentTile))
+                        {
+                            result.Add(adjacentTile.AsTuple());
+                        }
+                    }
+                }
+            }
+
+            return result
+                .ToList()
+                .Select(tuple => Tile.FromTuple(tuple))
+                .ToList();
+        }
+
+        void ResetPerimeterTiles()
+        {
+            var worldController = WorldController.Get();
+
+            DestroyPerimeterTiles();
+
+            var perimeterTileGameObjects = new List<GameObject>();
+
+            foreach (var tile in GetPerimeterTiles())
+            {
+                var gameObject = GameObject.Instantiate(worldController.buildingPerimeterTilePrefab, tile.ToWorldPosition(), Quaternion.identity);
+                perimeterTileGameObjects.Add(gameObject);
+            }
+
+            this.perimeterTiles = perimeterTileGameObjects;
+        }
+
+        void DestroyPerimeterTiles()
+        {
+            foreach (var go in perimeterTiles)
+            {
+                GameObject.Destroy(go);
+            }
+
+            perimeterTiles = new();
+        }
 
         //
         // Static interface

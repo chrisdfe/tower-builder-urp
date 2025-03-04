@@ -40,6 +40,8 @@ namespace TowerBuilder
 
         public override string ToString() => $"({x}, {y})";
 
+        public (int, int) AsTuple() => (x, y);
+
         //
         // public interface
         //
@@ -129,5 +131,11 @@ namespace TowerBuilder
 
         // TODO - this doesn't exactly seem the right place for this
         public static bool ListContainsTileThatMatches(List<Tile> tileList, Tile tile) => tileList.Find(otherTile => otherTile.Matches(tile)) != null;
+
+        public static Tile FromTuple((int, int) tuple)
+        {
+            var (x, y) = tuple;
+            return new Tile(x, y);
+        }
     }
 }

@@ -16,6 +16,7 @@ public class WorldController : MonoBehaviour
     public GameObject roomPrefab;
     public GameObject occupantPrefab;
     public GameObject debugTileSquarePrefab;
+    public GameObject buildingPerimeterTilePrefab;
 
     //
     // Settings
@@ -193,13 +194,31 @@ public class WorldController : MonoBehaviour
         }
 
         // DEBUG
+        // if (Input.GetKeyDown(KeyCode.L))
+        // {
+        //     if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget is Occupant)
+        //     {
+        //         var occupantInspectTarget = toolsController.inspectTool.inspectTarget as Occupant;
+
+        //         occupantInspectTarget.CancelCurrentTask();
+        //     }
+        // }
+
         if (Input.GetKeyDown(KeyCode.L))
         {
-            if (toolsController.toolHandle.current == ToolHandle.Inspect && toolsController.inspectTool.inspectTarget is Occupant)
+            if (debugTileSquares.Count == 0)
             {
-                var occupantInspectTarget = toolsController.inspectTool.inspectTarget as Occupant;
+                if (buildingsController.buildings.Count > 0)
+                {
+                    var building = buildingsController.buildings[0];
 
-                occupantInspectTarget.CancelCurrentTask();
+                    var tiles = building.GetPerimeterTiles();
+                    CreateDebugTiles(tiles);
+                }
+            }
+            else
+            {
+                DestroyDebugTiles();
             }
         }
     }

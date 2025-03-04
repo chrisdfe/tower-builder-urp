@@ -2,13 +2,14 @@
 
 ## currently:
 
-- [ ] building tile border
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
 
 ## next:
 
+- [ ] position-aware mesh for building perimeter tiles
+- [ ] BUG: route finder still having issues with more complex layouts
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
 - [ ] overlays
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
@@ -92,6 +93,7 @@
 
 # Done
 
+- [x] building tile border
 - [x] BUG: route finder still has some issues with non-rectangular transportation room groups
   - Added stairs to a different roomGroupCategory for now
 - [x] rooms should also turn out its lights when all occupants inside are asleep
