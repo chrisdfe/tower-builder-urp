@@ -11,11 +11,15 @@ namespace TowerBuilder
 
         public RoomGroupCategory groupCategory = RoomGroupCategory.None;
 
-        // How many occupants can live in this room
-        public uint residentCapacity = 0;
+        // How many occupants can:
+        //   live in this room for Residential rooms
+        //   work in this room for Office  rooms
+        //   recreate in this room for Recreation rooms
+        public uint capacity;
 
-        // How many occupants can work in this room
-        public uint workerCapacity = 0;
+        // public uint residentCapacity = 0;
+
+        // public uint workerCapacity = 0;
 
         public List<IRoomValidator> buildValidators = new(RoomBuildValidators.standardBuildValidators);
     }

@@ -2,18 +2,19 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantWorkingTask : IOccupantTask
+    public class OccupantRecreationTask : IOccupantTask
     {
+        // TODO - 'traveling to {room.title}'
         public string name
         {
             get
             {
-                if (currentSubTask is OccupantTravelingToDestinationTask)
-                {
-                    return "Traveling to Work";
-                }
+                // if (currentSubTask is OccupantTravelingToDestinationTask)
+                // {
+                //     return "Traveling to Work";
+                // }
 
-                return "Working";
+                return "Hanging out";
             }
         }
 
@@ -25,8 +26,9 @@ namespace TowerBuilder
         IOccupantTask currentSubTask;
 
         Occupant occupant;
+        Room currentRecreationRoom;
 
-        public OccupantWorkingTask(Occupant occupant)
+        public OccupantRecreationTask(Occupant occupant)
         {
             this.occupant = occupant;
         }
@@ -50,6 +52,7 @@ namespace TowerBuilder
 
         public void Setup()
         {
+            Debug.Log("starting recreation task");
             TransitionToNextSubTask();
         }
 
@@ -64,35 +67,36 @@ namespace TowerBuilder
 
         void TransitionToNextSubTask()
         {
-            // We somehow ended up here erroneously if the occupant does not have a workplace
-            if (occupant.office == null)
+            var room = FindRecreationRoom();
+
+            if (room == null)
             {
-                Debug.LogError($"{occupant} cannot do working task without a workplace");
-                Cancel();
+                // Nowhere to hang out - just go home instead
+                occupant.TransitionToTask(new OccupantBeingAtHomeTask(occupant));
                 return;
             }
 
+            currentRecreationRoom = room;
+
             IOccupantTask nextSubTask;
-            if (occupant.currentRoom == occupant.office)
+            if (occupant.currentRoom == currentRecreationRoom)
             {
-                // Wander about the office
+                // Wander about the room
                 var wanderingTask = new OccupantWanderingTask(occupant);
                 // Give a better sense of activity/busy-ness
-                wanderingTask.minWaitTime = 0.4f;
-                wanderingTask.maxWaitTime = 2f;
                 nextSubTask = wanderingTask;
             }
             else
             {
-                // travel to place of work
-                var destinationTile = occupant.office.GetRandomTile();
+                // travel to room
+                var destinationTile = currentRecreationRoom.GetRandomTile();
                 var routeFinder = new OccupantRouteFinder(occupant.currentRoom.building, occupant.tile, destinationTile);
                 var route = routeFinder.FindRoute();
 
                 if (route == null)
                 {
                     // TODO - a notification as well
-                    Debug.LogError($"{occupant} cannot find a route to their workplace");
+                    Debug.LogError($"{occupant} cannot find a route to recreation room {currentRecreationRoom}");
                     Cancel();
                     return;
                 }
@@ -107,6 +111,24 @@ namespace TowerBuilder
 
             currentSubTask = nextSubTask;
             currentSubTask.Setup();
+        }
+
+        Room FindRecreationRoom()
+        {
+            var building = occupant.currentRoom.building;
+
+            var recreationRooms = building.FindRoomsByType(RoomType.Recreation);
+
+            // TODO -
+            //      filter out inaccessible rooms
+            //      find closest one
+            // for now just go with the first one
+            if (recreationRooms.Count > 0)
+            {
+                return recreationRooms[0];
+            }
+
+            return null;
         }
     }
 }

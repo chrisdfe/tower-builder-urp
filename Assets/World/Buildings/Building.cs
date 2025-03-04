@@ -171,6 +171,9 @@ namespace TowerBuilder
         public RoomGroup FindRoomGroupByRoom(Room room) =>
             roomGroups.Find(roomGroup => roomGroup.Contains(room));
 
+        public List<Room> FindRoomsByType(RoomType roomType) =>
+            rooms.FindAll(room => room.definition.type == roomType);
+
         // TODO - cache this number
         public int ResidentCount()
         {
@@ -202,9 +205,9 @@ namespace TowerBuilder
             var result = new List<Room>();
 
             //
-            foreach (var room in rooms)
+            foreach (var room in GetRoomsByType(RoomType.Residential))
             {
-                if (room.residents.Count < room.definition.residentCapacity)
+                if (room.residents.Count < room.definition.capacity)
                 {
                     result.Add(room);
                 }
@@ -236,9 +239,9 @@ namespace TowerBuilder
             var result = new List<Room>();
 
             //
-            foreach (var room in rooms)
+            foreach (var room in GetRoomsByType(RoomType.Office))
             {
-                if (room.workers.Count < room.definition.workerCapacity)
+                if (room.workers.Count < room.definition.capacity)
                 {
                     result.Add(room);
                 }

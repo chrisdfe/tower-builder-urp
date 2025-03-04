@@ -16,38 +16,32 @@ namespace TowerBuilder
 
         // Room definitions
         public static readonly RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[] {
-            new RoomDefinition() {
-                //
+            new() {
                 title = "Lobby",
-
-                groupCategory = RoomGroupCategory.CommonArea,
-
-                shape = new List<Tile>() {
+                shape = new() {
                     new(0, 0),
                     new(1, 0),
                     new(2, 0),
                 },
                 type = RoomType.CommonArea,
+                groupCategory = RoomGroupCategory.CommonArea,
             },
 
-            new RoomDefinition() {
+            new() {
                 //
                 title = "Entrance/Exit",
-
-                groupCategory = RoomGroupCategory.CommonArea,
-
-                shape = new List<Tile>() {
+                shape = new() {
                     new(0, 0),
                 },
                 type = RoomType.CommonArea,
-
+                groupCategory = RoomGroupCategory.CommonArea,
                 // TODO - only one allowed per building
             },
 
-            new RoomDefinition() {
+            new() {
                 //
                 title = "Condo",
-                shape = new List<Tile>() {
+                shape = new() {
                     new(0, 0),
                     new(1, 0),
                     new(2, 0),
@@ -55,48 +49,56 @@ namespace TowerBuilder
                     new(4, 0),
                 },
                 type = RoomType.Residential,
-
-                // residentCapacity = 12,
-                residentCapacity = 3,
+                capacity = 3,
             },
 
-            new RoomDefinition() {
-                //
+            new() {
                 title = "Pod",
-                shape = new List<Tile>() {
+                shape = new() {
                     new(0, 0),
                     new(1, 0),
                     new(0, 1),
                     new(1, 1),
                 },
                 type = RoomType.Residential,
-                residentCapacity = 3,
+                capacity = 3,
             },
 
-            new RoomDefinition() {
+            new() {
                 title = "Office",
-                shape = new List<Tile>() {
+                shape = new() {
                     new(0, 0),
                     new(1, 0),
                     new(2, 0),
                     new(3, 0),
                 },
                 type = RoomType.Office,
-                workerCapacity = 12,
+                capacity = 12,
             },
 
-            new RoomDefinition() {
+            new() {
+                title = "Recreation room",
+                shape = new() {
+                    new(0, 0),
+                    new(1, 0),
+                    new(2, 0),
+                    new(3, 0),
+                    new(4, 0),
+                },
+                type = RoomType.Recreation,
+                capacity = 12,
+            },
+
+            new() {
                 title = "Stairs",
-
-                groupCategory = RoomGroupCategory.CommonArea,
-
-                shape = new List<Tile>() {
+                shape = new() {
                     new(0, 0),
                     new(1, 0),
                     new(0, 1),
                     new(1, 1),
                 },
                 type = RoomType.TransportationItem,
+                groupCategory = RoomGroupCategory.CommonArea,
             },
         };
     }

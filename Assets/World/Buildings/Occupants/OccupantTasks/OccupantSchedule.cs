@@ -11,7 +11,7 @@ namespace TowerBuilder
             Sleeping,
             Working,
             BeingAtHome,
-            // TODO - recreation, eating? other things?
+            Recreation
         }
 
         WorldController worldController;
@@ -73,12 +73,27 @@ namespace TowerBuilder
                     new DayTimeValue(8)
                 ));
 
-                // time to go home
+                // attempt to go hang out somewhere first
                 scheduleTimes.Add((
-                    Activity.BeingAtHome,
+                    Activity.Recreation,
                     new DayTimeValue(15, 30)
                 ));
+
             }
+            else
+            {
+                // hang out somewhere all day, if available
+                scheduleTimes.Add((
+                    Activity.Recreation,
+                    new DayTimeValue(10)
+                ));
+            }
+
+            // time to go home
+            scheduleTimes.Add((
+                Activity.BeingAtHome,
+                new DayTimeValue(19, 30)
+            ));
 
             // time to go to sleep
             scheduleTimes.Add((
@@ -126,6 +141,9 @@ namespace TowerBuilder
                     break;
                 case Activity.Working:
                     nextTask = new OccupantWorkingTask(occupant);
+                    break;
+                case Activity.Recreation:
+                    nextTask = new OccupantRecreationTask(occupant);
                     break;
                 default:
                     nextTask = new OccupantIdleTask();

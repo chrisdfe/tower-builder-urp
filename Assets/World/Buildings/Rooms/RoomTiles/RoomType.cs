@@ -6,5 +6,6 @@ namespace TowerBuilder
         TransportationItem,
         Residential,
         Office,
+        Recreation,
     }
 }

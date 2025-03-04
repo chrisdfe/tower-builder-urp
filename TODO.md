@@ -2,7 +2,6 @@
 
 ## currently:
 
-- [ ] recreation time/rooms for occupants
 - [ ] occupants should arrive via entrance/exit at regular intervals
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
@@ -10,6 +9,8 @@
 
 ## next:
 
+- [ ] don't send occupants to recreation room if it is already at capacity
+- [ ] room lights should turn on when inspecting
 - [ ] room furniture
 - [ ] rooms shouldn't be 100% dark when occupants aren't in them
 - [ ] rooms should also turn out its lights when all occupants inside are asleep
@@ -82,6 +83,7 @@
 
 # Done
 
+- [x] recreation time/rooms for occupants
 - [x] fix notifications overflowing panel UI issue
 - [x] BUG: fix how everything in the UI collapses at smaller screen sizes
 - [x] lights in each room (maybe just use shader params instead of a real light) - lights turn off when all residents go to sleep or all workers leave
