@@ -3,6 +3,7 @@ namespace TowerBuilder
     public enum RoomGroupCategory
     {
         None,
-        CommonArea
+        CommonArea,
+        Stairs
     }
 }

@@ -61,12 +61,12 @@ public class DebugPanel : MonoBehaviour
 
                 allText.text += "\nInspected room: " + (inspectTarget as Room).title;
                 allText.text += $"\nis in building: {building.title}";
-                allText.text += $"\nis in room group: {roomGroup.title}";
+
+                if (roomGroup != null)
+                {
+                    allText.text += $"\nis in room group: {roomGroup.title}";
+                }
             }
-        }
-        else
-        {
-            // allText.text = "\n\n";
         }
     }
 }

@@ -2,24 +2,28 @@
 
 ## currently:
 
+- [ ] building tile border
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
-- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 
 ## next:
 
-- [ ] random schedule times
+- [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
+- [ ] overlays
+  - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
+  - [ ] can probably just use a plane in front of room tiles
+- [ ] randomize schedule times slightly
+- [ ] make resizable rooms properly instead of using roomGroups for stairs
+  - [ ] BUG: all lights in roomGroup should turn on when occupant is in one of the rooms
+- [ ] BUG: when you destroy a room room group walls don't adjust
 - [ ] fake cone/point lights that happen at a certain frequency within rooms
 - [ ] notify player in BuildingRoomVacancyHandler when residences are inaccessible
   - keep a HashSet of inaccessible rooms on Building
 - [ ] task priority
-  - currently when residents are moved in, if it is at night, then they fall asleep in the entrance
+  - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
 - [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
 - [ ] box around the edge of the screen or something when game is paused
-- [ ] overlays
-  - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
-  - [ ] can probably just use a plane in front of room tiles
 - [ ] BUG: don't send occupants to recreation room if it is already at capacity
 - [ ] room lights should turn on when inspecting
 - [ ] room furniture
@@ -88,6 +92,8 @@
 
 # Done
 
+- [x] BUG: route finder still has some issues with non-rectangular transportation room groups
+  - Added stairs to a different roomGroupCategory for now
 - [x] rooms should also turn out its lights when all occupants inside are asleep
 - [x] occupants should arrive via entrance/exit at regular intervals
 - [x] BUG: inspect/inspect hover highlight isn't working

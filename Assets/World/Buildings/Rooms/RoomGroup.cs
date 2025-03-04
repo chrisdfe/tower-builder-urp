@@ -8,7 +8,7 @@ namespace TowerBuilder
     {
         public string title;
 
-        List<Room> rooms = new();
+        public List<Room> rooms { get; private set; } = new();
 
         public Room this[int index]
         {
@@ -24,11 +24,6 @@ namespace TowerBuilder
         public void Remove(Room room)
         {
             rooms.Remove(room);
-        }
-
-        public List<Room> GetList()
-        {
-            return rooms;
         }
 
         public IEnumerator<Room> GetEnumerator() => rooms.GetEnumerator();

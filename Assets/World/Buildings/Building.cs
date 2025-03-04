@@ -88,7 +88,7 @@ namespace TowerBuilder
 
                     roomGroups.Add(newRoomGroup);
 
-                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.GetList());
+                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.rooms);
 
                     // Now re-calculate positions/toggle segments in each of these rooms
                     foreach (var roomInNewRoomGroup in newRoomGroup)

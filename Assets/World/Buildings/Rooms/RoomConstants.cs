@@ -99,7 +99,10 @@ namespace TowerBuilder
                     new(1, 1),
                 },
                 type = RoomType.TransportationItem,
-                groupCategory = RoomGroupCategory.CommonArea,
+                // groupCategory = RoomGroupCategory.CommonArea,
+                // TODO - this will ultimately be part of the 'CommonArea' category
+                //        right now the routefinding algorithm can't deal with non-rectangular rooms though
+                groupCategory = RoomGroupCategory.Stairs,
             },
         };
     }
