@@ -46,7 +46,7 @@ namespace TowerBuilder
 
         public void SetHighlightIntensity(float intensity)
         {
-            SetMaterialFloatValue("_HighlightColor", intensity);
+            SetMaterialFloatValue("_HighlightIntensity", intensity);
         }
 
         public void SetValidBlueprintColorAmount(float amount)
@@ -101,7 +101,7 @@ namespace TowerBuilder
         }
 
         //
-        // private interface
+        // Private interface
         //
         void SetMaterialFloatValue(string inputName, float value)
         {

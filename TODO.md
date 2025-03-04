@@ -9,12 +9,11 @@
 
 ## next:
 
+- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
 - [ ] box around the edge of the screen or something when game is paused
 - [ ] overlays
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
   - [ ] can probably just use a plane in front of room tiles
-- [ ] BUG: route finder still has some issues with non-rectangular transportation room groups
-- [ ] BUG: inspect/inspect hover highlight isn't working
 - [ ] don't send occupants to recreation room if it is already at capacity
 - [ ] room lights should turn on when inspecting
 - [ ] room furniture
@@ -35,8 +34,6 @@
 - [ ] pause/play speed buttons
 - [ ] CLEANUP: cache GetInspectFocalPoint since I'm using it every frame
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
-- [ ] TileAddress - tile, room, building
-  - might help with all the WorldController.Get() happening all over
 - [ ] segment variant improvements:
   - [ ] I may have overengineered this - I don't think any segment needs to be customizable other than the back wall
   - [ ] button to apply segment variant to entire room group as well
@@ -76,6 +73,8 @@
 
 ## room ideas
 
+- [ ] engine room
+- [ ] security room
 - [ ] garbage room
   - [ ] each resident/worker creates a certain amount of garbage that has to be stored and unloaded
 - [ ] garden
@@ -84,6 +83,7 @@
 
 # Done
 
+- [x] BUG: inspect/inspect hover highlight isn't working
 - [x] rooms shouldn't be 100% dark when occupants aren't in them
 - [x] recreation time/rooms for occupants
 - [x] fix notifications overflowing panel UI issue

@@ -152,10 +152,6 @@ namespace TowerBuilder
                 {
                     highlightIntensity = 0.5f;
                 }
-                else
-                {
-                    highlightIntensity = 0f;
-                }
             }
 
             foreach (var roomTile in roomTiles)
