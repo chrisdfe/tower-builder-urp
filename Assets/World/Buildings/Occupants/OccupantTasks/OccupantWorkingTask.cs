@@ -53,7 +53,13 @@ namespace TowerBuilder
             TransitionToNextSubTask();
         }
 
-        public void Teardown() { }
+        public void Teardown()
+        {
+            if (occupant.currentRoom.behavior is OfficeRoomBehavior)
+            {
+                (occupant.currentRoom.behavior as OfficeRoomBehavior).workingOccupants.Remove(occupant);
+            }
+        }
 
         public void Cancel()
         {
@@ -81,6 +87,12 @@ namespace TowerBuilder
                 wanderingTask.minWaitTime = 0.4f;
                 wanderingTask.maxWaitTime = 2f;
                 nextSubTask = wanderingTask;
+
+                // register this occupant as "working" in this office if this room has an office behavior
+                if (occupant.currentRoom.behavior is OfficeRoomBehavior)
+                {
+                    (occupant.currentRoom.behavior as OfficeRoomBehavior).workingOccupants.Add(occupant);
+                }
             }
             else
             {

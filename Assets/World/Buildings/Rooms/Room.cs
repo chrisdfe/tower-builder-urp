@@ -6,7 +6,6 @@ namespace TowerBuilder
 {
     public class Room : MonoBehaviour, IInspectTarget
     {
-
         public RoomDefinition definition;
         public string title { get; private set; } = "Room";
 
@@ -42,6 +41,8 @@ namespace TowerBuilder
         public bool isInspected { get; private set; } = false;
 
         public List<RoomValidationError> buildValidationErrors { get; private set; } = new();
+
+        public RoomBehaviorBase behavior;
 
         // Prefabs
         public GameObject roomTilePrefab;

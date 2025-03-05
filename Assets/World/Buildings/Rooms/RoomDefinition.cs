@@ -17,15 +17,18 @@ namespace TowerBuilder
 
         // How many occupants can:
         //   live in this room for Residential rooms
-        //   work in this room for Office  rooms
+        //   work in this room for Office rooms
         //   recreate in this room for Recreation rooms
         public uint capacity;
 
-        // public uint residentCapacity = 0;
-
-        // public uint workerCapacity = 0;
-
         public List<IRoomValidator> buildValidators = new(RoomBuildValidators.standardBuildValidators);
+
+        public delegate RoomBehaviorBase RoomBehaviorFactory(Room room);
+        public RoomBehaviorFactory roomBehaviorFactory = (Room room) => null;
+
+        //
+        // Static interface
+        //
 
         // A human-readable RoomType
         public static string GetRoomTypeName(RoomType roomType)
@@ -37,6 +40,7 @@ namespace TowerBuilder
                 case Residential: return "Residential";
                 case Office: return "Office";
                 case Recreation: return "Recreation";
+                case Hotel: return "Hotel";
             }
 
             throw new System.Exception($"Can't get name for roomType: {roomType}");

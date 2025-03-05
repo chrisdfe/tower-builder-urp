@@ -43,6 +43,12 @@ namespace TowerBuilder
             return minutes + hourMinutes;
         }
 
+        public bool Matches(DayTimeValue other) =>
+            hour == other.hour && minute == other.minute;
+
+        //
+        // Static interface
+        //
         public static DayTimeValue FromMinutes(int minutes)
         {
             int leftover = minutes;

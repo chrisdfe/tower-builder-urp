@@ -7,12 +7,7 @@ namespace TowerBuilder
     public static class RoomConstants
     {
         public const float NORMAL_ROOM_Z_OFFSET = 2f;
-        public const float BLUEPRINT_ROOM_Z_OFFSET = 2f;
-
-        // TODO - these should ultimately be materials or all part of the same shader or something
-        public static readonly Color ROOM_MARKED_FOR_DELETION_COLOR = Color.red;
-        public static readonly Color ROOM_INSPECTION_HOVERED_COLOR = Color.yellow;
-        public static readonly Color ROOM_INSPECTED_COLOR = Color.white;
+        public const float BLUEPRINT_ROOM_Z_OFFSET = 2.1f;
 
         // Room definitions
         public static readonly RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[] {
@@ -29,7 +24,6 @@ namespace TowerBuilder
             },
 
             new() {
-                //
                 title = "Entrance/Exit",
                 price = 4000,
                 isEntrance = true,
@@ -80,6 +74,8 @@ namespace TowerBuilder
                 },
                 type = RoomType.Office,
                 capacity = 12,
+
+                roomBehaviorFactory = (Room room) => new OfficeRoomBehavior(room),
             },
 
             new() {

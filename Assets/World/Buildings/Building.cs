@@ -15,6 +15,9 @@ namespace TowerBuilder
 
         List<GameObject> perimeterTiles = new();
 
+        // Payed out every day at 8pm
+        public int currentOfficeProfitBuffer { get; private set; }
+
         //
         // Lifecycle
         //
@@ -22,10 +25,40 @@ namespace TowerBuilder
         {
             foreach (var room in rooms)
             {
+                if (room.behavior != null)
+                {
+                    room.behavior.OnTick();
+                }
+
                 foreach (var resident in room.residents)
                 {
                     resident.OnTick();
                 }
+            }
+
+            // TODO - don't rebuild this map every tick
+            var roomsGroupedByBehaviorType = rooms.Aggregate(
+                new Dictionary<System.Type, List<Room>>(),
+                (acc, room) =>
+                {
+                    if (room.behavior != null)
+                    {
+                        var behaviorType = room.behavior.GetType();
+                        if (!acc.ContainsKey(behaviorType))
+                        {
+                            acc.Add(behaviorType, new());
+                        }
+
+                        acc[behaviorType].Add(room);
+                    }
+                    return acc;
+                }
+            );
+
+            foreach (var rooms in roomsGroupedByBehaviorType.Values)
+            {
+                var behavior = rooms[0].behavior;
+                behavior.OnTickAll(rooms);
             }
         }
 
@@ -48,9 +81,9 @@ namespace TowerBuilder
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
             room.UpdateColor();
             room.SetZPosition();
+            room.behavior = room.definition.roomBehaviorFactory(room);
 
             rooms.Add(room);
-
 
             // Add to roomGroup if room is groupable
             HandleGroupableRoom();

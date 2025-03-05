@@ -2,17 +2,16 @@
 
 ## currently:
 
-- [ ] wallet/money
-  - [x] set up wallet controller
-  - [x] rooms cost money/can't be built without enough money
-  - [ ] offices increase money at the end of every day (a certain amount per worker)
-  - [ ] hotel room occupants increase money as they leave
 - [ ] "hotel stayers"
   - [ ] create room for this ("hotel room" or "overnight cabin" or something)
   - [ ] periodically travelers arrive, stay, and then get off
+  - [ ] hotel room occupants increase money as they leave
 
 ## next:
 
+- [ ] BUG: shouldn't be able to exit pause mode while in build or destroy modes
+- [ ] CLEANUP: it is weird that RoomBehaviorBase.OnTickAll is an instance method - refactor to use a delegate or something
+- [ ] Building perimeter should adjust in build mode
 - [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] after this, make entrance/exit & lobby the same
 - [ ] position-aware mesh for building perimeter tiles
@@ -99,8 +98,12 @@
 
 # Done
 
+- [x] wallet/money
+  - [x] set up wallet controller
+  - [x] rooms cost money/can't be built without enough money
+  - [x] offices increase money at the end of every day (a certain amount per worker)
 - [x] abbreviated room buttons + name & info when you hover over them (ultimately icons)
-  - [x] room descriptions
+- [x] room descriptions
 - [x] building tile border
 - [x] BUG: route finder still has some issues with non-rectangular transportation room groups
   - Added stairs to a different roomGroupCategory for now
