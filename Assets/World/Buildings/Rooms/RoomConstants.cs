@@ -18,6 +18,7 @@ namespace TowerBuilder
         public static readonly RoomDefinition[] ALL_DEFINITIONS = new RoomDefinition[] {
             new() {
                 title = "Lobby",
+                price = 5000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
@@ -30,6 +31,7 @@ namespace TowerBuilder
             new() {
                 //
                 title = "Entrance/Exit",
+                price = 4000,
                 isEntrance = true,
                 shape = new() {
                     new(0, 0),
@@ -42,6 +44,7 @@ namespace TowerBuilder
             new() {
                 //
                 title = "Condo",
+                price = 100_000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
@@ -55,6 +58,7 @@ namespace TowerBuilder
 
             new() {
                 title = "Pod",
+                price = 50_000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
@@ -67,6 +71,7 @@ namespace TowerBuilder
 
             new() {
                 title = "Office",
+                price = 75_000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
@@ -79,6 +84,7 @@ namespace TowerBuilder
 
             new() {
                 title = "Recreation room",
+                price = 50_000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
@@ -92,6 +98,7 @@ namespace TowerBuilder
 
             new() {
                 title = "Stairs",
+                price = 20_000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
@@ -107,6 +114,12 @@ namespace TowerBuilder
 
             new() {
                 title = "Cabin",
+                price = 70_000,
+                shape = new() {
+                    new(0, 0),
+                    new(1, 0),
+                },
+                type = RoomType.Hotel,
             }
         };
     }

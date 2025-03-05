@@ -80,6 +80,10 @@ namespace TowerBuilder
             building.AddRoom(tile, roomDefinition);
         }
 
+
+        // TODO - this function and AddRoomAtTile do similar things - clarify
+        //        AddRoomAtTile is intended for internal use
+        //        AddRoomAtCurrentTileIfValid is intended for use from the UI
         public void AddRoomAtCurrentTileIfValid()
         {
             if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
@@ -92,8 +96,12 @@ namespace TowerBuilder
                 return;
             }
 
-            var tile = worldController.GetMousePositionToTile();
 
+            // Pay for the room
+            worldController.walletController.ReduceFunds(worldController.toolsController.buildTool.selectedRoomDefinition.current.price);
+
+            // Add it
+            var tile = worldController.GetMousePositionToTile();
             AddRoomAtTile(worldController.toolsController.buildTool.selectedRoomDefinition.current, tile);
 
             // TODO - this could get confusing

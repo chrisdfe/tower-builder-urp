@@ -8,6 +8,7 @@ namespace TowerBuilder
     {
         public string title = "No title";
         public string description = "No description.";
+        public int price = 0;
         public List<Tile> shape;
         public RoomType type = CommonArea;
         public bool isEntrance = false;

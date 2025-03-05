@@ -16,9 +16,15 @@ namespace TowerBuilder
 
         class HasEnoughMoney : IRoomValidator
         {
+            static RoomValidationError error = new RoomValidationError("Insufficient funds to build room");
+
             public RoomValidationError Validate(Room room, WorldController worldController)
             {
-                // TODO
+                if (!worldController.walletController.CanAfford(room.definition.price))
+                {
+                    return error;
+                }
+
                 return null;
             }
         }
@@ -34,7 +40,6 @@ namespace TowerBuilder
                     return error;
                 }
 
-                // TODO
                 return null;
             }
         }
@@ -49,11 +54,9 @@ namespace TowerBuilder
 
                 if (!worldController.buildingsController.ContainsRoomsAtTiles(roomAdjacentTiles))
                 {
-                    // 
                     return error;
                 }
 
-                // TODO
                 return null;
             }
         }

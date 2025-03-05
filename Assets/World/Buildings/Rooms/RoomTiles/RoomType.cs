@@ -7,5 +7,6 @@ namespace TowerBuilder
         Residential,
         Office,
         Recreation,
+        Hotel,
     }
 }

@@ -147,11 +147,11 @@ namespace TowerBuilder
                 }
                 else if (isInspected)
                 {
-                    highlightIntensity = 1f;
+                    highlightIntensity = 0.4f;
                 }
                 else if (isInspectionHovered)
                 {
-                    highlightIntensity = 0.5f;
+                    highlightIntensity = 0.2f;
                 }
             }
 

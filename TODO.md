@@ -4,7 +4,7 @@
 
 - [ ] wallet/money
   - [x] set up wallet controller
-  - [ ] rooms cost money/can't be built without enough money
+  - [x] rooms cost money/can't be built without enough money
   - [ ] offices increase money at the end of every day (a certain amount per worker)
   - [ ] hotel room occupants increase money as they leave
 - [ ] "hotel stayers"
