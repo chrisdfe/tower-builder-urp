@@ -19,7 +19,6 @@ namespace TowerBuilder
         public BuildingEvent onRoomBuilt;
         public BuildingEvent onRoomDestroyed;
 
-        BuildingRoomVacancyHandler buildingRoomVacancyHandler;
 
         public BuildingsController(WorldController worldController)
         {
@@ -28,7 +27,6 @@ namespace TowerBuilder
             buildingsContainer = GameObject.Find("BuildingsContainer").transform;
             occupantsContainer = GameObject.Find("OccupantsContainer").transform;
 
-            buildingRoomVacancyHandler = new();
         }
 
         //
@@ -36,8 +34,6 @@ namespace TowerBuilder
         //
         public void OnTick()
         {
-            buildingRoomVacancyHandler.OnTick();
-
             foreach (var building in buildings)
             {
                 building.OnTick();
@@ -262,6 +258,7 @@ namespace TowerBuilder
             );
 
             var building = buildingGameObject.GetComponent<Building>();
+            building.Setup();
             buildings.Add(building);
             building.title = $"Building {buildings.Count}";
             buildingGameObject.name = building.title;

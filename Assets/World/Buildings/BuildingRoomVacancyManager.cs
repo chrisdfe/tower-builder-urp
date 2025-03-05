@@ -4,12 +4,15 @@ using UnityEngine.Assertions;
 
 namespace TowerBuilder
 {
-    public class BuildingRoomVacancyHandler
+    public class BuildingRoomVacancyManager
     {
+        Building building;
+
         WorldController worldController;
 
-        public BuildingRoomVacancyHandler()
+        public BuildingRoomVacancyManager(Building building)
         {
+            this.building = building;
             worldController = WorldController.Get();
         }
 
@@ -18,11 +21,8 @@ namespace TowerBuilder
             // check for vacancies every hour
             if (worldController.timeController.timeValue.minute == 0)
             {
-                foreach (var building in worldController.buildingsController.buildings)
-                {
-                    HandleResidentialVacancies(building);
-                    HandleOfficeVacancies(building);
-                }
+                HandleResidentialVacancies(building);
+                HandleOfficeVacancies(building);
             }
         }
 

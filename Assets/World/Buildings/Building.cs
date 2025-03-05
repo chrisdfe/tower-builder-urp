@@ -17,11 +17,23 @@ namespace TowerBuilder
 
         Dictionary<System.Type, List<Room>> roomsGroupedByBehaviorType = new();
 
+        BuildingRoomVacancyManager buildingRoomVacancyManager;
+        BuildingHotelRoomManager buildingHotelRoomManager;
+
         //
         // Lifecycle
         //
+        public void Setup()
+        {
+            buildingRoomVacancyManager = new(this);
+            buildingHotelRoomManager = new(this);
+        }
+
         public void OnTick()
         {
+            buildingRoomVacancyManager.OnTick();
+            buildingHotelRoomManager.OnTick();
+
             foreach (var room in rooms)
             {
                 if (room.behavior != null)
