@@ -9,6 +9,9 @@
 
 ## next:
 
+- [ ] Inspect tool tooltips
+  - [ ] Room
+  - [ ] Occupant
 - [ ] Building perimeter should adjust in build mode
 - [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] after this, make entrance/exit & lobby the same
