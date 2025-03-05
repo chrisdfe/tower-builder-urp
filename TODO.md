@@ -10,11 +10,10 @@
 ## next:
 
 - [ ] BUG: shouldn't be able to exit pause mode while in build or destroy modes
-- [ ] CLEANUP: it is weird that RoomBehaviorBase.OnTickAll is an instance method - refactor to use a delegate or something
 - [ ] Building perimeter should adjust in build mode
 - [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] after this, make entrance/exit & lobby the same
-- [ ] position-aware mesh for building perimeter tiles
+- [ ] position-aware mesh for building perimeter tiles (corners etc)
 - [ ] BUG: route finder still having issues with more complex layouts
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
 - [ ] overlays

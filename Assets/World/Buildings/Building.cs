@@ -15,8 +15,7 @@ namespace TowerBuilder
 
         List<GameObject> perimeterTiles = new();
 
-        // Payed out every day at 8pm
-        public int currentOfficeProfitBuffer { get; private set; }
+        Dictionary<System.Type, List<Room>> roomsGroupedByBehaviorType = new();
 
         //
         // Lifecycle
@@ -35,25 +34,6 @@ namespace TowerBuilder
                     resident.OnTick();
                 }
             }
-
-            // TODO - don't rebuild this map every tick
-            var roomsGroupedByBehaviorType = rooms.Aggregate(
-                new Dictionary<System.Type, List<Room>>(),
-                (acc, room) =>
-                {
-                    if (room.behavior != null)
-                    {
-                        var behaviorType = room.behavior.GetType();
-                        if (!acc.ContainsKey(behaviorType))
-                        {
-                            acc.Add(behaviorType, new());
-                        }
-
-                        acc[behaviorType].Add(room);
-                    }
-                    return acc;
-                }
-            );
 
             foreach (var rooms in roomsGroupedByBehaviorType.Values)
             {
@@ -91,61 +71,63 @@ namespace TowerBuilder
             // Update building perimeter
             ResetPerimeterTiles();
 
+            // Recalculate room behavior map
+            CalculateRoomsGroupedByBehaviorType();
+
             return room;
 
             void HandleGroupableRoom()
             {
-                if (room.definition.groupCategory != RoomGroupCategory.None)
+                if (room.definition.groupCategory == RoomGroupCategory.None) return;
+
+                // check if the room we just created is next to another room of the same time
+                var adjacentTiles = room.GetAdjacentTiles();
+
+                var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
+                var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
+                    otherRoom.definition.groupCategory == room.definition.groupCategory
+                )).ToList();
+
+                if (adjacentRoomsOfTheSameType.Count > 0)
                 {
-                    // check if the room we just created is next to another room of the same time
-                    var adjacentTiles = room.GetAdjacentTiles();
+                    var newRoomGroup = new RoomGroup { room };
 
-                    var adjacentRooms = FindRoomsAtTiles(adjacentTiles);
-                    var adjacentRoomsOfTheSameType = adjacentRooms.FindAll(otherRoom => (
-                        otherRoom.definition.groupCategory == room.definition.groupCategory
-                    )).ToList();
+                    List<RoomGroup> roomGroupsToDelete = new();
 
-                    if (adjacentRoomsOfTheSameType.Count > 0)
+                    // transfer rooms from adjacent room group into new group and 
+                    // and delete the original room groups
+                    foreach (var adjacentRoom in adjacentRoomsOfTheSameType)
                     {
-                        var newRoomGroup = new RoomGroup { room };
+                        var adjacentRoomGroup = FindRoomGroupByRoom(adjacentRoom);
 
-                        List<RoomGroup> roomGroupsToDelete = new();
+                        Assert.IsNotNull(adjacentRoomGroup);
 
-                        // transfer rooms from adjacent room group into new group and 
-                        // and delete the original room groups
-                        foreach (var adjacentRoom in adjacentRoomsOfTheSameType)
+                        roomGroupsToDelete.Add(adjacentRoomGroup);
+
+                        foreach (var adjacentRoomGroupRoom in adjacentRoomGroup)
                         {
-                            var adjacentRoomGroup = FindRoomGroupByRoom(adjacentRoom);
-
-                            Assert.IsNotNull(adjacentRoomGroup);
-
-                            roomGroupsToDelete.Add(adjacentRoomGroup);
-
-                            foreach (var adjacentRoomGroupRoom in adjacentRoomGroup)
-                            {
-                                newRoomGroup.Add(adjacentRoomGroupRoom);
-                            }
-                        }
-
-                        roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
-
-                        newRoomGroup.title = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
-
-                        roomGroups.Add(newRoomGroup);
-
-                        var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.rooms);
-
-                        // Now re-calculate positions/toggle segments in each of these rooms
-                        foreach (var roomInNewRoomGroup in newRoomGroup)
-                        {
-                            roomInNewRoomGroup.CalculateSegmentsFromTileList(allTilesInRooms);
+                            newRoomGroup.Add(adjacentRoomGroupRoom);
                         }
                     }
-                    else
+
+                    roomGroups.RemoveAll(roomGroup => roomGroupsToDelete.Contains(roomGroup));
+
+                    newRoomGroup.title = $"{name} roomGroup #{roomGroups.Count + 1} - {room.definition.groupCategory}";
+
+                    roomGroups.Add(newRoomGroup);
+
+                    var allTilesInRooms = GetAllTilesInRooms(newRoomGroup.rooms);
+
+                    // Now re-calculate positions/toggle segments in each of these rooms
+                    foreach (var roomInNewRoomGroup in newRoomGroup)
                     {
-                        // Create a new roomGroup with only this room in it for now
-                        roomGroups.Add(new() { room });
+                        roomInNewRoomGroup.CalculateSegmentsFromTileList(allTilesInRooms);
                     }
+                }
+                else
+                {
+                    // Create a new roomGroup with only this room in it for now
+                    roomGroups.Add(new() { room });
                 }
             }
         }
@@ -186,6 +168,9 @@ namespace TowerBuilder
 
             // Update perimeter tiles
             ResetPerimeterTiles();
+
+            // Recalculate room behavior map
+            CalculateRoomsGroupedByBehaviorType();
 
             Destroy(room.gameObject);
         }
@@ -367,6 +352,27 @@ namespace TowerBuilder
             }
 
             perimeterTiles = new();
+        }
+
+        void CalculateRoomsGroupedByBehaviorType()
+        {
+            roomsGroupedByBehaviorType = rooms.Aggregate(
+                new Dictionary<System.Type, List<Room>>(),
+                (acc, room) =>
+                {
+                    if (room.behavior != null)
+                    {
+                        var behaviorType = room.behavior.GetType();
+                        if (!acc.ContainsKey(behaviorType))
+                        {
+                            acc.Add(behaviorType, new());
+                        }
+
+                        acc[behaviorType].Add(room);
+                    }
+                    return acc;
+                }
+            );
         }
 
         //
