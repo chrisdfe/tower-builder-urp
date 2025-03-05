@@ -9,7 +9,6 @@
 
 ## next:
 
-- [ ] BUG: shouldn't be able to exit pause mode while in build or destroy modes
 - [ ] Building perimeter should adjust in build mode
 - [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] after this, make entrance/exit & lobby the same
@@ -97,6 +96,7 @@
 
 # Done
 
+- [x] BUG: shouldn't be able to exit pause mode while in build or destroy modes
 - [x] wallet/money
   - [x] set up wallet controller
   - [x] rooms cost money/can't be built without enough money

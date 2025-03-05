@@ -24,23 +24,35 @@ namespace TowerBuilder
         {
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
-                speed.Set(TimeSpeed.Pause);
-                tickTimerElapsed = float.PositiveInfinity;
+                if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
+                {
+                    speed.Set(TimeSpeed.Pause);
+                    tickTimerElapsed = float.PositiveInfinity;
+                }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                speed.Set(TimeSpeed.Normal);
-                tickTimerElapsed = float.PositiveInfinity;
+                if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
+                {
+                    speed.Set(TimeSpeed.Normal);
+                    tickTimerElapsed = float.PositiveInfinity;
+                }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                speed.Set(TimeSpeed.Fast);
-                tickTimerElapsed = float.PositiveInfinity;
+                if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
+                {
+                    speed.Set(TimeSpeed.Fast);
+                    tickTimerElapsed = float.PositiveInfinity;
+                }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                speed.Set(TimeSpeed.Fastest);
-                tickTimerElapsed = float.PositiveInfinity;
+                if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
+                {
+                    speed.Set(TimeSpeed.Fastest);
+                    tickTimerElapsed = float.PositiveInfinity;
+                }
             }
             else
             {
