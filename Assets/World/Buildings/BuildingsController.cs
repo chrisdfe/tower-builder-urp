@@ -9,6 +9,7 @@ namespace TowerBuilder
     {
         public List<Building> buildings { get; private set; } = new();
         public List<Occupant> occupants { get; private set; } = new();
+        List<Occupant> occupantsToRemove = new();
 
         WorldController worldController;
 
@@ -26,7 +27,6 @@ namespace TowerBuilder
 
             buildingsContainer = GameObject.Find("BuildingsContainer").transform;
             occupantsContainer = GameObject.Find("OccupantsContainer").transform;
-
         }
 
         //
@@ -37,6 +37,21 @@ namespace TowerBuilder
             foreach (var building in buildings)
             {
                 building.OnTick();
+            }
+
+            foreach (var occupant in occupants)
+            {
+                occupant.OnTick();
+            }
+
+            if (occupantsToRemove.Count > 0)
+            {
+                foreach (var occupant in occupantsToRemove)
+                {
+                    RemoveOccupant(occupant);
+                }
+
+                occupantsToRemove = new();
             }
         }
 
@@ -274,6 +289,33 @@ namespace TowerBuilder
             var occupant = occupantGameObject.GetComponent<Occupant>();
             occupants.Add(occupant);
             return occupant;
+        }
+
+        public Occupant CreateOccupantAtBuildingEntrance(Building building)
+        {
+            var entrance = building.GetEntrance();
+            var occupant = CreateOccupant();
+
+            occupant.SetTitle($"{building.title} Occupant {building.ResidentCount()}");
+            occupant.SetTile(entrance.GetRandomTile());
+            occupant.SetCurrentRoom(entrance);
+            entrance.AddCurrentOccupant(occupant);
+            occupant.SetRandomSubTileOffset();
+
+            return occupant;
+        }
+
+        public void RemoveOccupant(Occupant occupant)
+        {
+            occupants.Remove(occupant);
+            occupant.currentRoom.RemoveCurrentOccupant(occupant);
+            // TODO - make sure there aren't more memory leaks here
+            GameObject.Destroy(occupant.gameObject);
+        }
+
+        public void FlagOccupantForRemoval(Occupant occupant)
+        {
+            occupantsToRemove.Add(occupant);
         }
     }
 }

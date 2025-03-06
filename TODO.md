@@ -9,6 +9,8 @@
 
 ## next:
 
+- [ ] randomize checkin/checkout times on a per-hotel room basis
+- [ ] explore using a perspective camera instead
 - [ ] Inspect tool tooltips
   - [ ] Room
   - [ ] Occupant

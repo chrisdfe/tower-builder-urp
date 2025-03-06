@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace TowerBuilder
 {
     // Not to be confused with TimeOfDay and TimeValue!
@@ -46,6 +48,13 @@ namespace TowerBuilder
         public bool Matches(DayTimeValue other) =>
             hour == other.hour && minute == other.minute;
 
+        public bool IsGreaterThan(DayTimeValue other) =>
+            hour > other.hour ||
+            (hour == other.hour) && minute > other.minute;
+
+        public bool IsGreaterThanOrEqualTo(DayTimeValue other) =>
+            Matches(other) || IsGreaterThan(other);
+
         //
         // Static interface
         //
@@ -71,5 +80,28 @@ namespace TowerBuilder
 
             return DayTimeValue.FromMinutes(total);
         }
+
+        public static DayTimeValue RandomBetween(DayTimeValue a, DayTimeValue b)
+        {
+            var aAsMinutes = a.AsMinutes();
+            var bAsMinutes = b.AsMinutes();
+
+            int lower, higher;
+            if (aAsMinutes <= bAsMinutes)
+            {
+                lower = aAsMinutes;
+                higher = bAsMinutes;
+            }
+            else
+            {
+                lower = bAsMinutes;
+                higher = aAsMinutes;
+            }
+            var minutes = Random.Range(lower, higher);
+
+            return FromMinutes(minutes);
+        }
+
+        public static DayTimeValue midnight = new DayTimeValue(0, 0);
     }
 }

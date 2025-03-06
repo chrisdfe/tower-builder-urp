@@ -75,7 +75,7 @@ namespace TowerBuilder
                 type = RoomType.Office,
                 capacity = 12,
 
-                roomBehaviorFactory = (Room room) => new OfficeRoomBehavior(room),
+                behaviorFactory = (Room room) => new OfficeRoomBehavior(room),
             },
 
             new() {
@@ -102,7 +102,6 @@ namespace TowerBuilder
                     new(1, 1),
                 },
                 type = RoomType.TransportationItem,
-                // groupCategory = RoomGroupCategory.CommonArea,
                 // TODO - this will ultimately be part of the 'CommonArea' category
                 //        right now the routefinding algorithm can't deal with non-rectangular rooms though
                 groupCategory = RoomGroupCategory.Stairs,
@@ -110,12 +109,15 @@ namespace TowerBuilder
 
             new() {
                 title = "Cabin",
+                description = "Visitors can stay overnight here (for a price)",
                 price = 70_000,
                 shape = new() {
                     new(0, 0),
                     new(1, 0),
                 },
+                capacity = 2,
                 type = RoomType.Hotel,
+                behaviorFactory = (Room room) => new HotelRoomBehavior(room),
             }
         };
     }

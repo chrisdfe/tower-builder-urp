@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantSchedule
+    public class OccupantResidentSchedule : OccupantScheduleBase
     {
         public enum Activity
         {
@@ -16,22 +16,18 @@ namespace TowerBuilder
 
         WorldController worldController;
 
-        Occupant occupant;
-
         public Activity currentActivity { get; private set; } = Activity.Nothing;
 
-        List<(Activity, DayTimeValue)> scheduleTimes;
+        protected List<(Activity, DayTimeValue)> scheduleTimes;
         int lastDayScheduleWasGenerated;
 
-        public OccupantSchedule(Occupant occupant)
+        public OccupantResidentSchedule(Occupant occupant) : base(occupant)
         {
-            this.occupant = occupant;
-
             worldController = WorldController.Get();
-            RegenerateScheduleTimeValues(worldController.timeController.timeValue);
+            Regenerate();
         }
 
-        public void OnTick()
+        public override void OnTick()
         {
             var time = worldController.timeController.timeValue;
 
@@ -42,15 +38,17 @@ namespace TowerBuilder
                 TransitionToNewActivity(activity);
             }
 
-            // Regenerate schedule every day at midnight
+            // Refresh schedule every day at midnight
             if (time.day > lastDayScheduleWasGenerated)
             {
-                RegenerateScheduleTimeValues(time);
+                Regenerate();
             }
         }
 
-        public void RegenerateScheduleTimeValues(TimeValue currentTime)
+        public override void Regenerate()
         {
+            var timeValue = worldController.timeController.timeValue;
+
             scheduleTimes = new()
             {
                 // sleeping
@@ -78,7 +76,6 @@ namespace TowerBuilder
                     Activity.Recreation,
                     new DayTimeValue(15, 30)
                 ));
-
             }
             else
             {
@@ -101,7 +98,7 @@ namespace TowerBuilder
                 new DayTimeValue(21, 30)
             ));
 
-            lastDayScheduleWasGenerated = currentTime.day;
+            lastDayScheduleWasGenerated = timeValue.day;
         }
 
         //

@@ -51,19 +51,15 @@ namespace TowerBuilder
                 var vacanciesCount = room.GetResidentialVacancies();
                 for (var i = 0; i < vacanciesCount; i++)
                 {
-                    var occupant = worldController.buildingsController.CreateOccupant();
+                    var occupant = worldController.buildingsController.CreateOccupantAtBuildingEntrance(building);
 
-                    occupant.SetTitle($"{building.title} Occupant {building.ResidentCount()}");
-
-                    occupant.SetTile(entrance.GetRandomTile());
-                    occupant.SetCurrentRoom(entrance);
-                    entrance.AddCurrentOccupant(occupant);
-                    occupant.SetRandomSubTileOffset();
+                    occupant.SetupSchedule(OccupantScheduleType.Resident);
 
                     room.residents.Add(occupant);
                     occupant.SetResidence(room);
 
                     // Immediately travel to new home
+                    // TODO - set this task to high priority so daily schedule tasks don't cancel it
                     occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, route));
                     newOccupants.Add(occupant);
                 }

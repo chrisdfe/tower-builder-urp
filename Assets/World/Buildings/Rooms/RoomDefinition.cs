@@ -24,26 +24,23 @@ namespace TowerBuilder
         public List<IRoomValidator> buildValidators = new(RoomBuildValidators.standardBuildValidators);
 
         public delegate RoomBehaviorBase RoomBehaviorFactory(Room room);
-        public RoomBehaviorFactory roomBehaviorFactory = (Room room) => null;
+        public RoomBehaviorFactory behaviorFactory = (Room room) => null;
 
         //
         // Static interface
         //
 
         // A human-readable RoomType
-        public static string GetRoomTypeName(RoomType roomType)
-        {
-            switch (roomType)
+        public static string GetRoomTypeName(RoomType roomType) =>
+            roomType switch
             {
-                case CommonArea: return "Common Area";
-                case TransportationItem: return "Transportation Item";
-                case Residential: return "Residential";
-                case Office: return "Office";
-                case Recreation: return "Recreation";
-                case Hotel: return "Hotel";
-            }
-
-            throw new System.Exception($"Can't get name for roomType: {roomType}");
-        }
+                CommonArea => "Common Area",
+                TransportationItem => "Transportation Item",
+                Residential => "Residential",
+                Office => "Office",
+                Recreation => "Recreation",
+                Hotel => "Hotel",
+                _ => throw new System.Exception($"Can't get name for roomType: {roomType}"),
+            };
     }
 }

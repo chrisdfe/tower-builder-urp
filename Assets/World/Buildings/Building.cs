@@ -8,6 +8,7 @@ namespace TowerBuilder
 {
     public class Building : MonoBehaviour
     {
+        const float PERIMETER_TILE_Z = 0.5f;
         public string title = "Building";
 
         public List<RoomGroup> roomGroups { get; private set; } = new();
@@ -36,19 +37,12 @@ namespace TowerBuilder
 
             foreach (var room in rooms)
             {
-                if (room.behavior != null)
-                {
-                    room.behavior.OnTick();
-                }
-
-                foreach (var resident in room.residents)
-                {
-                    resident.OnTick();
-                }
+                room.behavior?.OnTick();
             }
 
             foreach (var rooms in roomsGroupedByBehaviorType.Values)
             {
+                // 
                 var behavior = rooms[0].behavior;
                 behavior.OnTickAll(rooms);
             }
@@ -73,7 +67,7 @@ namespace TowerBuilder
             room.CalculateAndInstantiateTilesFromOriginTile(originTile);
             room.UpdateColor();
             room.SetZPosition();
-            room.behavior = room.definition.roomBehaviorFactory(room);
+            room.behavior = room.definition.behaviorFactory(room);
 
             rooms.Add(room);
 
@@ -349,7 +343,14 @@ namespace TowerBuilder
 
             foreach (var tile in GetPerimeterTiles())
             {
-                var gameObject = GameObject.Instantiate(worldController.buildingPerimeterTilePrefab, tile.ToWorldPosition(), Quaternion.identity);
+                var tilePosition = tile.ToWorldPosition();
+                var perimeterTilePosition = new Vector3(
+                    tilePosition.x,
+                    tilePosition.y,
+                    PERIMETER_TILE_Z
+                );
+
+                var gameObject = GameObject.Instantiate(worldController.buildingPerimeterTilePrefab, perimeterTilePosition, Quaternion.identity);
                 perimeterTileGameObjects.Add(gameObject);
             }
 

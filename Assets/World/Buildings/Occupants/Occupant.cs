@@ -34,6 +34,9 @@ namespace TowerBuilder
         // where this occupant currently is
         public Room currentRoom { get; private set; }
 
+        // the hotel room this occupant is staying in (if they are here as a hotel guest)
+        public Room hotelRoom { get; private set; }
+
         // player is hovering over the room with the inspect tool
         public bool isInspectionHovered { get; private set; } = false;
 
@@ -46,7 +49,7 @@ namespace TowerBuilder
         public OccupantAnimationWrapper animationWrapper { get; private set; }
 
         // Schedules/Tasks
-        public OccupantSchedule schedule { get; private set; }
+        public OccupantScheduleBase schedule { get; private set; }
         public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
         public Queue<IOccupantTask> taskQueue { get; private set; } = new();
         OccupantRouteFinder routeFinder;
@@ -63,8 +66,6 @@ namespace TowerBuilder
             animationWrapper = OccupantAnimationWrapper.FindFor(this);
             bod = animationWrapper.transform.Find("Bod");
             bodMaterial = bod.GetComponent<MeshRenderer>().material;
-
-            schedule = new OccupantSchedule(this);
         }
 
         public void FixedUpdate()
@@ -109,6 +110,16 @@ namespace TowerBuilder
             gameObject.name = title;
         }
 
+        public void SetupSchedule(OccupantScheduleType scheduleType)
+        {
+            schedule = scheduleType switch
+            {
+                OccupantScheduleType.Resident => new OccupantResidentSchedule(this),
+                OccupantScheduleType.HotelGuest => new OccupantHotelGuestSchedule(this),
+                _ => throw new System.NotImplementedException($"Unsupported schedule type: {scheduleType}"),
+            };
+        }
+
         public void SetCurrentRoom(Room room)
         {
             currentRoom = room;
@@ -125,22 +136,20 @@ namespace TowerBuilder
 
         public void SetResidence(Room room)
         {
-            // TODO - this doesn't seem great
-            var worldController = WorldController.Get();
-
             residence = room;
-            // TODO - this might cause some weirdness since we're re-randomizing the schedule?
-            schedule.RegenerateScheduleTimeValues(worldController.timeController.timeValue);
+            schedule.Regenerate();
         }
 
         public void SetOffice(Room room)
         {
-            // TODO - this doesn't seem great
-            var worldController = WorldController.Get();
-
             office = room;
-            // TODO - this might cause some weirdness since we're re-randomizing the schedule?
-            schedule.RegenerateScheduleTimeValues(worldController.timeController.timeValue);
+            schedule.Regenerate();
+        }
+
+        public void SetHotelRoom(Room room)
+        {
+            hotelRoom = room;
+            schedule.Regenerate();
         }
 
         public void SetInspectionHoveredState(bool isInspectionHovered)
