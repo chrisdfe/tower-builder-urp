@@ -60,6 +60,7 @@ namespace TowerBuilder
                         occupant.SetupSchedule(OccupantScheduleType.HotelGuest);
                         occupant.SetHotelRoom(hotelRoom);
                         occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, route));
+                        (hotelRoom.behavior as HotelRoomBehavior).AddGuest();
                         hotelGuests.Add(occupant);
                     }
                 }
@@ -78,6 +79,7 @@ namespace TowerBuilder
             }
             else if (currentDayTime.Matches(HotelRoomBehavior.cashoutTime))
             {
+                Debug.Log("Cashout time");
                 var totalProfit = hotelRooms.Aggregate(0, (acc, hotelRoom) =>
                 {
                     var behavior = hotelRoom.behavior as HotelRoomBehavior;
@@ -88,6 +90,14 @@ namespace TowerBuilder
 
                     return acc + roomTotalProfit;
                 });
+
+                Debug.Log("totalProfit: " + totalProfit);
+
+                if (totalProfit > 0)
+                {
+                    worldController.walletController.AddFunds(totalProfit);
+                    worldController.notifications.Add(new Notification($"{totalProfit} earned from hotel"));
+                }
             }
         }
 

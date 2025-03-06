@@ -2,13 +2,13 @@
 
 ## currently:
 
-- [ ] "hotel stayers"
-  - [ ] create room for this ("hotel room" or "overnight cabin" or something)
-  - [ ] periodically travelers arrive, stay, and then get off
-  - [ ] hotel room occupants increase money as they leave
-
 ## next:
 
+- [ ] task priority
+  - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
+- [ ] Hotel guest schedule
+  - [ ] recreation
+  - [ ] sleeping
 - [ ] randomize checkin/checkout times on a per-hotel room basis
 - [ ] explore using a perspective camera instead
 - [ ] Inspect tool tooltips
@@ -29,8 +29,6 @@
 - [ ] fake cone/point lights that happen at a certain frequency within rooms
 - [ ] notify player in BuildingRoomVacancyHandler when residences are inaccessible
   - keep a HashSet of inaccessible rooms on Building
-- [ ] task priority
-  - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
 - [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
 - [ ] box around the edge of the screen or something when game is paused
 - [ ] BUG: don't send occupants to recreation room if it is already at capacity
@@ -101,6 +99,10 @@
 
 # Done
 
+- [x] "hotel stayers"
+  - [x] create room for this ("hotel room" or "overnight cabin" or something)
+  - [x] periodically travelers arrive, stay, and then get off
+  - [x] hotel room occupants increase money as they leave
 - [x] BUG: shouldn't be able to exit pause mode while in build or destroy modes
 - [x] wallet/money
   - [x] set up wallet controller
