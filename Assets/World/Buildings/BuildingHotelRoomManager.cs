@@ -79,7 +79,6 @@ namespace TowerBuilder
             }
             else if (currentDayTime.Matches(HotelRoomBehavior.cashoutTime))
             {
-                Debug.Log("Cashout time");
                 var totalProfit = hotelRooms.Aggregate(0, (acc, hotelRoom) =>
                 {
                     var behavior = hotelRoom.behavior as HotelRoomBehavior;
@@ -91,12 +90,10 @@ namespace TowerBuilder
                     return acc + roomTotalProfit;
                 });
 
-                Debug.Log("totalProfit: " + totalProfit);
-
                 if (totalProfit > 0)
                 {
                     worldController.walletController.AddFunds(totalProfit);
-                    worldController.notifications.Add(new Notification($"{totalProfit} earned from hotel"));
+                    worldController.notifications.Add(new Notification($"Earned {Money.Format(totalProfit)} from hotel"));
                 }
             }
         }

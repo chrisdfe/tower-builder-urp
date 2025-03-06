@@ -2,28 +2,44 @@
 
 ## currently:
 
-## next:
-
 - [ ] task priority
   - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
-- [ ] Hotel guest schedule
-  - [ ] recreation
-  - [ ] sleeping
-- [ ] randomize checkin/checkout times on a per-hotel room basis
-- [ ] explore using a perspective camera instead
+- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] Inspect tool tooltips
   - [ ] Room
   - [ ] Occupant
+
+## next:
+
+- [ ] stairs room should be 1 high
+- [ ] Hotel guest schedule
+  - [ ] wandering around room
+  - [ ] recreation
+  - [ ] sleeping
+- [ ] ART: regular sky w/ clouds
+- [ ] UI: analog clock to display current time
+- [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
+- [ ] BUG: room definition tooltip doesn't stick to bottom left when maximized
+- [ ] Experiment with adding fake lighting in rooms
+  - node(s) to create a gradient from
+  - also affects
+- [ ] ART: experiment with only having lighting affect exterior walls - interior can all be fake (interior) lighting
+- [ ] UI: floating money text when room is built
+- [ ] UI: quickly increasing/decreasing money when funds are added/removed from wallet
+- [ ] build/destroy room shake doesn't seem right - maybe just up and down?
+- [ ] ART: basic sprites for occupants
+- [ ] wandering doesn't seem fast enough
+- [ ] randomize checkin/checkout times on a per-hotel room basis
+- [ ] explore using a perspective camera instead
+- [ ] BUG: route finder still having issues with more complex layouts
 - [ ] Building perimeter should adjust in build mode
 - [ ] make resizable rooms properly instead of using roomGroups for stairs
   - [ ] after this, make entrance/exit & lobby the same
 - [ ] position-aware mesh for building perimeter tiles (corners etc)
-- [ ] BUG: route finder still having issues with more complex layouts
-- [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
 - [ ] overlays
   - [ ] 'connectedness' overlay (i.e rooms accessable from entrance via transportation items)
   - [ ] can probably just use a plane in front of room tiles
-- [ ] randomize schedule times slightly
+- [ ] randomize resident schedule times slightly
   - [ ] BUG: all lights in roomGroup should turn on when occupant is in one of the rooms
 - [ ] BUG: when you destroy a room room group walls don't adjust
 - [ ] fake cone/point lights that happen at a certain frequency within rooms

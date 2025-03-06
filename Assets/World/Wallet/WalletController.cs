@@ -26,8 +26,6 @@ namespace TowerBuilder
 
         public bool CanAfford(int amount) => (funds - amount) > 0;
 
-        // Comma-seperates number
-        // e.g 10000 -> 10,000
-        public string FormattedFunds() => $"{funds:n0}";
+        public string FormattedFunds() => Money.Format(funds);
     }
 }
