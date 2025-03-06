@@ -4,19 +4,13 @@ using UnityEngine.Assertions;
 
 namespace TowerBuilder
 {
-    public class OccupantWanderingTask : IOccupantTask
+    public class OccupantWanderingTask : OccupantTaskBase
     {
-        enum WanderingState
-        {
-            Waiting,
-            Traveling
-        }
-
-        public string name
+        public override string name
         {
             get
             {
-                if (currentState == WanderingState.Traveling && !currentSubTask.isComplete)
+                if (currentSubTask is OccupantWanderingTask)
                 {
                     return "Wandering";
                 }
@@ -25,109 +19,40 @@ namespace TowerBuilder
             }
         }
 
-        bool _isComplete = false;
-        public bool isComplete => _isComplete;
+        public override bool isImmediatelyCancellable => true;
 
-        bool isCancelled = false;
-
-        Occupant occupant;
-
-        public IOccupantTask currentSubTask;
         Coroutine currentCoroutine;
 
-        WanderingState currentState = WanderingState.Waiting;
+        public float minWaitTime = 0.2f;
+        public float maxWaitTime = 2f;
 
-        public float minWaitTime = 1f;
-        public float maxWaitTime = 5f;
+        public OccupantWanderingTask(Occupant occupant) : base(occupant) { }
 
-        public OccupantWanderingTask(Occupant occupant)
-        {
-            this.occupant = occupant;
-        }
-
-        public void Setup()
-        {
-            StartWaiting();
-        }
-
-        public void Teardown()
+        public override void Teardown()
         {
             if (currentCoroutine != null)
             {
                 occupant.StopCoroutine(currentCoroutine);
             }
 
-            // TODO - other teardown stuff
+            base.Teardown();
         }
 
-        public void OnTick()
+        protected override OccupantTaskBase GetNextSubTask()
         {
-            if (currentSubTask != null)
+            if (currentSubTask is OccupantTravelingToDestinationTask)
             {
-                if (currentSubTask.isComplete)
-                {
-                    currentSubTask.Teardown();
-
-                    if (isCancelled)
-                    {
-                        _isComplete = true;
-                    }
-                    else
-                    {
-                        TransitionToNextState();
-                    }
-                }
-
-                currentSubTask.OnTick();
+                // Wait around for a while
+                return new OccupantWaitingTask(occupant, Random.Range(minWaitTime, maxWaitTime));
             }
-        }
 
-        public void Cancel()
-        {
-            isCancelled = true;
-
-            if (currentSubTask != null)
-            {
-                currentSubTask.Cancel();
-            }
-        }
-
-        //
-        void TransitionToNextState()
-        {
-            switch (currentState)
-            {
-                case WanderingState.Waiting:
-                    StartWandering();
-                    break;
-                case WanderingState.Traveling:
-                    StartWaiting();
-                    break;
-            }
-        }
-
-        void StartWaiting()
-        {
-            currentState = WanderingState.Waiting;
-            currentSubTask = new OccupantWaitingTask(occupant, Random.Range(minWaitTime, maxWaitTime));
-            currentSubTask.Setup();
-        }
-
-        void StartWandering()
-        {
-            currentState = WanderingState.Traveling;
-
+            // Wander around
             // Find a random tile in the occupant's current room
             var nextTile = occupant.currentRoom.GetRandomTile();
 
-            // find a route to that tile
-            var routeFinder = new OccupantRouteFinder(occupant.currentRoom.building, occupant.tile, nextTile);
-            var route = routeFinder.FindRoute();
-            Assert.IsNotNull(route);
+            // Find a route to that tile
 
-            // create subtask
-            currentSubTask = new OccupantTravelingToDestinationTask(occupant, route);
-            currentSubTask.Setup();
+            return new OccupantTravelingToDestinationTask(occupant, nextTile, "Wandering");
         }
     }
 }

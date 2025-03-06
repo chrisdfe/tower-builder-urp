@@ -126,7 +126,7 @@ namespace TowerBuilder
         {
             occupant.CancelCurrentTask();
 
-            IOccupantTask nextTask;
+            OccupantTaskBase nextTask;
 
             switch (activity)
             {
@@ -143,7 +143,7 @@ namespace TowerBuilder
                     nextTask = new OccupantRecreationTask(occupant);
                     break;
                 default:
-                    nextTask = new OccupantIdleTask();
+                    nextTask = new OccupantIdleTask(occupant);
                     break;
             }
 

@@ -2,25 +2,17 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantIdleTask : IOccupantTask
+    public class OccupantIdleTask : OccupantTaskBase
     {
-        public string name => "Idle";
+        public override string name => "Idle";
 
-        bool _isComplete = false;
-        public bool isComplete => _isComplete;
+        public override bool isImmediatelyCancellable => true;
 
-        public void Setup() { }
+        public OccupantIdleTask(Occupant occupant) : base(occupant) { }
 
-        public void Teardown() { }
-
-        public void OnTick()
+        public override void OnTick()
         {
-            // Nothing for now
-        }
-
-        public void Cancel()
-        {
-            _isComplete = true;
+            // Nothing
         }
     }
 }

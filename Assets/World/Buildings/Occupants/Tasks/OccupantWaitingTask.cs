@@ -3,38 +3,31 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantWaitingTask : IOccupantTask
+    public class OccupantWaitingTask : OccupantTaskBase
     {
-        public string name => "Waiting";
+        public override string name => "Waiting";
 
-        bool _isComplete = false;
-        public bool isComplete => _isComplete;
-
-        bool isCancelled = false;
-
-        Occupant occupant;
         Coroutine waitCoroutine;
 
         float waitTime = 1f;
 
-        public OccupantWaitingTask(Occupant occupant, float waitTime)
+        public OccupantWaitingTask(Occupant occupant, float waitTime) : base(occupant)
         {
-            this.occupant = occupant;
             this.waitTime = waitTime;
         }
 
-        public void Setup()
+        public override void Setup()
         {
             StartWaitTimer();
         }
 
-        public void Teardown() { }
+        public override void OnTick() { }
 
-        public void OnTick() { }
-
-        public void Cancel()
+        public override void Cancel()
         {
-            isCancelled = true;
+            occupant.StopCoroutine(waitCoroutine);
+
+            base.Cancel();
         }
 
         void StartWaitTimer()
@@ -52,7 +45,7 @@ namespace TowerBuilder
                 }
 
                 waitCoroutine = null;
-                _isComplete = true;
+                isComplete = true;
             }
         }
     }

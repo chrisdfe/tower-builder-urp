@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantWorkingTask : IOccupantTask
+    public class OccupantWorkingTask : OccupantTaskBase
     {
-        public string name
+        public override string name
         {
             get
             {
@@ -17,108 +17,51 @@ namespace TowerBuilder
             }
         }
 
-        bool _isComplete = false;
-        public bool isComplete => _isComplete;
+        public override bool isImmediatelyCancellable => true;
 
-        bool isCancelled = false;
+        public OccupantWorkingTask(Occupant occupant) : base(occupant) { }
 
-        IOccupantTask currentSubTask;
-
-        Occupant occupant;
-
-        public OccupantWorkingTask(Occupant occupant)
-        {
-            this.occupant = occupant;
-        }
-
-        public void OnTick()
-        {
-            currentSubTask.OnTick();
-
-            if (currentSubTask.isComplete)
-            {
-                if (isCancelled)
-                {
-                    _isComplete = true;
-                }
-                else
-                {
-                    TransitionToNextSubTask();
-                }
-            }
-        }
-
-        public void Setup()
-        {
-            TransitionToNextSubTask();
-        }
-
-        public void Teardown()
+        public override void Teardown()
         {
             if (occupant.currentRoom.behavior is OfficeRoomBehavior)
             {
                 (occupant.currentRoom.behavior as OfficeRoomBehavior).workingOccupants.Remove(occupant);
             }
+
+            base.Teardown();
         }
 
-        public void Cancel()
+        protected override OccupantTaskBase GetNextSubTask()
         {
-            isCancelled = true;
-
-            currentSubTask?.Cancel();
-        }
-
-        void TransitionToNextSubTask()
-        {
-            // We somehow ended up here erroneously if the occupant does not have a workplace
+            // We ended up here erroneously if the occupant does not have a workplace
             if (occupant.office == null)
             {
                 Debug.LogError($"{occupant} cannot do working task without a workplace");
                 Cancel();
-                return;
+                return null;
             }
 
-            IOccupantTask nextSubTask;
             if (occupant.currentRoom == occupant.office)
             {
-                // Wander about the office
-                var wanderingTask = new OccupantWanderingTask(occupant);
-                // Give a better sense of activity/busy-ness
-                wanderingTask.minWaitTime = 0.4f;
-                wanderingTask.maxWaitTime = 2f;
-                nextSubTask = wanderingTask;
-
-                // register this occupant as "working" in this office if this room has an office behavior
+                // Register this occupant as "working" in this office if this room has an office behavior
                 if (occupant.currentRoom.behavior is OfficeRoomBehavior)
                 {
                     (occupant.currentRoom.behavior as OfficeRoomBehavior).workingOccupants.Add(occupant);
                 }
-            }
-            else
-            {
-                // travel to place of work
-                var destinationTile = occupant.office.GetRandomTile();
-                var routeFinder = new OccupantRouteFinder(occupant.currentRoom.building, occupant.tile, destinationTile);
-                var route = routeFinder.FindRoute();
 
-                if (route == null)
-                {
-                    // TODO - a notification as well
-                    Debug.LogError($"{occupant} cannot find a route to their workplace");
-                    Cancel();
-                    return;
-                }
+                // Wander about the office
+                var wanderingTask = new OccupantWanderingTask(occupant);
 
-                nextSubTask = new OccupantTravelingToDestinationTask(occupant, route);
+                // Give a better sense of activity/busy-ness
+                wanderingTask.minWaitTime = 0.4f;
+                wanderingTask.maxWaitTime = 2f;
+
+                return wanderingTask;
             }
 
-            if (currentSubTask != null)
-            {
-                currentSubTask.Teardown();
-            }
-
-            currentSubTask = nextSubTask;
-            currentSubTask.Setup();
+            // Travel to place of work
+            var destinationTile = occupant.office.GetRandomTile();
+            return new OccupantTravelingToDestinationTask(occupant, destinationTile);
         }
     }
 }

@@ -2,12 +2,14 @@
 
 ## currently:
 
+- [ ] Refactor IOccupantTask to OccupantTaskBase - there's too much common functionality to be copying/pasting at this point
 - [ ] task priority
+  - [ ] Refactor occupant.currentTask to be the high priority task - when it is null then use the occupant schedule
   - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
-- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] Inspect tool tooltips
   - [ ] Room
   - [ ] Occupant
+- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 
 ## next:
 

@@ -57,9 +57,9 @@ namespace TowerBuilder
                     for (var i = 0; i < guestCount; i++)
                     {
                         var occupant = worldController.buildingsController.CreateOccupantAtBuildingEntrance(hotelRoom.building);
-                        occupant.SetupSchedule(OccupantScheduleType.HotelGuest);
+                        occupant.SetSchedule(OccupantScheduleType.HotelGuest);
                         occupant.SetHotelRoom(hotelRoom);
-                        occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, route));
+                        occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, routeFinder, route));
                         (hotelRoom.behavior as HotelRoomBehavior).AddGuest();
                         hotelGuests.Add(occupant);
                     }

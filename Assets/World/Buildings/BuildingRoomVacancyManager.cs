@@ -53,14 +53,14 @@ namespace TowerBuilder
                 {
                     var occupant = worldController.buildingsController.CreateOccupantAtBuildingEntrance(building);
 
-                    occupant.SetupSchedule(OccupantScheduleType.Resident);
+                    occupant.SetSchedule(OccupantScheduleType.Resident);
 
                     room.residents.Add(occupant);
                     occupant.SetResidence(room);
 
                     // Immediately travel to new home
                     // TODO - set this task to high priority so daily schedule tasks don't cancel it
-                    occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, route));
+                    occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, routeFinder, route));
                     newOccupants.Add(occupant);
                 }
             }

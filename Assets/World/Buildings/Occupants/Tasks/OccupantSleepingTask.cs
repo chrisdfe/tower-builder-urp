@@ -2,37 +2,26 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantSleepingTask : IOccupantTask
+    public class OccupantSleepingTask : OccupantTaskBase
     {
-        public string name => "Sleeping";
+        public override string name => "Sleeping";
 
-        bool _isComplete = false;
-        public bool isComplete => _isComplete;
+        public override bool isImmediatelyCancellable => true;
 
-        Occupant occupant;
+        public OccupantSleepingTask(Occupant occupant) : base(occupant) { }
 
-        public OccupantSleepingTask(Occupant occupant)
+        public override void Setup()
         {
-            this.occupant = occupant;
-        }
-
-        public void OnTick() { }
-
-        public void Setup()
-        {
+            base.Setup();
             occupant.animationWrapper.SetIsLyingDown(true);
             occupant.currentRoom.AddAsleepOccupant(occupant);
         }
 
-        public void Teardown()
+        public override void Teardown()
         {
+            base.Teardown();
             occupant.animationWrapper.SetIsLyingDown(false);
             occupant.currentRoom.RemoveAsleepOccupant(occupant);
-        }
-
-        public void Cancel()
-        {
-            _isComplete = true;
         }
     }
 }

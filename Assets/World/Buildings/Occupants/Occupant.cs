@@ -50,9 +50,8 @@ namespace TowerBuilder
 
         // Schedules/Tasks
         public OccupantScheduleBase schedule { get; private set; }
-        public IOccupantTask currentTask { get; private set; } = new OccupantIdleTask();
-        public Queue<IOccupantTask> taskQueue { get; private set; } = new();
-        OccupantRouteFinder routeFinder;
+        public OccupantTaskBase currentTask { get; private set; }
+        public Queue<OccupantTaskBase> taskQueue { get; private set; } = new();
 
         // GameWorld stuff references
         Transform bod;
@@ -72,9 +71,9 @@ namespace TowerBuilder
         {
             if (isInspected)
             {
-                if (routeFinder != null)
+                if (currentTask != null && currentTask is OccupantTravelingToDestinationTask)
                 {
-                    routeFinder.DebugDrawPaths();
+                    (currentTask as OccupantTravelingToDestinationTask).routeFinder.DebugDrawPaths();
                 }
             }
         }
@@ -87,7 +86,7 @@ namespace TowerBuilder
 
             if (currentTask.isComplete)
             {
-                IOccupantTask nextTask;
+                OccupantTaskBase nextTask;
                 taskQueue.TryDequeue(out nextTask);
 
                 if (nextTask != null)
@@ -96,7 +95,7 @@ namespace TowerBuilder
                 }
                 else
                 {
-                    TransitionToTask(new OccupantIdleTask());
+                    TransitionToTask(null);
                 }
             }
         }
@@ -110,7 +109,7 @@ namespace TowerBuilder
             gameObject.name = title;
         }
 
-        public void SetupSchedule(OccupantScheduleType scheduleType)
+        public void SetSchedule(OccupantScheduleType scheduleType)
         {
             schedule = scheduleType switch
             {
@@ -189,35 +188,21 @@ namespace TowerBuilder
             );
         }
 
-        public void TransitionToTask(IOccupantTask task)
+        public void TransitionToTask(OccupantTaskBase task)
         {
-            if (currentTask != null)
-            {
-                currentTask.Teardown();
-
-                // TODO - routeFinder should be a field on OccupantTravelingToDestinationTask
-                if (currentTask is OccupantTravelingToDestinationTask)
-                {
-                    routeFinder = null;
-                }
-            }
+            currentTask?.Teardown();
 
             currentTask = task;
-            currentTask.Setup();
+
+            currentTask?.Setup();
         }
 
-        public void SendToTile(Building building, Tile destinationTile)
+        public void SendToTile(Tile destinationTile)
         {
-            routeFinder = new OccupantRouteFinder(building, tile, destinationTile);
-            var route = routeFinder.FindRoute();
-
-            if (route != null)
-            {
-                TransitionToTask(new OccupantTravelingToDestinationTask(this, routeFinder.route));
-            }
+            TransitionToTask(new OccupantTravelingToDestinationTask(this, destinationTile));
         }
 
-        public void EnqueueTask(IOccupantTask task)
+        public void EnqueueTask(OccupantTaskBase task)
         {
             taskQueue.Enqueue(task);
         }

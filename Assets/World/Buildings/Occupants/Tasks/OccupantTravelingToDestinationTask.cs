@@ -3,39 +3,59 @@ using UnityEngine;
 
 namespace TowerBuilder
 {
-    public class OccupantTravelingToDestinationTask : IOccupantTask
+    public class OccupantTravelingToDestinationTask : OccupantTaskBase
     {
-        public string name => $"Traveling to tile {route.GetLastNode().tile}";
+        public override string name => description ?? $"Traveling to {lastTile}";
 
-        bool _isComplete = false;
-        public bool isComplete => _isComplete;
-
-        bool isCancelled = false;
-
-        Occupant occupant;
+        public Tile destinationTile { get; private set; }
+        public OccupantRouteFinder routeFinder { get; private set; }
         OccupantRoute route;
+        Tile lastTile;
         int currentIdx = 0;
 
-        // TODO - this doesn't seem great
+        string description;
+
         WorldController worldController;
 
-        public OccupantTravelingToDestinationTask(Occupant occupant, OccupantRoute route)
+        public OccupantTravelingToDestinationTask(Occupant occupant, OccupantRouteFinder routeFinder, OccupantRoute route) : base(occupant)
         {
-            this.occupant = occupant;
+            this.routeFinder = routeFinder;
             this.route = route;
+            // this.description = description;
+        }
+
+        public OccupantTravelingToDestinationTask(Occupant occupant, Tile destinationTile) : base(occupant)
+        {
+            this.destinationTile = destinationTile;
+            lastTile = route.GetLastNode().tile;
 
             worldController = WorldController.Get();
         }
 
-        public void Setup() { }
+        public OccupantTravelingToDestinationTask(Occupant occupant, Tile destinationTile, string description) : this(occupant, destinationTile)
+        {
+            this.description = description;
+        }
 
-        public void Teardown() { }
+        public override void Setup()
+        {
+            routeFinder = new OccupantRouteFinder(occupant.currentRoom.building, occupant.tile, destinationTile);
+            route = routeFinder.FindRoute();
 
-        public void OnTick()
+            if (route == null)
+            {
+                // TODO - a notification as well
+                Debug.LogError($"{occupant} cannot find a route out of the building");
+                Cancel();
+                return;
+            }
+        }
+
+        public override void OnTick()
         {
             if (isCancelled)
             {
-                _isComplete = true;
+                isComplete = true;
             }
             else
             {
@@ -44,7 +64,7 @@ namespace TowerBuilder
 
                 occupant.SetTile(currentNode.tile);
 
-                // manage room transitions
+                // Manage room transitions
                 var previousRoom = occupant.currentRoom;
                 var newRoom = worldController.buildingsController.FindRoomAtTile(currentNode.tile);
 
@@ -61,12 +81,11 @@ namespace TowerBuilder
                 // animation
                 occupant.animationWrapper.ResetPosition();
 
-
-                // set random subtile offset too?
+                // TODO set random subtile offset too
 
                 if (GetNextIdx() == -1)
                 {
-                    _isComplete = true;
+                    isComplete = true;
                 }
                 else
                 {
@@ -82,11 +101,6 @@ namespace TowerBuilder
             var nextNode = GetNextNode();
 
             occupant.animationWrapper.StartAnimatingTransitionBetweenTiles(startNode.tile, nextNode.tile);
-        }
-
-        public void Cancel()
-        {
-            isCancelled = true;
         }
 
         OccupantRouteNode GetCurrentNode() => route.path[currentIdx];
