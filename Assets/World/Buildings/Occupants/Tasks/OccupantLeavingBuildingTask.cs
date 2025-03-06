@@ -26,8 +26,9 @@ namespace TowerBuilder
             var entrance = occupant.currentRoom.building.GetEntrance();
             Assert.IsNotNull(entrance);
             var destinationTile = entrance.GetRandomTile();
+            var description = "Traveling to building exit";
 
-            currentSubTask = new OccupantTravelingToDestinationTask(occupant, destinationTile, "building exit");
+            currentSubTask = new OccupantTravelingToDestinationTask(occupant, destinationTile, description);
         }
     }
 }

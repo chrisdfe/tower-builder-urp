@@ -59,8 +59,8 @@ namespace TowerBuilder
                     occupant.SetResidence(room);
 
                     // Immediately travel to new home
-                    // TODO - set this task to high priority so daily schedule tasks don't cancel it
-                    occupant.TransitionToTask(new OccupantTravelingToDestinationTask(occupant, routeFinder, route));
+                    occupant.StartImmediateTask(new OccupantTravelingToDestinationTask(occupant, routeFinder, route));
+
                     newOccupants.Add(occupant);
                 }
             }

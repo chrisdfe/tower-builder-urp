@@ -1,13 +1,21 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TowerBuilder
 {
     public abstract class OccupantTaskBase
     {
+        public enum Priority
+        {
+            High,
+            Normal
+        }
+
         public virtual string name { get; }
 
         public bool isComplete { get; protected set; } = false;
         public bool isCancelled { get; protected set; } = false;
+        public Priority priority { get; set; } = Priority.Normal;
 
         public virtual bool isImmediatelyCancellable => false;
 
@@ -32,17 +40,20 @@ namespace TowerBuilder
 
         public virtual void OnTick()
         {
-            currentSubTask.OnTick();
-
-            if (currentSubTask.isComplete)
+            if (currentSubTask != null)
             {
-                if (isCancelled)
+                currentSubTask.OnTick();
+
+                if (currentSubTask.isComplete)
                 {
-                    isComplete = true;
-                }
-                else
-                {
-                    TransitionToNextSubTask();
+                    if (isCancelled)
+                    {
+                        isComplete = true;
+                    }
+                    else
+                    {
+                        TransitionToNextSubTask();
+                    }
                 }
             }
         }
@@ -69,6 +80,7 @@ namespace TowerBuilder
             }
         }
 
+        // TODO - this doesn't make sense for tasks without subtasks
         protected virtual void TransitionToNextSubTask()
         {
             currentSubTask?.Teardown();

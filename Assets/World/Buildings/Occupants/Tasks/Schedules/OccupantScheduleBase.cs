@@ -4,6 +4,8 @@ namespace TowerBuilder
     {
         protected Occupant occupant;
 
+        public OccupantTaskBase currentTask { get; protected set; }
+
         public OccupantScheduleBase(Occupant occupant)
         {
             this.occupant = occupant;

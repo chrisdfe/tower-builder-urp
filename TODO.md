@@ -13,6 +13,10 @@
 
 ## next:
 
+- [ ] BUG: sky doesn't move on game start
+- [ ] put building perimeter tile in a container
+- [ ] make building perimeter tile darker
+- [ ] semi-transparent window material
 - [ ] stairs room should be 1 high
 - [ ] Hotel guest schedule
   - [ ] wandering around room

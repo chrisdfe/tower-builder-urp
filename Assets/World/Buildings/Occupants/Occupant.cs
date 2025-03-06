@@ -50,8 +50,8 @@ namespace TowerBuilder
 
         // Schedules/Tasks
         public OccupantScheduleBase schedule { get; private set; }
-        public OccupantTaskBase currentTask { get; private set; }
-        public Queue<OccupantTaskBase> taskQueue { get; private set; } = new();
+        public OccupantTaskBase immediateTask { get; private set; }
+        // public Queue<OccupantTaskBase> taskQueue { get; private set; } = new();
 
         // GameWorld stuff references
         Transform bod;
@@ -71,33 +71,26 @@ namespace TowerBuilder
         {
             if (isInspected)
             {
-                if (currentTask != null && currentTask is OccupantTravelingToDestinationTask)
+                if (immediateTask != null && immediateTask is OccupantTravelingToDestinationTask)
                 {
-                    (currentTask as OccupantTravelingToDestinationTask).routeFinder.DebugDrawPaths();
+                    (immediateTask as OccupantTravelingToDestinationTask).routeFinder.DebugDrawPaths();
                 }
             }
         }
 
         public void OnTick()
         {
-            schedule.OnTick();
-
-            currentTask.OnTick();
-
-            if (currentTask.isComplete)
+            if (immediateTask != null)
             {
-                OccupantTaskBase nextTask;
-                taskQueue.TryDequeue(out nextTask);
+                immediateTask.OnTick();
 
-                if (nextTask != null)
+                if (immediateTask.isComplete)
                 {
-                    TransitionToTask(nextTask);
-                }
-                else
-                {
-                    TransitionToTask(null);
+                    immediateTask = null;
                 }
             }
+
+            schedule.OnTick();
         }
 
         //
@@ -188,28 +181,23 @@ namespace TowerBuilder
             );
         }
 
-        public void TransitionToTask(OccupantTaskBase task)
+        public void StartImmediateTask(OccupantTaskBase task)
         {
-            currentTask?.Teardown();
+            immediateTask?.Teardown();
 
-            currentTask = task;
+            immediateTask = task;
 
-            currentTask?.Setup();
+            immediateTask?.Setup();
         }
 
         public void SendToTile(Tile destinationTile)
         {
-            TransitionToTask(new OccupantTravelingToDestinationTask(this, destinationTile));
+            StartImmediateTask(new OccupantTravelingToDestinationTask(this, destinationTile));
         }
 
-        public void EnqueueTask(OccupantTaskBase task)
+        public void CancelImmediateTask()
         {
-            taskQueue.Enqueue(task);
-        }
-
-        public void CancelCurrentTask()
-        {
-            currentTask.Cancel();
+            immediateTask?.Cancel();
         }
 
         //

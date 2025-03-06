@@ -31,11 +31,21 @@ namespace TowerBuilder
         {
             var time = worldController.timeController.timeValue;
 
-            var activity = GetActivityForTime(time);
-
-            if (activity != currentActivity)
+            if (occupant.immediateTask == null)
             {
-                TransitionToNewActivity(activity);
+                currentTask?.OnTick();
+
+                if (currentTask != null && currentTask.isComplete)
+                {
+                    currentTask.Teardown();
+                    currentTask = null;
+                }
+
+                var activity = GetActivityForTime(time);
+                if (currentTask == null || currentActivity != activity)
+                {
+                    TransitionToNewActivity(activity);
+                }
             }
 
             // Refresh schedule every day at midnight
@@ -124,32 +134,27 @@ namespace TowerBuilder
 
         void TransitionToNewActivity(Activity activity)
         {
-            occupant.CancelCurrentTask();
+            if (occupant.immediateTask != null) return;
 
-            OccupantTaskBase nextTask;
+            currentTask?.Teardown();
 
-            switch (activity)
+            OccupantTaskBase nextTask = activity switch
             {
-                case Activity.BeingAtHome:
-                    nextTask = new OccupantBeingAtHomeTask(occupant);
-                    break;
-                case Activity.Sleeping:
-                    nextTask = new OccupantSleepingTask(occupant);
-                    break;
-                case Activity.Working:
-                    nextTask = new OccupantWorkingTask(occupant);
-                    break;
-                case Activity.Recreation:
-                    nextTask = new OccupantRecreationTask(occupant);
-                    break;
-                default:
-                    nextTask = new OccupantIdleTask(occupant);
-                    break;
-            }
-
-            occupant.EnqueueTask(nextTask);
+                Activity.BeingAtHome
+                   => new OccupantBeingAtHomeTask(occupant),
+                Activity.Sleeping
+               => new OccupantSleepingTask(occupant),
+                Activity.Working
+                   => new OccupantWorkingTask(occupant),
+                Activity.Recreation
+                   => new OccupantRecreationTask(occupant),
+                _ =>
+                    new OccupantIdleTask(occupant),
+            };
 
             currentActivity = activity;
+            currentTask = nextTask;
+            currentTask.Setup();
         }
     }
 }

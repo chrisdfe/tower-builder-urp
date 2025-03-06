@@ -37,7 +37,7 @@ namespace TowerBuilder
 
             // Travel home
             var destinationTile = occupant.residence.GetRandomTile();
-            return new OccupantTravelingToDestinationTask(occupant, destinationTile, "their home");
+            return new OccupantTravelingToDestinationTask(occupant, destinationTile, "Traveling to their home");
         }
     }
 }

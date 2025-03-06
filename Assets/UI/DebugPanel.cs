@@ -53,7 +53,21 @@ public class DebugPanel : MonoBehaviour
             {
                 var occupantInspectTarget = inspectTarget as Occupant;
                 allText.text += "\nInspected occupant: " + occupantInspectTarget.title;
-                allText.text += $"\nCurrent task: {occupantInspectTarget.currentTask.name}";
+
+                string taskText;
+                if (occupantInspectTarget.immediateTask != null)
+                {
+                    taskText = occupantInspectTarget.immediateTask.ToString();
+                }
+                else if (occupantInspectTarget.schedule.currentTask != null)
+                {
+                    taskText = occupantInspectTarget.schedule.currentTask.ToString();
+                }
+                else
+                {
+                    taskText = "nothing";
+                }
+                allText.text += $"\nCurrent task: {taskText}";
             }
             else if (inspectTarget is Room)
             {

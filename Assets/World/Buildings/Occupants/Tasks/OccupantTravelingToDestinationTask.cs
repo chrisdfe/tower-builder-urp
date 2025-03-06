@@ -21,24 +21,16 @@ namespace TowerBuilder
         {
             this.routeFinder = routeFinder;
             this.route = route;
-            // this.description = description;
+
+            worldController = WorldController.Get();
         }
 
         public OccupantTravelingToDestinationTask(Occupant occupant, Tile destinationTile) : base(occupant)
         {
             this.destinationTile = destinationTile;
-            lastTile = route.GetLastNode().tile;
 
             worldController = WorldController.Get();
-        }
 
-        public OccupantTravelingToDestinationTask(Occupant occupant, Tile destinationTile, string description) : this(occupant, destinationTile)
-        {
-            this.description = description;
-        }
-
-        public override void Setup()
-        {
             routeFinder = new OccupantRouteFinder(occupant.currentRoom.building, occupant.tile, destinationTile);
             route = routeFinder.FindRoute();
 
@@ -49,7 +41,19 @@ namespace TowerBuilder
                 Cancel();
                 return;
             }
+
+            lastTile = route.GetLastNode().tile;
         }
+
+        public OccupantTravelingToDestinationTask(Occupant occupant, Tile destinationTile, string description) : this(occupant, destinationTile)
+        {
+            this.description = description;
+        }
+
+        // public override void Setup()
+        // {
+
+        // }
 
         public override void OnTick()
         {
@@ -93,6 +97,11 @@ namespace TowerBuilder
                     currentIdx++;
                 }
             }
+        }
+
+        protected override void TransitionToNextSubTask()
+        {
+            // TODO - rework things so I don't need to do this
         }
 
         void StartAnimatingTransitionBetweenTiles()
