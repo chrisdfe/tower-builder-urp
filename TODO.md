@@ -1,27 +1,35 @@
 # TODO
 
-## currently:
+## Currently:
 
-- [ ] Refactor IOccupantTask to OccupantTaskBase - there's too much common functionality to be copying/pasting at this point
-- [ ] task priority
-  - [ ] Refactor occupant.currentTask to be the high priority task - when it is null then use the occupant schedule
-  - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
 - [ ] Inspect tool tooltips
   - [ ] Room
+  - [ ] occupied/capacity - i.e 10/15 workers, 4/10 currently working
+    - [ ] UI element that shows each Occupant lined up and you a
   - [ ] Occupant
+    - [ ] the room they live in
+    - [ ] the hotel room they're staying in
+    - [ ] the office they work in
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
+- [ ] refactor OccupantTaskBase to have another subclass - OccupantTaskWithSubtasks
 
-## next:
+## Next:
 
+- [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes
 - [ ] BUG: sky doesn't move on game start
+- [ ] stairs room should be 1 high
+- [ ] semi-transparent window material
+- [ ] restaurants
+- [ ] expenses
+  - [ ] common area upkeep
+  - [ ] restaurant upkeep
+- [ ] profit from condo purchase
+- [ ] schedules should handle a current task being cancelled with a default task
+  - e.g the recreation task, when there is no recreation room
+- [ ] occupants leaving the building for certain tasks (e.g working in a building with no offices, eating lunch in building with no )
+- [ ] hotel guests that stay multiple days
 - [ ] put building perimeter tile in a container
 - [ ] make building perimeter tile darker
-- [ ] semi-transparent window material
-- [ ] stairs room should be 1 high
-- [ ] Hotel guest schedule
-  - [ ] wandering around room
-  - [ ] recreation
-  - [ ] sleeping
 - [ ] ART: regular sky w/ clouds
 - [ ] UI: analog clock to display current time
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
@@ -121,6 +129,14 @@
 
 # Done
 
+- [x] Hotel guest schedule
+  - [x] wandering around room
+  - [x] recreation
+  - [x] sleeping
+- [x] Refactor IOccupantTask to OccupantTaskBase - there's too much common functionality to be copying/pasting at this point
+- [x] task priority
+  - [x] Refactor occupant.currentTask to be the high priority task - when it is null then use the occupant schedule
+  - will fix this BUG: currently when residents are moved in, if it is at night, then they fall asleep in the entrance
 - [x] "hotel stayers"
   - [x] create room for this ("hotel room" or "overnight cabin" or something)
   - [x] periodically travelers arrive, stay, and then get off

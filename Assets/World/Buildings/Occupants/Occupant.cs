@@ -185,6 +185,11 @@ namespace TowerBuilder
         {
             immediateTask?.Teardown();
 
+            if (schedule.currentTask != null)
+            {
+                schedule.currentTask.Teardown();
+            }
+
             immediateTask = task;
 
             immediateTask?.Setup();

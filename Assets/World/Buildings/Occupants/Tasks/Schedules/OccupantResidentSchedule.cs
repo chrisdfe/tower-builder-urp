@@ -5,60 +5,15 @@ namespace TowerBuilder
 {
     public class OccupantResidentSchedule : OccupantScheduleBase
     {
-        public enum Activity
-        {
-            Nothing,
-            Sleeping,
-            Working,
-            BeingAtHome,
-            Recreation
-        }
-
-        WorldController worldController;
-
-        public Activity currentActivity { get; private set; } = Activity.Nothing;
-
-        protected List<(Activity, DayTimeValue)> scheduleTimes;
-        int lastDayScheduleWasGenerated;
-
         public OccupantResidentSchedule(Occupant occupant) : base(occupant)
         {
             worldController = WorldController.Get();
+            currentActivity = Activity.Nothing;
             Regenerate();
         }
 
-        public override void OnTick()
+        protected override void RegenerateSchedule()
         {
-            var time = worldController.timeController.timeValue;
-
-            if (occupant.immediateTask == null)
-            {
-                currentTask?.OnTick();
-
-                if (currentTask != null && currentTask.isComplete)
-                {
-                    currentTask.Teardown();
-                    currentTask = null;
-                }
-
-                var activity = GetActivityForTime(time);
-                if (currentTask == null || currentActivity != activity)
-                {
-                    TransitionToNewActivity(activity);
-                }
-            }
-
-            // Refresh schedule every day at midnight
-            if (time.day > lastDayScheduleWasGenerated)
-            {
-                Regenerate();
-            }
-        }
-
-        public override void Regenerate()
-        {
-            var timeValue = worldController.timeController.timeValue;
-
             scheduleTimes = new()
             {
                 // sleeping
@@ -107,54 +62,6 @@ namespace TowerBuilder
                 Activity.Sleeping,
                 new DayTimeValue(21, 30)
             ));
-
-            lastDayScheduleWasGenerated = timeValue.day;
-        }
-
-        //
-        // Private interface
-        //
-        Activity GetActivityForTime(TimeValue currentTime)
-        {
-            var dayTimeAsMinutes = currentTime.ToDayTimeValue().AsMinutes();
-
-            // Note - iterating in reverse
-            for (var i = scheduleTimes.Count - 1; i >= 0; i--)
-            {
-                var (activity, timeForActivity) = scheduleTimes[i];
-
-                if (timeForActivity.AsMinutes() <= dayTimeAsMinutes)
-                {
-                    return activity;
-                }
-            }
-
-            return Activity.Nothing;
-        }
-
-        void TransitionToNewActivity(Activity activity)
-        {
-            if (occupant.immediateTask != null) return;
-
-            currentTask?.Teardown();
-
-            OccupantTaskBase nextTask = activity switch
-            {
-                Activity.BeingAtHome
-                   => new OccupantBeingAtHomeTask(occupant),
-                Activity.Sleeping
-               => new OccupantSleepingTask(occupant),
-                Activity.Working
-                   => new OccupantWorkingTask(occupant),
-                Activity.Recreation
-                   => new OccupantRecreationTask(occupant),
-                _ =>
-                    new OccupantIdleTask(occupant),
-            };
-
-            currentActivity = activity;
-            currentTask = nextTask;
-            currentTask.Setup();
         }
     }
 }

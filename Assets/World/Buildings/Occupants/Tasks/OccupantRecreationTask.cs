@@ -28,8 +28,8 @@ namespace TowerBuilder
 
             if (room == null)
             {
-                // Nowhere to hang out - just go home instead
-                return new OccupantBeingAtHomeTask(occupant);
+                // Nowhere to hang out 
+                return null;
             }
 
             currentRecreationRoom = room;
