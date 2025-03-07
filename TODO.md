@@ -29,7 +29,6 @@
 - [ ] occupants leaving the building for certain tasks (e.g working in a building with no offices, eating lunch in building with no )
 - [ ] hotel guests that stay multiple days
 - [ ] put building perimeter tile in a container
-- [ ] make building perimeter tile darker
 - [ ] ART: regular sky w/ clouds
 - [ ] UI: analog clock to display current time
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
@@ -129,6 +128,7 @@
 
 # Done
 
+- [x] make building perimeter tile darker
 - [x] Hotel guest schedule
   - [x] wandering around room
   - [x] recreation
