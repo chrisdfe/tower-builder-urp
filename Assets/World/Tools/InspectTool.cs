@@ -38,6 +38,8 @@ namespace TowerBuilder
             hoveredInspectTarget?.SetInspectionHoveredState(false);
             inspectTarget?.SetInspectedState(false);
 
+            OccupantInspectTooltip.SetOccupant(null);
+
             SetInspectTarget(null);
         }
 
@@ -57,6 +59,7 @@ namespace TowerBuilder
 
         public void OnRightMouseUp()
         {
+            // TODO - remove
             if (inspectTarget != null && inspectTarget is Occupant)
             {
                 var tile = worldController.hoveredTile.current;
@@ -76,10 +79,7 @@ namespace TowerBuilder
         public void SetHoveredInspectTarget(IInspectTarget hoveredInspectTarget)
         {
             // Don't do anything if this is alredy the current inspect hover target
-            if (this.hoveredInspectTarget == hoveredInspectTarget)
-            {
-                return;
-            }
+            if (this.hoveredInspectTarget == hoveredInspectTarget) return;
 
             // teardown current hovered inspect target
             if (this.hoveredInspectTarget != null)
@@ -101,6 +101,11 @@ namespace TowerBuilder
             if (this.inspectTarget != null)
             {
                 this.inspectTarget.SetInspectedState(false);
+
+                if (this.inspectTarget is Occupant)
+                {
+                    OccupantInspectTooltip.SetOccupant(null);
+                }
             }
 
             // setup new inspect target
@@ -110,6 +115,11 @@ namespace TowerBuilder
             {
                 inspectTarget.SetInspectionHoveredState(false);
                 inspectTarget.SetInspectedState(true);
+
+                if (inspectTarget is Occupant)
+                {
+                    OccupantInspectTooltip.SetOccupant(inspectTarget as Occupant);
+                }
             }
 
             onInspectTargetUpdated?.Invoke();

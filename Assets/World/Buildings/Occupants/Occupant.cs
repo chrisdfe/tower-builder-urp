@@ -181,6 +181,16 @@ namespace TowerBuilder
             );
         }
 
+        public Vector2 GetScreenPosition()
+        {
+            var animationWrapperPosition = Camera.main.WorldToScreenPoint(animationWrapper.transform.position);
+
+            return new Vector2(
+                animationWrapperPosition.x,
+                animationWrapperPosition.y
+            );
+        }
+
         public void StartImmediateTask(OccupantTaskBase task)
         {
             immediateTask?.Teardown();
