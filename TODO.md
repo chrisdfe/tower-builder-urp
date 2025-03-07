@@ -2,26 +2,24 @@
 
 ## Currently:
 
-- [ ] Inspect tool tooltips
-  - [ ] Room
-  - [ ] occupied/capacity - i.e 10/15 workers, 4/10 currently working
-    - [ ] UI element that shows each Occupant lined up and you a
-  - [x] Occupant
-    - [x] the room they live in
-    - [x] the hotel room they're staying in
-    - [x] the office they work in
-    - [ ] don't show office stuff for hotel guests and vice versa (just set gameobject active to collapse)
-- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
-
-## Next:
-
-- [ ] reuse stars for nighttime sky
-- [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes with hotel guests (at least)
-- [ ] BUG: room definition tool tip doesn't go away when switching away from build tool
-- [ ] BUG: sky doesn't move on game start
 - [ ] stairs room should be 1 high
 - [ ] semi-transparent window material
 - [ ] restaurants
+- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
+- [ ] ART: regular sky w/ clouds
+- [ ] reuse stars for nighttime sky
+
+## Next:
+
+- [ ] Occupant inspect tooltip: don't show office stuff for hotel guests and vice versa (just set gameobject active to collapse)
+- [ ] Room inspect tooltip UI element that shows each Occupant lined up and you a
+- [ ] when inspecting a room zoom into the appropriate amount for room to fit
+- [ ] figure out the best way of positioning room tooltip
+  - maybe both occupant and room tooltips should render underneath the thing
+- [ ] animate show/hide inspect tooltips
+- [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes with hotel guests (at least)
+- [ ] BUG: room definition tool tip doesn't go away when switching away from build tool
+- [ ] BUG: sky doesn't move on game start
 - [ ] expenses
   - [ ] common area upkeep
   - [ ] restaurant upkeep
@@ -33,7 +31,6 @@
 - [ ] refactor OccupantTaskBase to have another subclass - OccupantTaskWithSubtasks
 - [ ] hotel guests that stay multiple days
 - [ ] put building perimeter tile in a container
-- [ ] ART: regular sky w/ clouds
 - [ ] UI: analog clock to display current time
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
 - [ ] Experiment with adding fake lighting in rooms
@@ -132,6 +129,13 @@
 
 # Done
 
+- [x] Inspect tool tooltips
+  - [x] Room
+    - [x] occupied/capacity - i.e 10/15 workers, 4/10 currently working
+  - [x] Occupant
+    - [x] the room they live in
+    - [x] the hotel room they're staying in
+    - [x] the office they work in
 - [x] BUG: room definition tooltip doesn't stick to bottom left when maximized
 - [x] make building perimeter tile darker
 - [x] Hotel guest schedule

@@ -20,6 +20,9 @@ namespace TowerBuilder
         // Occupants that work in this room
         public List<Occupant> workers { get; private set; } = new();
 
+        // Occupants that are staying in this room as a hotel guest
+        public List<Occupant> hotelGuests { get; private set; } = new();
+
         // Occupants currently in this room
         public HashSet<Occupant> currentOccupants { get; private set; } = new();
 
@@ -295,6 +298,12 @@ namespace TowerBuilder
             var resultTile = new Tile(x, y);
             var resultVector3 = resultTile.ToWorldPosition();
             return new Vector2(resultVector3.x, resultVector3.y);
+        }
+
+        public Vector2 GetScreenPosition()
+        {
+            var centerPoint = GetCenterPoint();
+            return Camera.main.WorldToScreenPoint(new Vector3(centerPoint.x, centerPoint.y, 0));
         }
 
         public List<Tile> GetAdjacentTiles()

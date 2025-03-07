@@ -39,6 +39,7 @@ namespace TowerBuilder
             inspectTarget?.SetInspectedState(false);
 
             OccupantInspectTooltip.SetOccupant(null);
+            RoomInspectTooltip.SetRoom(null);
 
             SetInspectTarget(null);
         }
@@ -106,6 +107,10 @@ namespace TowerBuilder
                 {
                     OccupantInspectTooltip.SetOccupant(null);
                 }
+                else if (this.inspectTarget is Room)
+                {
+                    RoomInspectTooltip.SetRoom(null);
+                }
             }
 
             // setup new inspect target
@@ -118,7 +123,13 @@ namespace TowerBuilder
 
                 if (inspectTarget is Occupant)
                 {
+                    RoomInspectTooltip.SetRoom(null);
                     OccupantInspectTooltip.SetOccupant(inspectTarget as Occupant);
+                }
+                else if (inspectTarget is Room)
+                {
+                    RoomInspectTooltip.SetRoom(inspectTarget as Room);
+                    OccupantInspectTooltip.SetOccupant(null);
                 }
             }
 

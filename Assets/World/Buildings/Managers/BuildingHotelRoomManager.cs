@@ -59,6 +59,7 @@ namespace TowerBuilder
                         var occupant = worldController.buildingsController.CreateOccupantAtBuildingEntrance(hotelRoom.building);
                         occupant.SetSchedule(OccupantScheduleType.HotelGuest);
                         occupant.SetHotelRoom(hotelRoom);
+                        hotelRoom.hotelGuests.Add(occupant);
                         occupant.StartImmediateTask(new OccupantTravelingToDestinationTask(occupant, routeFinder, route));
                         (hotelRoom.behavior as HotelRoomBehavior).AddGuest();
                         hotelGuests.Add(occupant);
@@ -72,6 +73,7 @@ namespace TowerBuilder
                 // TODO - this will check all hotel guests out at once
                 foreach (var hotelGuest in hotelGuests)
                 {
+                    hotelGuest.hotelRoom.hotelGuests.Remove(hotelGuest);
                     hotelGuest.StartImmediateTask(new OccupantLeavingBuildingTask(hotelGuest));
                 }
 
