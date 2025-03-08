@@ -2,6 +2,7 @@
 
 ## Currently:
 
+- [ ] hotelRoom behavior guestCount is getting incremented way too much (e.g 37 instead of 2)
 - [ ] semi-transparent window material
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds

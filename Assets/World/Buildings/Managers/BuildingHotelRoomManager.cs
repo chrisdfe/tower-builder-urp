@@ -60,6 +60,8 @@ namespace TowerBuilder
                         occupant.SetSchedule(OccupantScheduleType.HotelGuest);
                         occupant.SetHotelRoom(hotelRoom);
                         hotelRoom.hotelGuests.Add(occupant);
+
+                        // Go straight to hotel room
                         occupant.StartImmediateTask(new OccupantTravelingToDestinationTask(occupant, routeFinder, route));
                         (hotelRoom.behavior as HotelRoomBehavior).AddGuest();
                         hotelGuests.Add(occupant);
@@ -81,10 +83,17 @@ namespace TowerBuilder
             }
             else if (currentDayTime.Matches(HotelRoomBehavior.cashoutTime))
             {
+                Debug.Log("calculating total profit");
+                Debug.Log("hotel room count: " + hotelRooms.Count);
                 var totalProfit = hotelRooms.Aggregate(0, (acc, hotelRoom) =>
                 {
                     var behavior = hotelRoom.behavior as HotelRoomBehavior;
+
                     var roomTotalProfit = behavior.GetTotalProfit();
+
+                    Debug.Log("price: " + behavior.price);
+                    Debug.Log("guestCount: " + behavior.guestCount);
+                    Debug.Log("roomTotalProfit: " + roomTotalProfit);
 
                     // reset room here to avoid a second loop
                     behavior.ResetGuests();
