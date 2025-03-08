@@ -14,11 +14,7 @@ namespace TowerBuilder
             new() {
                 title = "Lobby",
                 price = 5000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                    new(2, 0),
-                },
+                shape = TileList.CreateBox(3, 1),
                 type = RoomType.CommonArea,
                 groupCategory = RoomGroupCategory.CommonArea,
             },
@@ -27,9 +23,7 @@ namespace TowerBuilder
                 title = "Entrance/Exit",
                 price = 4000,
                 isEntrance = true,
-                shape = new() {
-                    new(0, 0),
-                },
+                shape = TileList.CreateBox(1, 1),
                 type = RoomType.CommonArea,
                 groupCategory = RoomGroupCategory.CommonArea,
                 // TODO - only one allowed per building
@@ -39,13 +33,7 @@ namespace TowerBuilder
                 //
                 title = "Condo",
                 price = 100_000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                    new(2, 0),
-                    new(3, 0),
-                    new(4, 0),
-                },
+                shape = TileList.CreateBox(5, 1),
                 type = RoomType.Residential,
                 capacity = 3,
             },
@@ -53,12 +41,7 @@ namespace TowerBuilder
             new() {
                 title = "Pod",
                 price = 50_000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                    new(0, 1),
-                    new(1, 1),
-                },
+                shape = TileList.CreateBox(2, 2),
                 type = RoomType.Residential,
                 capacity = 3,
             },
@@ -66,12 +49,7 @@ namespace TowerBuilder
             new() {
                 title = "Office",
                 price = 75_000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                    new(2, 0),
-                    new(3, 0),
-                },
+                shape = TileList.CreateBox(5, 1),
                 type = RoomType.Office,
                 capacity = 12,
 
@@ -81,13 +59,7 @@ namespace TowerBuilder
             new() {
                 title = "Recreation room",
                 price = 50_000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                    new(2, 0),
-                    new(3, 0),
-                    new(4, 0),
-                },
+                shape = TileList.CreateBox(5, 1),
                 type = RoomType.Recreation,
                 capacity = 12,
             },
@@ -95,12 +67,7 @@ namespace TowerBuilder
             new() {
                 title = "Stairs",
                 price = 20_000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                    new(0, 1),
-                    new(1, 1),
-                },
+                shape = TileList.CreateBox(2, 1),
                 type = RoomType.TransportationItem,
                 // TODO - this will ultimately be part of the 'CommonArea' category
                 //        right now the routefinding algorithm can't deal with non-rectangular rooms though
@@ -111,10 +78,7 @@ namespace TowerBuilder
                 title = "Cabin",
                 description = "Visitors can stay overnight here (for a price)",
                 price = 70_000,
-                shape = new() {
-                    new(0, 0),
-                    new(1, 0),
-                },
+                shape = TileList.CreateBox(3, 1),
                 capacity = 2,
                 type = RoomType.Hotel,
                 behaviorFactory = (Room room) => new HotelRoomBehavior(room),

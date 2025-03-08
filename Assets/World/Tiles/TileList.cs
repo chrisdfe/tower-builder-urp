@@ -51,5 +51,22 @@ namespace TowerBuilder
                 (highestY - lowestY) / 2f
             );
         }
+
+        public static List<Tile> CreateBox(Tile startTile, int width, int height)
+        {
+            var result = new List<Tile>();
+
+            for (var x = startTile.x; x < startTile.x + width; x++)
+            {
+                for (var y = startTile.y; y < startTile.y + height; y++)
+                {
+                    result.Add(new Tile(x, y));
+                }
+            }
+
+            return result;
+        }
+
+        public static List<Tile> CreateBox(int width, int height) => CreateBox(Tile.zero, width, height);
     }
 }

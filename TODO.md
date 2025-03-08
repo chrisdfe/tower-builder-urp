@@ -2,15 +2,19 @@
 
 ## Currently:
 
-- [ ] stairs room should be 1 high
-- [ ] semi-transparent window material
 - [ ] restaurants
+- [ ] semi-transparent window material
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
 - [ ] reuse stars for nighttime sky
 
 ## Next:
 
+- [ ] inspect tooltips animate in and out
+- [ ] SelectionBox
+  - [ ] drag to build "resizable" rooms
+- [ ] function for getting screen width/height of a TileList
+  - [ ] use this for figuring out how far to zoom in/out when inspecting room
 - [ ] Occupant inspect tooltip: don't show office stuff for hotel guests and vice versa (just set gameobject active to collapse)
 - [ ] Room inspect tooltip UI element that shows each Occupant lined up and you a
 - [ ] when inspecting a room zoom into the appropriate amount for room to fit
@@ -129,6 +133,7 @@
 
 # Done
 
+- [x] stairs room should be 1 high
 - [x] Inspect tool tooltips
   - [x] Room
     - [x] occupied/capacity - i.e 10/15 workers, 4/10 currently working
