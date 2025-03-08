@@ -13,6 +13,10 @@ namespace TowerBuilder
             skyMaterial = transform.gameObject.GetComponent<MeshRenderer>().material;
 
             worldController = WorldController.Get();
+        }
+
+        void Start()
+        {
             SetSkySpeedForCurrentTimeSpeed();
         }
 

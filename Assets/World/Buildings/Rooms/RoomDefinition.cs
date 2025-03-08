@@ -36,11 +36,7 @@ namespace TowerBuilder
             {
                 CommonArea => "Common Area",
                 TransportationItem => "Transportation Item",
-                Residential => "Residential",
-                Office => "Office",
-                Recreation => "Recreation",
-                Hotel => "Hotel",
-                _ => throw new System.Exception($"Can't get name for roomType: {roomType}"),
+                _ => roomType.ToString(),
             };
     }
 }

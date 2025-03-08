@@ -8,5 +8,6 @@ namespace TowerBuilder
         Office,
         Recreation,
         Hotel,
+        Restaurant,
     }
 }

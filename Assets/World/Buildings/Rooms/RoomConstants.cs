@@ -59,7 +59,7 @@ namespace TowerBuilder
             new() {
                 title = "Recreation room",
                 price = 50_000,
-                shape = TileList.CreateBox(5, 1),
+                shape = TileList.CreateBox(8, 1),
                 type = RoomType.Recreation,
                 capacity = 12,
             },
@@ -82,6 +82,15 @@ namespace TowerBuilder
                 capacity = 2,
                 type = RoomType.Hotel,
                 behaviorFactory = (Room room) => new HotelRoomBehavior(room),
+            },
+
+            new() {
+                title = "Restaurant",
+                description = "Occupants will eat lunch and dinner here",
+                price = 90_000,
+                shape = TileList.CreateBox(8, 1),
+                capacity = 20,
+                type = RoomType.Restaurant,
             }
         };
     }

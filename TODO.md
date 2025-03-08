@@ -6,7 +6,7 @@
 - [ ] semi-transparent window material
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
-- [ ] reuse stars for nighttime sky
+  - [ ] reuse stars for nighttime sky
 
 ## Next:
 
@@ -22,8 +22,6 @@
   - maybe both occupant and room tooltips should render underneath the thing
 - [ ] animate show/hide inspect tooltips
 - [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes with hotel guests (at least)
-- [ ] BUG: room definition tool tip doesn't go away when switching away from build tool
-- [ ] BUG: sky doesn't move on game start
 - [ ] expenses
   - [ ] common area upkeep
   - [ ] restaurant upkeep
@@ -133,6 +131,9 @@
 
 # Done
 
+- [x] BUG: sky doesn't move on game start
+- [x] BUG: room definition tool tip doesn't go away when switching away from build tool
+- [x] helper to create rectangle of tiles
 - [x] stairs room should be 1 high
 - [x] Inspect tool tooltips
   - [x] Room

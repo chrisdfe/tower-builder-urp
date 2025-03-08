@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -112,6 +113,12 @@ namespace TowerBuilder
             HighlightToolButton(worldController.toolsController.toolHandle.current);
             ClearToolOptionsButtons();
             CreateToolOptionButtonsForCurrentTool();
+
+            // Some one-off setup/teardown things for now
+            if (worldController.toolsController.toolHandle.prev == ToolHandle.Build)
+            {
+                roomDefinitionTooltip.Hide();
+            }
         }
 
         void OnInspectButtonClick()

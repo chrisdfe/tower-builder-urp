@@ -14,6 +14,7 @@ namespace TowerBuilder
         public Color residentialAreaColor;
         public Color transportationItemColor = new Color(0.992f, 0.811f, 0.721f);
         public Color recreationRoomColor;
+        public Color restaurantRoomColor;
         public Color defaultColor;
 
         // This class is designed for there to be only one of it
@@ -34,6 +35,8 @@ namespace TowerBuilder
                     return roomTypeColorMap.transportationItemColor;
                 case Recreation:
                     return roomTypeColorMap.recreationRoomColor;
+                case Restaurant:
+                    return roomTypeColorMap.restaurantRoomColor;
                 default:
                     return roomTypeColorMap.defaultColor;
             }
