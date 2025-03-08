@@ -23,14 +23,26 @@ namespace TowerBuilder
                     new DayTimeValue(8, 30)
                 ),
 
+                // eat at a restaurant for lunch (if available)
+                (
+                    Activity.EatingAtRestaurant,
+                    new DayTimeValue(12, 30)
+                ),
+
                 //
-                // Note - check in happens right here
+                // Note - check out/in happens right here
                 //
 
                 // hang out somewhere for a bit (if available)
                 (
                     Activity.Recreation,
                     new DayTimeValue(18)
+                ),
+
+                // eat at a restaurant (if available)
+                (
+                    Activity.EatingAtRestaurant,
+                    new DayTimeValue(19, 30)
                 ),
 
                 // time to go back to the room

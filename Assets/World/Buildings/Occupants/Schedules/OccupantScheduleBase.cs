@@ -12,7 +12,8 @@ namespace TowerBuilder
             Working,
             BeingAtHome,
             Recreation,
-            BeingInHotelRoom
+            BeingInHotelRoom,
+            EatingAtRestaurant
         }
 
         protected Occupant occupant;
@@ -101,16 +102,18 @@ namespace TowerBuilder
         OccupantTaskBase GetTaskForActivity(Activity activity) =>
              activity switch
              {
-                 Activity.BeingAtHome
-                    => new OccupantBeingAtHomeTask(occupant),
-                 Activity.Sleeping
-                => new OccupantSleepingTask(occupant),
-                 Activity.Working
-                    => new OccupantWorkingTask(occupant),
-                 Activity.Recreation
-                    => new OccupantRecreationTask(occupant),
-                 Activity.BeingInHotelRoom
-                    => new OccupantBeingInHotelRoomTask(occupant),
+                 Activity.BeingAtHome =>
+                    new OccupantBeingAtHomeTask(occupant),
+                 Activity.Sleeping =>
+                    new OccupantSleepingTask(occupant),
+                 Activity.Working =>
+                    new OccupantWorkingTask(occupant),
+                 Activity.Recreation =>
+                    new OccupantRecreationTask(occupant),
+                 Activity.BeingInHotelRoom =>
+                    new OccupantBeingInHotelRoomTask(occupant),
+                 Activity.EatingAtRestaurant =>
+                    new OccupantEatingAtRestaurantTask(occupant),
                  _ =>
                      new OccupantIdleTask(occupant),
              };

@@ -59,7 +59,7 @@ namespace TowerBuilder
             new() {
                 title = "Recreation room",
                 price = 50_000,
-                shape = TileList.CreateBox(8, 1),
+                shape = TileList.CreateBox(7, 1),
                 type = RoomType.Recreation,
                 capacity = 12,
             },

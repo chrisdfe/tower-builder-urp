@@ -37,7 +37,7 @@ namespace TowerBuilder
             if (route == null)
             {
                 // TODO - a notification as well
-                Debug.LogError($"{occupant} cannot find a route out of the building");
+                Debug.LogError($"{occupant} at {occupant.tile} cannot find a route to {destinationTile}");
                 Cancel();
                 return;
             }
@@ -49,11 +49,6 @@ namespace TowerBuilder
         {
             this.description = description;
         }
-
-        // public override void Setup()
-        // {
-
-        // }
 
         public override void OnTick()
         {

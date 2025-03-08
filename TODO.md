@@ -2,7 +2,6 @@
 
 ## Currently:
 
-- [ ] restaurants
 - [ ] semi-transparent window material
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
@@ -10,6 +9,16 @@
 
 ## Next:
 
+- [ ] BUG: hotel guests can't find route back to room from restaurant (?) for some reason
+- [ ] BUG: residents fall asleep wherever they are instead of going home/to hotel room
+  - they should travel home too
+- [ ] start thinking about different building types
+  - 'stationary' (i.e occupants can come and go as they please)
+- [ ] validators for putting things on the same floor as lobby
+- [ ] validators for not blocking entrance/exit
+- [ ] in schedules: if currentTask is null, it has been cancelled for some reason - figure out how to deal with this
+  - fall back to previous item in schedule?
+  - 'activity stack' definied in the schedule? e.g { Activity.Recreation, Activity.BeingAtHome }
 - [ ] inspect tooltips animate in and out
 - [ ] SelectionBox
   - [ ] drag to build "resizable" rooms
@@ -131,6 +140,7 @@
 
 # Done
 
+- [x] restaurants
 - [x] BUG: sky doesn't move on game start
 - [x] BUG: room definition tool tip doesn't go away when switching away from build tool
 - [x] helper to create rectangle of tiles

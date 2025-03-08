@@ -35,32 +35,65 @@ namespace TowerBuilder
                     Activity.Working,
                     new DayTimeValue(8)
                 ));
-
-                // attempt to go hang out somewhere first
-                scheduleTimes.Add((
-                    Activity.Recreation,
-                    new DayTimeValue(15, 30)
-                ));
             }
             else
             {
-                // hang out somewhere all day, if available
+                // hang out somewhere for the morning
                 scheduleTimes.Add((
                     Activity.Recreation,
                     new DayTimeValue(10)
                 ));
             }
 
+            // Go eat at a restaurant if available
+            scheduleTimes.Add((
+                Activity.EatingAtRestaurant,
+                new DayTimeValue(12)
+            ));
+
+
+            // Back to what they were doing before lunch
+            // working, if they have a workplace
+            if (occupant.office != null)
+            {
+                scheduleTimes.Add((
+                    Activity.Working,
+                    new DayTimeValue(13)
+                ));
+
+                // attempt to go hang out somewhere after work (if available)
+                // TODO - backup activity for this would be BeingAtHome
+                scheduleTimes.Add((
+                    Activity.Recreation,
+                    new DayTimeValue(17, 30)
+                ));
+            }
+            else
+            {
+                // hang out somewhere all afternoon, if available
+                scheduleTimes.Add((
+                    Activity.Recreation,
+                    new DayTimeValue(14)
+                ));
+            }
+
+            // Have dinner at restaurant (if available)
+            // the backup to this would be being at home
+            scheduleTimes.Add((
+                Activity.EatingAtRestaurant,
+                new DayTimeValue(19)
+            ));
+
             // time to go home
             scheduleTimes.Add((
                 Activity.BeingAtHome,
-                new DayTimeValue(19, 30)
+                new DayTimeValue(21)
             ));
 
             // time to go to sleep
             scheduleTimes.Add((
                 Activity.Sleeping,
-                new DayTimeValue(21, 30)
+                new DayTimeValue(22, 30)
             ));
         }
     }
