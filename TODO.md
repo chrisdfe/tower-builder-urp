@@ -3,13 +3,34 @@
 ## Currently:
 
 - [ ] hotelRoom behavior guestCount is getting incremented way too much (e.g 37 instead of 2)
-- [ ] semi-transparent window material
-- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
-- [ ] ART: regular sky w/ clouds
-  - [ ] reuse stars for nighttime sky
 
 ## Next:
 
+- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
+- [ ] ART: regular sky w/ clouds
+  - [ ] reuse stars for nighttime sky
+  - [ ] that responds to time of day
+- [ ] tooltip for resident name when you hover over them
+- [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
+- [ ] pause/play speed buttons
+- [ ] semi-transparent window material
+- [ ] box around the edge of the screen or something when game is paused
+
+## After:
+
+- [ ] in schedules: if currentTask is null, it has been cancelled for some reason - figure out how to deal with this
+  - e.g the recreation task, when there is no recreation room
+  - fall back to previous item in schedule?
+  - [ ] 'activity stack' definied in the schedule? e.g { Activity.Recreation, Activity.BeingAtHome }
+  - [ ] potentially 'get default task' for schedules
+- [ ] minimap in bottom right of the screen
+- [ ] show profit/expenses in room definition tooltip
+- [ ] lights in common areas should be on all the time
+- [ ] some occupants can work at restaurant
+  - if there's no-one working there then no-one can eat there
+- [ ] roomtype can be inferred from
+  - How to decide what color the room should be in this case
+    - create a RoomDefinitionKey enum and change the color map to use this. I'll need this for save/load serization anyway
 - [ ] BUG: hotel guests can't find route back to room from restaurant (?) for some reason
 - [ ] BUG: residents fall asleep wherever they are instead of going home/to hotel room
   - they should travel home too
@@ -17,9 +38,6 @@
   - 'stationary' (i.e occupants can come and go as they please)
 - [ ] validators for putting things on the same floor as lobby
 - [ ] validators for not blocking entrance/exit
-- [ ] in schedules: if currentTask is null, it has been cancelled for some reason - figure out how to deal with this
-  - fall back to previous item in schedule?
-  - 'activity stack' definied in the schedule? e.g { Activity.Recreation, Activity.BeingAtHome }
 - [ ] inspect tooltips animate in and out
 - [ ] SelectionBox
   - [ ] drag to build "resizable" rooms
@@ -35,10 +53,8 @@
 - [ ] expenses
   - [ ] common area upkeep
   - [ ] restaurant upkeep
-- [ ] profit from condo purchase
-- [ ] schedules should handle a current task being cancelled with a default task
-  - e.g the recreation task, when there is no recreation room
-  - [ ] 'get default task' for schedules
+- [ ] profit from condo purchase or rent
+
 - [ ] occupants leaving the building for certain tasks (e.g working in a building with no offices, eating lunch in building with no )
 - [ ] refactor OccupantTaskBase to have another subclass - OccupantTaskWithSubtasks
 - [ ] hotel guests that stay multiple days
@@ -53,7 +69,6 @@
 - [ ] UI: quickly increasing/decreasing money when funds are added/removed from wallet
 - [ ] build/destroy room shake doesn't seem right - maybe just up and down?
 - [ ] ART: basic sprites for occupants
-- [ ] wandering doesn't seem fast enough
 - [ ] randomize checkin/checkout times on a per-hotel room basis
 - [ ] explore using a perspective camera instead
 - [ ] BUG: route finder still having issues with more complex layouts
@@ -70,8 +85,6 @@
 - [ ] fake cone/point lights that happen at a certain frequency within rooms
 - [ ] notify player in BuildingRoomVacancyHandler when residences are inaccessible
   - keep a HashSet of inaccessible rooms on Building
-- [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
-- [ ] box around the edge of the screen or something when game is paused
 - [ ] BUG: don't send occupants to recreation room if it is already at capacity
 - [ ] room lights should turn on when inspecting
 - [ ] room furniture
@@ -84,11 +97,9 @@
 - [ ] rename 'controller' stuff to 'manager' to prevent unity naming conflicts?
 - [ ] occupant room transitions should happen half way through their animation from the previous tile to the first one in the room
 - [ ] PROCESS: write a "TODO aggregator" script to help with all these TODOs everywhere
-- [ ] sky that responds to time of day
 - [ ] save/load system
 - [ ] CLEANUP: refactor room tile shader valid/invalidblueprint/markedfordeletion colors to use a "overlay color" with a color ramp
 - [ ] 'title plural' for rooms that defaults to title + "s" (I can't remember why right now)
-- [ ] pause/play speed buttons
 - [ ] CLEANUP: cache GetInspectFocalPoint since I'm using it every frame
 - [ ] BUG: I think I broke Room.GetInspectFocalPoint
 - [ ] segment variant improvements:
@@ -103,23 +114,16 @@
 - [ ] BUG: fix building-adding code - right now it's hard coded as max 1 building
 - [ ] ability to fix how stairs still room group even if not aligned vertically
   - [ ] maybe just a validator that prevents you from placing them right next to each other or askew
-- [ ] BUG: the UI scales weirdly when I resize the window
 - [ ] transportation items
   - [ ] maybe just rooms
   - [ ] each should have 1+ 'entrance' and 'exit'
 - [ ] 'undeletable' rooms (starting entrance/exit)
   - [ ] could do this with a destroy validator that always returns false
-- [ ] tooltip for resident name when you hover over them
 - [ ] cleanup: think about just calling cameraController._ or tooltipController._ directly instead of using delegates
 - [ ] sfx/music system (controller)
-- [ ] room validator: stairs must be fully on top of other rooms
 - [ ] room validator: only x of a room allowed per building
 - [ ] room validator: stairs should be able to overlap on the bottom/top but not both
 - [ ] BUG: seperate buildings don't appear to be getting created when they should
-- [ ] inspect panel should list residents/workers in inspected room
-- [ ] resident entry point (to be replaced at some point)
-- [ ] wallet/money
-- [ ] building exterior - like a 3rd of a tile of extra stuff on the outside
 - [ ] camera improvement: camera zoom with scroll wheel
 - [ ] camera imrovement: hold middle mouse down to move around
 - [ ] camera improvement: should have a 'current tile' that it snaps to
@@ -137,10 +141,16 @@
   - [ ] each resident/worker creates a certain amount of garbage that has to be stored and unloaded
 - [ ] garden
   - [ ] both makes people happy and makes money
-- [ ] recreation rooms
 
 # Done
 
+- [x] BUG: the UI scales weirdly when I resize the window
+- [x] inspect panel should list residents/workers in inspected room
+- [x] recreation rooms
+- [x] wandering doesn't seem fast enough
+- [x] wallet/money
+- [x] resident entry point (to be replaced at some point)
+- [x] building exterior - like a 3rd of a tile of extra stuff on the outside
 - [x] restaurants
 - [x] BUG: sky doesn't move on game start
 - [x] BUG: room definition tool tip doesn't go away when switching away from build tool
