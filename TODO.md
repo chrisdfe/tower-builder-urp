@@ -93,7 +93,8 @@
   - keep a HashSet of inaccessible rooms on Building
 - [ ] BUG: don't send occupants to recreation room if it is already at capacity
 - [ ] room lights should turn on when inspecting
-- [ ] room furniture
+- [ ] furniture
+  - [ ] can exist inside room or outside
 - [ ] BUG: change how changing time speed resets stars
 - [ ] elevator
 - [ ] notifications improvements

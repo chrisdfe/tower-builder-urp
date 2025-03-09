@@ -8,6 +8,7 @@ namespace TowerBuilder
         public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomConstants.ALL_DEFINITIONS[0]);
 
         WorldController worldController;
+        BuildToolTooltipManager buildToolTooltipManager;
 
         public BuildTool(WorldController worldController)
         {
@@ -27,6 +28,9 @@ namespace TowerBuilder
         {
             worldController.timeController.Pause();
             SetExtraMouseOffset();
+
+            buildToolTooltipManager = BuildToolTooltipManager.Get();
+            buildToolTooltipManager.ShowTooltip();
 
             // avoid creating duplicate blueprint rooms
             // a blueprint room will be created when the cursor leaves the UI so don't do it here
@@ -53,15 +57,22 @@ namespace TowerBuilder
             var hoveredTile = worldController.hoveredTile;
             var cursorIsOverUI = worldController.cursorIsOverUI;
 
+            if (blueprintRoom != null)
+            {
+                UpdateTooltip();
+            }
+
             if (cursorIsOverUI.HasChanged())
             {
                 if (cursorIsOverUI.current)
                 {
                     RemoveBlueprintRoom();
+                    buildToolTooltipManager.HideTooltip();
                 }
                 else
                 {
                     CreateAndInitializeBlueprintRoom();
+                    buildToolTooltipManager.ShowTooltip();
                 }
             }
             else if (hoveredTile.HasChanged())
@@ -72,7 +83,23 @@ namespace TowerBuilder
                     blueprintRoom.SetOriginTile(worldController.hoveredTile.current);
                     blueprintRoom.SetZPosition();
                     blueprintRoom.Validate(worldController);
+
                 }
+            }
+        }
+
+        void UpdateTooltip()
+        {
+            if (blueprintRoom == null) return;
+            if (blueprintRoom.isValid)
+            {
+                buildToolTooltipManager.SetTooltipState(BuildToolTooltip.State.Valid);
+                buildToolTooltipManager.SetTooltipText(Money.Format(blueprintRoom.definition.price));
+            }
+            else
+            {
+                buildToolTooltipManager.SetTooltipState(BuildToolTooltip.State.Invalid);
+                buildToolTooltipManager.SetTooltipText(blueprintRoom.buildValidationErrors[0].message);
             }
         }
 

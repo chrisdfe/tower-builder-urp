@@ -68,5 +68,19 @@ namespace TowerBuilder
         }
 
         public static List<Tile> CreateBox(int width, int height) => CreateBox(Tile.zero, width, height);
+
+        public static Rect GetScreenRect(List<Tile> tiles)
+        {
+            var x = 0;
+            var y = 0;
+            var width = 0;
+            var height = 0;
+
+            var ((highestX, lowestX), (highestY, lowestY)) = GetHighestAndLowestValues(tiles);
+
+            // TODO 
+
+            return new Rect(x, y, width, height);
+        }
     }
 }
