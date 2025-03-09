@@ -26,32 +26,28 @@ namespace TowerBuilder
             {
                 if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
                 {
-                    speed.Set(TimeSpeed.Pause);
-                    tickTimerElapsed = float.PositiveInfinity;
+                    SetSpeed(TimeSpeed.Pause);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
                 {
-                    speed.Set(TimeSpeed.Normal);
-                    tickTimerElapsed = float.PositiveInfinity;
+                    SetSpeed(TimeSpeed.Normal);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
                 {
-                    speed.Set(TimeSpeed.Fast);
-                    tickTimerElapsed = float.PositiveInfinity;
+                    SetSpeed(TimeSpeed.Fast);
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 if (worldController.toolsController.toolHandle.current == ToolHandle.Inspect)
                 {
-                    speed.Set(TimeSpeed.Fastest);
-                    tickTimerElapsed = float.PositiveInfinity;
+                    SetSpeed(TimeSpeed.Fastest);
                 }
             }
             else
@@ -88,6 +84,12 @@ namespace TowerBuilder
         public void UnPause()
         {
             speed.Set(speedBeforePause);
+        }
+
+        public void SetSpeed(TimeSpeed speed)
+        {
+            this.speed.Set(speed);
+            tickTimerElapsed = float.PositiveInfinity;
         }
 
         public float GetTickInterval()

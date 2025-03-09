@@ -16,7 +16,6 @@
   - [ ] that responds to time of day
 - [ ] tooltip for resident name when you hover over them
 - [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
-- [ ] pause/play speed buttons
 - [ ] semi-transparent window material
 - [ ] box around the edge of the screen or something when game is paused
 
@@ -151,6 +150,7 @@
 
 # Done
 
+- [x] pause/play speed buttons
 - [x] hotelRoom behavior guestCount is getting incremented way too much (e.g 37 instead of 2)
 - [x] BUG: the UI scales weirdly when I resize the window
 - [x] inspect panel should list residents/workers in inspected room

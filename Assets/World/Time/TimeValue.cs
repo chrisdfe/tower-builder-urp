@@ -192,6 +192,13 @@ namespace TowerBuilder
                 minute % 60
             );
 
+        public string GetSeasonLabel()
+        {
+            var seasonIndex = season % TimeConstants.SEASON_SEQUENCE.Length;
+            var seasonType = TimeConstants.SEASON_SEQUENCE[seasonIndex];
+            return TimeConstants.SEASON_LABEL_MAP[seasonType];
+        }
+
         // 
         //  Static Interface
         //
