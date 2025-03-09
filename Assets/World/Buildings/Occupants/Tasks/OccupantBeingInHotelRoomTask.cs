@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TowerBuilder
 {
     public class OccupantBeingInHotelRoomTask : OccupantTaskBase
@@ -21,20 +19,20 @@ namespace TowerBuilder
 
         protected override OccupantTaskBase GetNextSubTask()
         {
-            if (occupant.currentRoom == occupant.hotelRoom)
+            if (occupant.currentRoom == occupant.hotelGuestData.hotelRoom)
             {
                 // Occupant has arrived in hotel room
-                if (occupant.currentRoom.behavior is HotelRoomBehavior)
-                {
-                    (occupant.currentRoom.behavior as HotelRoomBehavior).AddGuest();
-                }
+                // if (occupant.currentRoom.behavior is HotelRoomBehavior)
+                // {
+                //     (occupant.currentRoom.behavior as HotelRoomBehavior).AddGuest();
+                // }
 
                 // Wander about the hotel room
                 return null;
             }
 
             // Travel to hotel room
-            var destinationTile = occupant.hotelRoom.GetRandomTile();
+            var destinationTile = occupant.hotelGuestData.hotelRoom.GetRandomTile();
             return new OccupantTravelingToDestinationTask(occupant, destinationTile, "Traveling to their hotel room");
         }
     }

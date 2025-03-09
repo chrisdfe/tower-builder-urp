@@ -2,10 +2,14 @@
 
 ## Currently:
 
-- [ ] hotelRoom behavior guestCount is getting incremented way too much (e.g 37 instead of 2)
+- [ ] UI: floating money text when room is built
+  - displays the price of the blueprint before it is built
+    - red if the blueprint is invalid
+  - floats up when the room is built
 
-## Next:
+## Next (ordered):
 
+- [ ] UI: analog clock to display current time
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
   - [ ] reuse stars for nighttime sky
@@ -16,8 +20,14 @@
 - [ ] semi-transparent window material
 - [ ] box around the edge of the screen or something when game is paused
 
-## After:
+## After (unordered):
 
+- [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes with hotel guests (at least)
+  - I think there's still a reference to animationWrapper somewhere after the Occupant gets destroyed
+- [ ] building types
+  - [ ] vehicle (boat, car (with wheels))
+  - [ ] spaceship
+  - [ ] stationary (basic simtower style)
 - [ ] in schedules: if currentTask is null, it has been cancelled for some reason - figure out how to deal with this
   - e.g the recreation task, when there is no recreation room
   - fall back to previous item in schedule?
@@ -25,7 +35,7 @@
   - [ ] potentially 'get default task' for schedules
 - [ ] minimap in bottom right of the screen
 - [ ] show profit/expenses in room definition tooltip
-- [ ] lights in common areas should be on all the time
+- [ ] lights in common areas shouldn't go fully out - just dim at night & turn back on in the morning
 - [ ] some occupants can work at restaurant
   - if there's no-one working there then no-one can eat there
 - [ ] roomtype can be inferred from
@@ -49,7 +59,6 @@
 - [ ] figure out the best way of positioning room tooltip
   - maybe both occupant and room tooltips should render underneath the thing
 - [ ] animate show/hide inspect tooltips
-- [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes with hotel guests (at least)
 - [ ] expenses
   - [ ] common area upkeep
   - [ ] restaurant upkeep
@@ -59,13 +68,11 @@
 - [ ] refactor OccupantTaskBase to have another subclass - OccupantTaskWithSubtasks
 - [ ] hotel guests that stay multiple days
 - [ ] put building perimeter tile in a container
-- [ ] UI: analog clock to display current time
 - [ ] cache 'isConnectedToEntrance' or 'connectedEntrances' on rooms themselves
 - [ ] Experiment with adding fake lighting in rooms
   - node(s) to create a gradient from
   - also affects
 - [ ] ART: experiment with only having lighting affect exterior walls - interior can all be fake (interior) lighting
-- [ ] UI: floating money text when room is built
 - [ ] UI: quickly increasing/decreasing money when funds are added/removed from wallet
 - [ ] build/destroy room shake doesn't seem right - maybe just up and down?
 - [ ] ART: basic sprites for occupants
@@ -144,6 +151,7 @@
 
 # Done
 
+- [x] hotelRoom behavior guestCount is getting incremented way too much (e.g 37 instead of 2)
 - [x] BUG: the UI scales weirdly when I resize the window
 - [x] inspect panel should list residents/workers in inspected room
 - [x] recreation rooms

@@ -19,7 +19,7 @@ namespace TowerBuilder
         //   live in this room for Residential rooms
         //   work in this room for Office rooms
         //   recreate in this room for Recreation rooms
-        public uint capacity;
+        public int capacity;
 
         public List<IRoomValidator> buildValidators = new(RoomBuildValidators.standardBuildValidators);
 

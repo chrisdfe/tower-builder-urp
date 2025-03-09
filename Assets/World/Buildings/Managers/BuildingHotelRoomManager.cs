@@ -14,10 +14,11 @@ namespace TowerBuilder
         List<Occupant> hotelGuests = new();
 
         // TODO - I should stagger the guests' arrival/departure
-        bool hasCheckedIn;
-        bool hasCheckedOut;
+        // TODO - use an enum instead of hasCheckedIn/hasCheckedOut
         DayTimeValue checkinTime;
         DayTimeValue checkoutTime;
+        int lastDayCheckedIn = -1;
+        int lastDayCheckedOut = -1;
 
         public BuildingHotelRoomManager(Building building)
         {
@@ -34,14 +35,15 @@ namespace TowerBuilder
 
             if (hotelRooms.Count == 0) return;
 
-            var currentDayTime = worldController.timeController.timeValue.ToDayTimeValue();
+            var currentTime = worldController.timeController.timeValue;
+            var currentDayTime = currentTime.ToDayTimeValue();
 
             if (currentDayTime.Matches(DayTimeValue.midnight))
             {
                 ResetDay();
             }
 
-            if (currentDayTime.IsGreaterThanOrEqualTo(checkinTime) && !hasCheckedIn)
+            if (currentDayTime.IsGreaterThanOrEqualTo(checkinTime) && currentTime.day > lastDayCheckedIn)
             {
                 foreach (var hotelRoom in hotelRooms)
                 {
@@ -58,7 +60,12 @@ namespace TowerBuilder
                     {
                         var occupant = worldController.buildingsController.CreateOccupantAtBuildingEntrance(hotelRoom.building);
                         occupant.SetSchedule(OccupantScheduleType.HotelGuest);
-                        occupant.SetHotelRoom(hotelRoom);
+                        occupant.SetHotelGuestData(new()
+                        {
+                            hotelRoom = hotelRoom,
+                            // TODO - randomize this number somewhere
+                            checkinTime = worldController.timeController.timeValue
+                        });
                         hotelRoom.hotelGuests.Add(occupant);
 
                         // Go straight to hotel room
@@ -68,32 +75,27 @@ namespace TowerBuilder
                     }
                 }
 
-                hasCheckedIn = true;
+                Debug.Log($"total hotel guests checked in: {hotelGuests.Count}");
+                lastDayCheckedIn = currentTime.day;
             }
-            else if (currentDayTime.IsGreaterThanOrEqualTo(checkoutTime) && !hasCheckedOut)
+            else if (currentDayTime.IsGreaterThanOrEqualTo(checkoutTime) && currentTime.day > lastDayCheckedOut)
             {
                 // TODO - this will check all hotel guests out at once
                 foreach (var hotelGuest in hotelGuests)
                 {
-                    hotelGuest.hotelRoom.hotelGuests.Remove(hotelGuest);
+                    hotelGuest.hotelGuestData.hotelRoom.hotelGuests.Remove(hotelGuest);
                     hotelGuest.StartImmediateTask(new OccupantLeavingBuildingTask(hotelGuest));
                 }
 
-                hasCheckedOut = true;
+                lastDayCheckedOut = currentTime.day;
             }
             else if (currentDayTime.Matches(HotelRoomBehavior.cashoutTime))
             {
-                Debug.Log("calculating total profit");
-                Debug.Log("hotel room count: " + hotelRooms.Count);
                 var totalProfit = hotelRooms.Aggregate(0, (acc, hotelRoom) =>
                 {
                     var behavior = hotelRoom.behavior as HotelRoomBehavior;
 
                     var roomTotalProfit = behavior.GetTotalProfit();
-
-                    Debug.Log("price: " + behavior.price);
-                    Debug.Log("guestCount: " + behavior.guestCount);
-                    Debug.Log("roomTotalProfit: " + roomTotalProfit);
 
                     // reset room here to avoid a second loop
                     behavior.ResetGuests();
@@ -111,8 +113,6 @@ namespace TowerBuilder
 
         void ResetDay()
         {
-            hasCheckedIn = false;
-            hasCheckedOut = false;
             checkinTime = HotelRoomBehavior.GetRandomCheckinTime();
             checkoutTime = HotelRoomBehavior.GetRandomCheckoutTime();
         }

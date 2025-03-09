@@ -130,9 +130,9 @@ namespace TowerBuilder
 
         string GetHotelRoomText(Occupant occupant)
         {
-            if (occupant.hotelRoom != null)
+            if (occupant.hotelGuestData?.hotelRoom != null)
             {
-                return occupant.hotelRoom.name;
+                return occupant.hotelGuestData.hotelRoom.name;
             }
 
             return "Nowhere";

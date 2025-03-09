@@ -34,8 +34,9 @@ namespace TowerBuilder
         // where this occupant currently is
         public Room currentRoom { get; private set; }
 
-        // the hotel room this occupant is staying in (if they are here as a hotel guest)
-        public Room hotelRoom { get; private set; }
+        // Hotel guest-specific data
+        // TODO - similar thing for residents/workers (residentData)
+        public OccupantHotelGuestData hotelGuestData;
 
         // player is hovering over the room with the inspect tool
         public bool isInspectionHovered { get; private set; } = false;
@@ -138,9 +139,9 @@ namespace TowerBuilder
             schedule.Regenerate();
         }
 
-        public void SetHotelRoom(Room room)
+        public void SetHotelGuestData(OccupantHotelGuestData hotelGuestData)
         {
-            hotelRoom = room;
+            this.hotelGuestData = hotelGuestData;
             schedule.Regenerate();
         }
 

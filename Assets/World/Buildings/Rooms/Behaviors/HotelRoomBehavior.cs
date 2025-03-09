@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TowerBuilder
 {
@@ -41,6 +42,7 @@ namespace TowerBuilder
         public void AddGuest()
         {
             guestCount++;
+            Debug.Log("Adding Guest. now: " + guestCount);
         }
 
         public void ResetGuests()
