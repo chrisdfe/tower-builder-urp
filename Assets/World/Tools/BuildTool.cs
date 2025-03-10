@@ -57,10 +57,10 @@ namespace TowerBuilder
             var hoveredTile = worldController.hoveredTile;
             var cursorIsOverUI = worldController.cursorIsOverUI;
 
-            if (blueprintRoom != null)
-            {
-                UpdateTooltip();
-            }
+            // if (blueprintRoom != null)
+            // {
+            //     UpdateTooltip();
+            // }
 
             if (cursorIsOverUI.HasChanged())
             {
@@ -84,6 +84,7 @@ namespace TowerBuilder
                     blueprintRoom.SetZPosition();
                     blueprintRoom.Validate(worldController);
 
+                    UpdateTooltip();
                 }
             }
         }

@@ -69,16 +69,45 @@ namespace TowerBuilder
 
         public static List<Tile> CreateBox(int width, int height) => CreateBox(Tile.zero, width, height);
 
-        public static Rect GetScreenRect(List<Tile> tiles)
+        public static Dimensions GetScreenDimensions(List<Tile> tiles)
         {
-            var x = 0;
-            var y = 0;
-            var width = 0;
-            var height = 0;
-
             var ((highestX, lowestX), (highestY, lowestY)) = GetHighestAndLowestValues(tiles);
 
-            // TODO 
+            var tileWidth = highestX - lowestX;
+            var tileHeight = highestY - lowestY;
+
+            var width = tileWidth * Tile.WORLD_WIDTH;
+            var height = tileHeight * Tile.WORLD_HEIGHT;
+
+            return new Dimensions(width, height);
+        }
+
+        // TODO - use GetScreenDimensions
+        public static Rect GetScreenRect(List<Tile> tiles)
+        {
+            var ((highestX, lowestX), (highestY, lowestY)) = GetHighestAndLowestValues(tiles);
+
+            // TODO - should I subtract Tile.WORLD_WIDTH / 2? is this returning the center of the tile
+            var bottomLeft = Camera.main.WorldToScreenPoint(
+                new Vector3(
+                    lowestX * Tile.WORLD_WIDTH,
+                    lowestY * Tile.WORLD_HEIGHT,
+                    0
+                )
+            );
+
+            var topRight = Camera.main.WorldToScreenPoint(
+                new Vector3(
+                    (highestX + 1) * Tile.WORLD_WIDTH,
+                    (highestY + 1) * Tile.WORLD_HEIGHT,
+                    0
+                )
+            );
+
+            var x = bottomLeft.x;
+            var y = bottomLeft.y;
+            var width = topRight.x - bottomLeft.x;
+            var height = topRight.y - bottomLeft.y;
 
             return new Rect(x, y, width, height);
         }

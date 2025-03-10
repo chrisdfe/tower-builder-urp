@@ -7,6 +7,9 @@ namespace TowerBuilder
 {
     public class Tile
     {
+        public const float WORLD_WIDTH = 1f;
+        public const float WORLD_HEIGHT = 1f;
+
         // Map of tilePosition enum -> fbx node names
         public static Dictionary<TileType, string> TypeLabelMap =
             new() {
