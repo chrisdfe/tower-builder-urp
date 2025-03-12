@@ -3,8 +3,9 @@
 ## Currently:
 
 - [ ] UI: floating money text when room is built
-  - displays the price of the blueprint before it is built
-    - red if the blueprint is invalid
+  - [x] fixed position to above blueprint room
+  - [x] displays the price of the blueprint before it is built
+    - [x] red if the blueprint is invalid
   - floats up when the room is built
 
 ## Next (ordered):

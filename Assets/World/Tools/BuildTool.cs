@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -5,14 +6,19 @@ namespace TowerBuilder
     public class BuildTool : ITool
     {
         public Room blueprintRoom { get; private set; } = null;
-        public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; } = new(RoomConstants.ALL_DEFINITIONS[0]);
+        public PrevAndCurrent<RoomDefinition> selectedRoomDefinition { get; private set; }
 
         WorldController worldController;
         BuildToolTooltipManager buildToolTooltipManager;
 
+        public List<RoomDefinition> roomDefinitions { get; private set; }
+
         public BuildTool(WorldController worldController)
         {
             this.worldController = worldController;
+
+            SetupRoomDefinitions();
+            selectedRoomDefinition = new(roomDefinitions[0]);
         }
 
         //
@@ -29,7 +35,11 @@ namespace TowerBuilder
             worldController.timeController.Pause();
             SetExtraMouseOffset();
 
-            buildToolTooltipManager = BuildToolTooltipManager.Get();
+            if (buildToolTooltipManager == null)
+            {
+                buildToolTooltipManager = BuildToolTooltipManager.Get();
+            }
+
             buildToolTooltipManager.ShowTooltip();
 
             // avoid creating duplicate blueprint rooms
@@ -44,6 +54,8 @@ namespace TowerBuilder
         {
             worldController.timeController.UnPause();
             worldController.mousePositionExtraOffset = Vector2.zero;
+
+            buildToolTooltipManager.HideTooltip();
 
             // blueprintRoom will be null when the player hovers over the UI
             if (blueprintRoom != null)
@@ -126,7 +138,7 @@ namespace TowerBuilder
 
             RoomDefinition FindDefinition()
             {
-                foreach (var definition in RoomConstants.ALL_DEFINITIONS)
+                foreach (var definition in roomDefinitions)
                 {
                     if (definition.title == title)
                     {
@@ -136,6 +148,18 @@ namespace TowerBuilder
 
                 return null;
             }
+        }
+
+        public List<RoomDefinition> SetupRoomDefinitions()
+        {
+            if (roomDefinitions == null)
+            {
+                roomDefinitions = new List<RoomDefinition>(RoomConstants.ALL_DEFINITIONS);
+                // TODO - if debug mode
+                roomDefinitions.AddRange(RoomConstants.DEBUG_ROOM_DEFINITIONS);
+            }
+
+            return roomDefinitions;
         }
 
         //

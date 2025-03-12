@@ -91,6 +91,43 @@ namespace TowerBuilder
                 shape = TileList.CreateBox(8, 1),
                 capacity = 20,
                 type = RoomType.Restaurant,
+            },
+        };
+
+        public static readonly RoomDefinition[] DEBUG_ROOM_DEFINITIONS = new RoomDefinition[] {
+            // DEBUG
+            new() {
+                title = "1x1",
+                price = 5000,
+                shape = TileList.CreateBox(1, 1),
+                type = RoomType.CommonArea,
+                groupCategory = RoomGroupCategory.CommonArea,
+            },
+
+            new() {
+                title = "2x2",
+                price = 5000,
+                shape = TileList.CreateBox(2, 2),
+                type = RoomType.CommonArea,
+                groupCategory = RoomGroupCategory.CommonArea,
+            },
+
+            // DEBUG
+            new() {
+                title = "3x3",
+                price = 5000,
+                shape = TileList.CreateBox(3, 3),
+                type = RoomType.CommonArea,
+                groupCategory = RoomGroupCategory.CommonArea,
+            },
+
+            // DEBUG
+            new() {
+                title = "4x4",
+                price = 5000,
+                shape = TileList.CreateBox(4, 4),
+                type = RoomType.CommonArea,
+                groupCategory = RoomGroupCategory.CommonArea,
             }
         };
     }

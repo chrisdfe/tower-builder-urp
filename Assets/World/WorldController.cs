@@ -105,6 +105,8 @@ public class WorldController : MonoBehaviour
         var results = new List<RaycastResult>();
 
         graphicRaycaster.Raycast(pointerEventData, results);
+        var uiLayer = LayerMask.NameToLayer("UI");
+        results = results.FindAll(result => result.gameObject.layer == uiLayer);
 
         cursorIsOverUI.Set(results.Count > 0);
     }

@@ -13,10 +13,7 @@ namespace TowerBuilder
 
         }
 
-        void Start()
-        {
-            tooltip = CreateTooltip();
-        }
+        void Start() { }
 
         void Update()
         {
@@ -37,7 +34,6 @@ namespace TowerBuilder
             {
                 tooltip = CreateTooltip();
             }
-            tooltip.SetActive(true);
         }
 
         public void HideTooltip()
@@ -45,7 +41,8 @@ namespace TowerBuilder
             //
             if (tooltip != null)
             {
-                tooltip.SetActive(false);
+                Destroy(tooltip.gameObject);
+                tooltip = null;
             }
         }
 
@@ -73,28 +70,28 @@ namespace TowerBuilder
         void PositionTooltip()
         {
             if (tooltip == null) return;
-            var currentTile = WorldController.Get().hoveredTile.current ?? Tile.zero;
+
             var blueprintRoom = WorldController.Get().toolsController.buildTool.blueprintRoom;
             if (blueprintRoom == null) return;
 
             var screenRect = TileList.GetScreenRect(blueprintRoom.tiles);
 
-            // TODO - offset to the left or right
-            // var x = Input.mousePosition.x;
-
-            // TODO - snap to tile
-            // TODO - use blueprintRoom.GetScreenRect instead
-            // var y = ((Input.mousePosition.y + 100) / currentTile.y) * currentTile.y;
-            // tooltip.transform.position = new Vector3(x, y, 0);
-
-            // DEBUG
-            var x = screenRect.x + (screenRect.width / 4);
-            // var y = screenRect.y + (screenRect.height / 2);
+            var x = screenRect.x;
             var y = screenRect.y;
+
+            // Render above blueprint
+            y += screenRect.height / 2;
+            // some extra margin
+            y += 30;
+
             tooltip.transform.position = new Vector3(x, y, 0);
+
             var rectTransform = tooltip.GetComponent<RectTransform>();
+            rectTransform.transform.position = new Vector3(x, y, 0);
             rectTransform.sizeDelta = new(screenRect.width, screenRect.height);
-            var imageRectTransform = rectTransform.transform.Find("Image").GetComponent<RectTransform>();
+
+            var imageRectTransform = rectTransform.transform.Find("Background").GetComponent<RectTransform>();
+            imageRectTransform.position = new Vector3(x, y, 0);
             imageRectTransform.sizeDelta = new(screenRect.width, screenRect.height);
         }
 

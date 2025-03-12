@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -155,8 +156,9 @@ namespace TowerBuilder
             switch (WorldController.Get().toolsController.toolHandle.current)
             {
                 case ToolHandle.Build:
+
                     //
-                    foreach (var roomDefinition in RoomConstants.ALL_DEFINITIONS)
+                    foreach (var roomDefinition in WorldController.Get().toolsController.buildTool.roomDefinitions)
                     {
                         var roomDefinitionButtonGameObject = Instantiate(roomDefinitionButtonPrefab, toolOptionButtonsWrapper);
                         var roomDefinitionButton = roomDefinitionButtonGameObject.GetComponent<RoomDefinitionButton>();

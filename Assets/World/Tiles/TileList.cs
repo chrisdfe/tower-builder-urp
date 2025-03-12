@@ -109,7 +109,26 @@ namespace TowerBuilder
             var width = topRight.x - bottomLeft.x;
             var height = topRight.y - bottomLeft.y;
 
+            var tileScreenSize = GetTileScreenSize();
+            x -= tileScreenSize.x / 2;
+            y -= tileScreenSize.y / 2;
+
             return new Rect(x, y, width, height);
+        }
+
+        // TODO - Seems like not the right place for this but fine for now - maybe Camera
+        // TODO - cache
+        public static Vector2 GetTileScreenSize()
+        {
+            var originTileScreenPosition = Camera.main.WorldToScreenPoint(Vector3.zero);
+            var oneTileScreenPosition = Camera.main.WorldToScreenPoint(new Vector3(Tile.WORLD_WIDTH, Tile.WORLD_HEIGHT, 0));
+
+            var tileScreenSize = new Vector2(
+                oneTileScreenPosition.x - originTileScreenPosition.x,
+                oneTileScreenPosition.y - originTileScreenPosition.y
+            );
+
+            return tileScreenSize;
         }
     }
 }
