@@ -95,7 +95,8 @@ namespace TowerBuilder
         // TODO - this function and AddRoomAtTile do similar things - clarify
         //        AddRoomAtTile is intended for internal use
         //        AddRoomAtCurrentTileIfValid is intended for use from the UI
-        public void AddRoomAtCurrentTileIfValid()
+        // Return value = whether room was built
+        public bool AddRoomAtCurrentTileIfValid()
         {
             if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
             {
@@ -104,7 +105,7 @@ namespace TowerBuilder
                     worldController.AddNotification(error.message);
                 }
 
-                return;
+                return false;
             }
 
 
@@ -117,6 +118,8 @@ namespace TowerBuilder
 
             // TODO - this could get confusing
             onRoomBuilt?.Invoke();
+
+            return true;
         }
 
         public void RemoveFrontmostRoomAtCurrentTile()

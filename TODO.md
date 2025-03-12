@@ -2,15 +2,10 @@
 
 ## Currently:
 
-- [ ] UI: floating money text when room is built
-  - [x] fixed position to above blueprint room
-  - [x] displays the price of the blueprint before it is built
-    - [x] red if the blueprint is invalid
-  - floats up when the room is built
+- [ ] UI: analog clock to display current time
 
 ## Next (ordered):
 
-- [ ] UI: analog clock to display current time
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
   - [ ] reuse stars for nighttime sky
@@ -152,6 +147,12 @@
 
 # Done
 
+- [x] UI: floating money text when room is built
+  - [x] fixed position to above blueprint room
+  - [x] displays the price of the blueprint before it is built
+    - [x] red if the blueprint is invalid
+  - [x] floats up when the room is built
+  - [x] wiggles if the blueprint is invalid
 - [x] pause/play speed buttons
 - [x] hotelRoom behavior guestCount is getting incremented way too much (e.g 37 instead of 2)
 - [x] BUG: the UI scales weirdly when I resize the window

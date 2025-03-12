@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace TowerBuilder
 {
@@ -56,6 +57,19 @@ namespace TowerBuilder
         {
             if (tooltip == null) return;
             tooltip.SetState(state);
+        }
+
+        public void PlayFloatingAnimationThenDestroy()
+        {
+            Assert.IsNotNull(tooltip);
+            tooltip.PlayFloatingAnimationThenDestroy();
+            tooltip = null;
+        }
+
+        public void PlayInvalidRoomAnimation()
+        {
+            Assert.IsNotNull(tooltip);
+            tooltip.PlayInvalidRoomAnimation();
         }
 
         //
