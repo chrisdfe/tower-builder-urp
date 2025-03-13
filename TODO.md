@@ -2,7 +2,10 @@
 
 ## Currently:
 
-- [ ] UI: analog clock to display current time
+- [ ] notifications improvements
+  - [ ] individual component/panel for each notification
+  - [ ] notification component animates in
+  - [ ] 'primary' notification that shows in top middle of the screen for important stuff
 
 ## Next (ordered):
 
@@ -17,6 +20,9 @@
 
 ## After (unordered):
 
+- [ ] BUG: pause button advances to next tick
+- [ ] update font to fira code
+- [ ] BUG: build tool tooltip text keeps shaking until its timer is over after player moves tile. it should cancel
 - [ ] BUG: something gets messed up with OccupantAnimationWrapper sometimes with hotel guests (at least)
   - I think there's still a reference to animationWrapper somewhere after the Occupant gets destroyed
 - [ ] building types
@@ -58,7 +64,6 @@
   - [ ] common area upkeep
   - [ ] restaurant upkeep
 - [ ] profit from condo purchase or rent
-
 - [ ] occupants leaving the building for certain tasks (e.g working in a building with no offices, eating lunch in building with no )
 - [ ] refactor OccupantTaskBase to have another subclass - OccupantTaskWithSubtasks
 - [ ] hotel guests that stay multiple days
@@ -93,10 +98,6 @@
   - [ ] can exist inside room or outside
 - [ ] BUG: change how changing time speed resets stars
 - [ ] elevator
-- [ ] notifications improvements
-  - [ ] individual component/panel for each notification
-  - [ ] notification component animates in
-  - [ ] 'primary' notification that shows in top middle of the screen for important stuff
 - [ ] rename 'controller' stuff to 'manager' to prevent unity naming conflicts?
 - [ ] occupant room transitions should happen half way through their animation from the previous tile to the first one in the room
 - [ ] PROCESS: write a "TODO aggregator" script to help with all these TODOs everywhere
@@ -147,6 +148,7 @@
 
 # Done
 
+- [x] UI: analog clock to display current time
 - [x] UI: floating money text when room is built
   - [x] fixed position to above blueprint room
   - [x] displays the price of the blueprint before it is built
