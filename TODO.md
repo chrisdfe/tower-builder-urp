@@ -2,6 +2,8 @@
 
 ## Currently:
 
+- [ ] minimap panel in bottom right of the screen
+
 ## Next (ordered):
 
 - [ ] BUG: blueprint room sometimes doesn't get removed on teardown
@@ -38,7 +40,6 @@
   - fall back to previous item in schedule?
   - [ ] 'activity stack' definied in the schedule? e.g { Activity.Recreation, Activity.BeingAtHome }
   - [ ] potentially 'get default task' for schedules
-- [ ] minimap in bottom right of the screen
 - [ ] show profit/expenses in room definition tooltip
 - [ ] lights in common areas shouldn't go fully out - just dim at night & turn back on in the morning
 - [ ] some occupants can work at restaurant
