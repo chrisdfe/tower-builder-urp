@@ -3,6 +3,7 @@
 ## Currently:
 
 - [ ] notifications improvements
+  - [ ] create NotificationsController
   - [ ] individual component/panel for each notification
   - [ ] notification component animates in
   - [ ] 'primary' notification that shows in top middle of the screen for important stuff
@@ -20,6 +21,7 @@
 
 ## After (unordered):
 
+- [ ] NotifactionsController.Get() etc
 - [ ] BUG: pause button advances to next tick
 - [ ] update font to fira code
 - [ ] BUG: build tool tooltip text keeps shaking until its timer is over after player moves tile. it should cancel

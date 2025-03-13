@@ -21,7 +21,7 @@ namespace TowerBuilder
             var text = "";
 
             // create a new list to not affect the source list
-            var notifications = new List<Notification>(WorldController.Get().notifications);
+            var notifications = new List<Notification>(WorldController.Get().notificationsController.notifications);
             notifications.Reverse();
             int idx = notifications.Count;
             foreach (var notification in notifications)

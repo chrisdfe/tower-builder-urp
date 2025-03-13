@@ -106,7 +106,7 @@ namespace TowerBuilder
                 if (totalProfit > 0)
                 {
                     worldController.walletController.AddFunds(totalProfit);
-                    worldController.notifications.Add(new Notification($"Earned {Money.Format(totalProfit)} from hotel"));
+                    worldController.notificationsController.AddNotification(new Notification($"Earned {Money.Format(totalProfit)} from hotel"));
                 }
             }
         }

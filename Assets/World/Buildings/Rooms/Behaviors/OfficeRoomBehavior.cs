@@ -38,7 +38,7 @@ namespace TowerBuilder
                 if (totalAccumulatedProfit > 0)
                 {
                     worldController.walletController.AddFunds(totalAccumulatedProfit);
-                    worldController.notifications.Add(new Notification($"Earned {Money.Format(totalAccumulatedProfit)} from offices"));
+                    worldController.notificationsController.AddNotification(new Notification($"Earned {Money.Format(totalAccumulatedProfit)} from offices"));
                 }
             }
         }

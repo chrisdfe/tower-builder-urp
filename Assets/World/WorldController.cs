@@ -37,10 +37,10 @@ public class WorldController : MonoBehaviour
     public BuildingsController buildingsController { get; private set; }
     public TimeController timeController { get; private set; }
     public WalletController walletController { get; private set; }
+    public NotificationsController notificationsController { get; private set; }
 
     public PrevAndCurrent<bool> cursorIsOverUI { get; private set; } = new(false);
 
-    public List<Notification> notifications { get; private set; } = new();
 
     //
     // Debug stuff
@@ -62,6 +62,7 @@ public class WorldController : MonoBehaviour
         buildingsController = new BuildingsController(this);
         timeController = new TimeController(this);
         walletController = new WalletController(this);
+        notificationsController = new NotificationsController(this);
 
         // Other
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
@@ -258,11 +259,6 @@ public class WorldController : MonoBehaviour
     //
     // Public interface
     //
-    public void AddNotification(string message)
-    {
-        notifications.Add(new Notification(message));
-    }
-
     public Tile GetMousePositionToTile()
     {
         var mousePosition = Input.mousePosition;

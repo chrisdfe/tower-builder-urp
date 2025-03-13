@@ -102,7 +102,7 @@ namespace TowerBuilder
             {
                 foreach (var error in worldController.toolsController.buildTool.blueprintRoom.buildValidationErrors)
                 {
-                    worldController.AddNotification(error.message);
+                    worldController.notificationsController.AddNotification(new(error.message));
                 }
 
                 return false;
