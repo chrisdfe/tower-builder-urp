@@ -2,17 +2,15 @@
 
 ## Currently:
 
-- [x] notifications improvements
-  - [x] create NotificationsController
-  - [x] individual component/panel for each notification
-  - [ ] different color for errors/warnings
-
 ## Next (ordered):
 
+- [ ] BUG: blueprint room sometimes doesn't get removed on teardown
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
   - [ ] reuse stars for nighttime sky
   - [ ] that responds to time of day
+- [ ] weather
+  - [ ] rain weather
 - [ ] tooltip for resident name when you hover over them
 - [ ] expandable notifications with metadata (i.e Notification is an abstract class or interface)
 - [ ] semi-transparent window material
@@ -21,8 +19,10 @@
 ## After (unordered):
 
 - [ ] notifications improvements
-  - [ ] notification component animates in
+  - [ ] notification component should animates in
   - [ ] 'primary' notification that shows in top middle of the screen for important stuff
+  - [ ] dismissable notifications
+  - [ ] notifications should epxand as the content expands
 - [ ] NotifactionsController.Get() etc
 - [ ] BUG: pause button advances to next tick
 - [ ] update font to fira code
@@ -152,6 +152,10 @@
 
 # Done
 
+- [x] notifications improvements
+  - [x] create NotificationsController
+  - [x] individual component/panel for each notification
+  - [x] different color for errors/warnings
 - [x] BUG: after building a room build tool tooltip sometimes has default text ("New Tooltip")
 - [x] BUG: blueprint isn't getting removed on build tool teardown
 - [x] UI: analog clock to display current time

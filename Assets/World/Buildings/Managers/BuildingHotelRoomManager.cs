@@ -108,6 +108,7 @@ namespace TowerBuilder
                     worldController.walletController.AddFunds(totalProfit);
                     worldController.notificationsController.AddNotification(new()
                     {
+                        type = NotificationType.Success,
                         title = "Profit from hotel",
                         message = $"Earned {Money.Format(totalProfit)} from hotel"
                     });

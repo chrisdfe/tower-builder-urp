@@ -115,6 +115,7 @@ namespace TowerBuilder
                     });
                 worldController.notificationsController.AddNotification(new()
                 {
+                    type = NotificationType.Warning,
                     title = "Build error",
                     message = message
                 });

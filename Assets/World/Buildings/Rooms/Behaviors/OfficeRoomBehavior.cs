@@ -40,6 +40,7 @@ namespace TowerBuilder
                     worldController.walletController.AddFunds(totalAccumulatedProfit);
                     worldController.notificationsController.AddNotification(new()
                     {
+                        type = NotificationType.Success,
                         title = "Profit from offices",
                         message = $"Earned {Money.Format(totalAccumulatedProfit)} from offices"
                     });
