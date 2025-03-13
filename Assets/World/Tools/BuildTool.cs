@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace TowerBuilder
@@ -46,13 +47,12 @@ namespace TowerBuilder
                 buildToolTooltipManager = BuildToolTooltipManager.Get();
             }
 
-            buildToolTooltipManager.ShowTooltip();
-
             // avoid creating duplicate blueprint rooms
             // a blueprint room will be created when the cursor leaves the UI so don't do it here
             if (!worldController.cursorIsOverUI.current)
             {
                 CreateAndInitializeBlueprintRoom();
+                ShowAndUpdateTooltip();
             }
         }
 
@@ -85,7 +85,7 @@ namespace TowerBuilder
                 else
                 {
                     CreateAndInitializeBlueprintRoom();
-                    buildToolTooltipManager.ShowTooltip();
+                    ShowAndUpdateTooltip();
                 }
             }
             else if (hoveredTile.HasChanged())
@@ -98,22 +98,6 @@ namespace TowerBuilder
                     blueprintRoom.Validate(worldController);
 
                     UpdateTooltip();
-                }
-            }
-
-            void UpdateTooltip()
-            {
-                if (blueprintRoom == null) return;
-
-                if (blueprintRoom.isValid)
-                {
-                    buildToolTooltipManager.SetTooltipState(BuildToolTooltip.State.Valid);
-                    buildToolTooltipManager.SetTooltipText(Money.Format(blueprintRoom.definition.price));
-                }
-                else
-                {
-                    buildToolTooltipManager.SetTooltipState(BuildToolTooltip.State.Invalid);
-                    buildToolTooltipManager.SetTooltipText(blueprintRoom.buildValidationErrors[0].message);
                 }
             }
         }
@@ -183,16 +167,16 @@ namespace TowerBuilder
 
             IEnumerator AnimateAndWait()
             {
-                buildToolTooltipManager.PlayFloatingAnimationThenDestroy();
                 isPostBuildLocked = true;
-                // TODO - just hide it
+                buildToolTooltipManager.PlayFloatingAnimationThenDestroy();
                 RemoveBlueprintRoom();
 
                 yield return new WaitForSeconds(POST_BUILD_LOCK_LENGTH_S);
 
-                buildToolTooltipManager.ShowTooltip();
-                isPostBuildLocked = false;
                 CreateAndInitializeBlueprintRoom();
+                buildToolTooltipManager.ShowTooltip();
+                UpdateTooltip();
+                isPostBuildLocked = false;
             }
         }
 
@@ -228,6 +212,28 @@ namespace TowerBuilder
         void SetExtraMouseOffset()
         {
             worldController.mousePositionExtraOffset = -1 * TileList.GetRelativeCenterPoint(selectedRoomDefinition.current.shape);
+        }
+
+        void ShowAndUpdateTooltip()
+        {
+            buildToolTooltipManager.ShowTooltip();
+            UpdateTooltip();
+        }
+
+        void UpdateTooltip()
+        {
+            if (blueprintRoom == null) return;
+
+            if (blueprintRoom.isValid)
+            {
+                buildToolTooltipManager.SetTooltipState(BuildToolTooltip.State.Valid);
+                buildToolTooltipManager.SetTooltipText(Money.Format(blueprintRoom.definition.price));
+            }
+            else
+            {
+                buildToolTooltipManager.SetTooltipState(BuildToolTooltip.State.Invalid);
+                buildToolTooltipManager.SetTooltipText(blueprintRoom.buildValidationErrors[0].message);
+            }
         }
     }
 }

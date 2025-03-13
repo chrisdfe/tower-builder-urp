@@ -9,8 +9,6 @@
 
 ## Next (ordered):
 
-- [ ] BUG: after building a room build tool tooltip sometimes has default text ("New Tooltip")
-- [ ] BUG: blueprint isn't getting removed on build tool teardown
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
   - [ ] reuse stars for nighttime sky
@@ -154,6 +152,8 @@
 
 # Done
 
+- [x] BUG: after building a room build tool tooltip sometimes has default text ("New Tooltip")
+- [x] BUG: blueprint isn't getting removed on build tool teardown
 - [x] UI: analog clock to display current time
 - [x] UI: floating money text when room is built
   - [x] fixed position to above blueprint room
