@@ -16,7 +16,7 @@ namespace TowerBuilder
         Transform buildingsContainer;
         Transform occupantsContainer;
 
-        public delegate void BuildingEvent();
+        public delegate void BuildingEvent(Room room);
         public BuildingEvent onRoomBuilt;
         public BuildingEvent onRoomDestroyed;
 
@@ -64,7 +64,7 @@ namespace TowerBuilder
         //
 
         // Warning - doesn't do any validation
-        public void AddRoomAtTile(RoomDefinition roomDefinition, Tile tile)
+        public Room AddRoomAtTile(RoomDefinition roomDefinition, Tile tile)
         {
 
             // Search for a building adjacent
@@ -88,7 +88,7 @@ namespace TowerBuilder
                 building = buildings[0];
             }
 
-            building.AddRoom(tile, roomDefinition);
+            return building.AddRoom(tile, roomDefinition);
         }
 
 
@@ -129,10 +129,10 @@ namespace TowerBuilder
 
             // Add it
             var tile = worldController.GetMousePositionToTile();
-            AddRoomAtTile(worldController.toolsController.buildTool.selectedRoomDefinition.current, tile);
+            var room = AddRoomAtTile(worldController.toolsController.buildTool.selectedRoomDefinition.current, tile);
 
             // TODO - this could get confusing
-            onRoomBuilt?.Invoke();
+            onRoomBuilt?.Invoke(room);
 
             return true;
         }
@@ -157,7 +157,7 @@ namespace TowerBuilder
                         RemoveBuilding(building);
                     }
 
-                    onRoomDestroyed?.Invoke();
+                    onRoomDestroyed?.Invoke(room);
                 }
             }
         }

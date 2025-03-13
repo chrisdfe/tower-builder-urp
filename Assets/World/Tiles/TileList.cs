@@ -69,7 +69,7 @@ namespace TowerBuilder
 
         public static List<Tile> CreateBox(int width, int height) => CreateBox(Tile.zero, width, height);
 
-        public static Dimensions GetScreenDimensions(List<Tile> tiles)
+        public static Dimensions<float> GetScreenDimensions(List<Tile> tiles)
         {
             var ((highestX, lowestX), (highestY, lowestY)) = GetHighestAndLowestValues(tiles);
 
@@ -79,7 +79,7 @@ namespace TowerBuilder
             var width = tileWidth * Tile.WORLD_WIDTH;
             var height = tileHeight * Tile.WORLD_HEIGHT;
 
-            return new Dimensions(width, height);
+            return new(width, height);
         }
 
         // TODO - use GetScreenDimensions

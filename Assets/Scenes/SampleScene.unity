@@ -2634,7 +2634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2213159b2c0a404193cf62e489bdc78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 0}
+  skyColor: {r: 0.7175151, g: 0.8207547, b: 0.77855384, a: 1}
+  groundColor: {r: 0.24528295, g: 0.091147445, b: 0.07790429, a: 1}
+  roomColor: {r: 0.09411765, g: 0.14901961, b: 0.11764706, a: 1}
 --- !u!1 &784577628
 GameObject:
   m_ObjectHideFlags: 0

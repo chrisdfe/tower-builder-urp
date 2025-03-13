@@ -2,15 +2,16 @@
 
 ## Currently:
 
-- [ ] minimap panel in bottom right of the screen
-
-## Next (ordered):
-
+- [ ] full screen border when game is paused
 - [ ] BUG: blueprint room sometimes doesn't get removed on teardown
-- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
   - [ ] reuse stars for nighttime sky
   - [ ] that responds to time of day
+  - [ ] update minimap to reflect current time of day as well
+
+## Next (ordered):
+
+- [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] weather
   - [ ] rain weather
 - [ ] tooltip for resident name when you hover over them
@@ -19,6 +20,15 @@
 - [ ] box around the edge of the screen or something when game is paused
 
 ## After (unordered):
+
+- [ ] minimap improvements
+
+  - [ ] frame the building better
+    - I might need to decide on the building/map bounds etc before a more permanent solution here
+  - [ ] color the rooms appropriately
+  - [ ] inside/outside view
+  - [ ] use mask w/ textures?
+  - [ ] configurable size
 
 - [ ] notifications improvements
   - [ ] notification component should animates in
@@ -153,6 +163,7 @@
 
 # Done
 
+- [x] minimap panel in bottom right of the screen
 - [x] notifications improvements
   - [x] create NotificationsController
   - [x] individual component/panel for each notification

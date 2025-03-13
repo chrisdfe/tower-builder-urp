@@ -235,12 +235,12 @@ namespace TowerBuilder
             StartInspectZoomTo(inspectTarget);
         }
 
-        void OnRoomBuilt()
+        void OnRoomBuilt(Room _)
         {
             StartRoomShake();
         }
 
-        void OnRoomDestroyed()
+        void OnRoomDestroyed(Room _)
         {
             StartRoomShake();
         }
