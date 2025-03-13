@@ -2,12 +2,11 @@ namespace TowerBuilder
 {
     public class Notification
     {
+        public string title;
         public string message;
 
-        public Notification(string message)
-        {
-            this.message = message;
-        }
+        public bool isDismissable = true;
+
+        public Notification() { }
     }
 }
-

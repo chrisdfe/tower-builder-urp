@@ -68,7 +68,11 @@ namespace TowerBuilder
             if (newOccupants.Count > 0)
             {
                 worldController.notificationsController.AddNotification(
-                    new Notification($"{newOccupants.Count} occupants have moved into {building.title}")
+                    new()
+                    {
+                        title = "New Residents",
+                        message = $"{newOccupants.Count} occupants have moved into {building.title}"
+                    }
                 );
             }
         }
@@ -88,7 +92,14 @@ namespace TowerBuilder
                     {
                         occupant.SetOffice(room);
                         room.workers.Add(occupant);
-                        worldController.notificationsController.AddNotification(new Notification(occupant.title + " has been assigned work at " + room.title));
+                        // TODO - batch these together
+                        worldController.notificationsController.AddNotification(
+                            new()
+                            {
+                                title = "New Worker",
+                                message = occupant.title + " has been assigned work at " + room.title
+                            }
+                        );
                     }
                 }
             }

@@ -100,10 +100,24 @@ namespace TowerBuilder
         {
             if (!worldController.toolsController.buildTool.blueprintRoom.isValid)
             {
-                foreach (var error in worldController.toolsController.buildTool.blueprintRoom.buildValidationErrors)
+                var buildErrors = worldController.toolsController.buildTool.blueprintRoom.buildValidationErrors;
+                var errorIdx = -1;
+                var message = buildErrors
+                    .Aggregate("", (acc, error) =>
+                    {
+                        acc += error.message;
+                        if (++errorIdx < buildErrors.Count - 1)
+                        {
+                            acc += " & ";
+                        }
+
+                        return acc;
+                    });
+                worldController.notificationsController.AddNotification(new()
                 {
-                    worldController.notificationsController.AddNotification(new(error.message));
-                }
+                    title = "Build error",
+                    message = message
+                });
 
                 return false;
             }

@@ -2,14 +2,15 @@
 
 ## Currently:
 
-- [ ] notifications improvements
-  - [ ] create NotificationsController
-  - [ ] individual component/panel for each notification
-  - [ ] notification component animates in
-  - [ ] 'primary' notification that shows in top middle of the screen for important stuff
+- [x] notifications improvements
+  - [x] create NotificationsController
+  - [x] individual component/panel for each notification
+  - [ ] different color for errors/warnings
 
 ## Next (ordered):
 
+- [ ] BUG: after building a room build tool tooltip sometimes has default text ("New Tooltip")
+- [ ] BUG: blueprint isn't getting removed on build tool teardown
 - [ ] route finder still assumes that all rooms on floor are connected to each other (fix)
 - [ ] ART: regular sky w/ clouds
   - [ ] reuse stars for nighttime sky
@@ -21,6 +22,9 @@
 
 ## After (unordered):
 
+- [ ] notifications improvements
+  - [ ] notification component animates in
+  - [ ] 'primary' notification that shows in top middle of the screen for important stuff
 - [ ] NotifactionsController.Get() etc
 - [ ] BUG: pause button advances to next tick
 - [ ] update font to fira code
